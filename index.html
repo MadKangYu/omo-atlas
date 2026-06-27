@@ -19,7 +19,7 @@
 <meta name="twitter:image" content="https://omo-atlas.vercel.app/preview.png">
 <style>
 :root{
-  --bg:#f5f6f8; --surface:#ffffff; --ink:#15181f; --ink2:#3a4150; --mut:#737b8a; --line:#e6e9ee; --line2:#f0f2f5;
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#15181f; --ink2:#3a4150; --mut:#586273; --line:#e6e9ee; --line2:#f0f2f5;
   --blue:#3b82f6; --red:#ef4444; --purple:#a855f7; --amber:#f59e0b; --green:#22c55e; --orange:#f97316;
   --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);
   --shadow-lg:0 12px 32px rgba(16,24,40,.16),0 2px 8px rgba(16,24,40,.08);
@@ -65,7 +65,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
 .card .co{font-size:11.5px;color:var(--mut);margin-top:4px;line-height:1.45;}
 .card .cf{display:flex;align-items:center;gap:6px;margin-top:9px;flex-wrap:wrap;}
 .badge{font-size:9px;font-weight:900;letter-spacing:.4px;padding:2px 6px;border-radius:5px;}
-.badge.must{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;}
+.badge.must{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;}
 .badge.warn{background:#fffbeb;color:#b45309;border:1px solid #fde68a;}
 .ccmd{font-family:ui-monospace,monospace;font-size:10px;color:#475569;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:2px 7px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .card.dim{opacity:.25;filter:grayscale(.5);pointer-events:none;}
@@ -74,7 +74,8 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
 .drawer{position:fixed;top:0;right:0;height:100%;width:470px;max-width:92vw;background:#fff;z-index:60;box-shadow:-18px 0 50px rgba(16,24,40,.22);transform:translateX(102%);transition:.26s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
 .drawer.open{transform:translateX(0);}
 .dhead{padding:20px 22px 16px;border-bottom:1px solid var(--line);position:relative;}
-.dhead .axpill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#fff;padding:3px 10px;border-radius:999px;}
+.dhead .axpill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#fff;background:#1f2733;padding:4px 11px;border-radius:999px;}
+  .dhead .axpill .apd{width:8px;height:8px;border-radius:50%;}
 .dhead h2{margin:11px 0 5px;font-size:23px;letter-spacing:-.6px;display:flex;align-items:center;gap:9px;}
 .dhead .one{color:var(--ink2);font-size:13.5px;font-weight:600;}
 .dclose{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:16px;color:var(--mut);display:grid;place-items:center;}
@@ -172,7 +173,7 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .cc{border:1px solid var(--line);border-top:3px solid var(--cc,#6366f1);border-radius:11px;padding:12px 13px;background:#fff;box-shadow:var(--shadow);}
   .cc .ct{font-weight:800;font-size:13px;display:flex;align-items:center;gap:6px;}
   .cc .cg{font-size:11.5px;color:var(--ink2);margin-top:5px;line-height:1.55;}
-  .cc .cm{font-family:ui-monospace,monospace;font-size:10px;color:#6366f1;margin-top:6px;}
+  .cc .cm{font-family:ui-monospace,monospace;font-size:10px;color:#4f46e5;margin-top:6px;}
   .uloop{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   .un{padding:11px 14px;border-radius:12px;border:1.5px solid var(--uc,#6366f1);background:#fff;box-shadow:var(--shadow);cursor:pointer;transition:.15s;}
   .un:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
@@ -180,7 +181,7 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .un .us{display:block;font-size:10px;color:var(--mut);font-weight:600;margin-top:2px;}
   .ug{padding:5px 10px;border-radius:8px;font-size:11px;font-weight:800;border:1px dashed var(--line);color:var(--mut);}
   .codeblk{font-family:ui-monospace,monospace;font-size:11.5px;background:#0f172a;color:#cbd5e1;border-radius:10px;padding:12px 14px;line-height:1.7;overflow-x:auto;white-space:pre;}
-  .codeblk .k{color:#7dd3fc;} .codeblk .s{color:#86efac;} .codeblk .c{color:#64748b;}
+  .codeblk .k{color:#7dd3fc;} .codeblk .s{color:#86efac;} .codeblk .c{color:#94a3b8;}
   .hookgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
   .hk{border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:#fff;box-shadow:var(--shadow);}
   .hk .ht{font-weight:800;font-size:12px;color:var(--hc,#6366f1);text-transform:uppercase;letter-spacing:.3px;}
@@ -192,9 +193,16 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .cp .cpg{font-size:10.8px;color:var(--mut);margin-top:3px;line-height:1.45;}
   @media(max-width:880px){.qa3,.concepts,.hookgrid,.compgrid{grid-template-columns:1fr 1fr;}}
 
+
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  .search input::placeholder{color:#6b7280;opacity:1;}
+  :focus-visible{outline:2px solid #6366f1;outline-offset:2px;border-radius:6px;}
+  .board:focus-visible{outline-offset:-2px;}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
 <body>
+<h1 class="sr-only">OMO Skill Atlas — OMO / LazyCodex Codex 플러그인의 23개 스킬 · ULW 엔진 · git-master · 플러그인 내부 인터랙티브 아틀라스</h1>
 <div class="nav"><div class="inner">
   <div class="brand"><span class="logo">◎</span><span>OMO Skill Atlas<small>LazyCodex · 23 skills · v4.13.0</small></span></div>
   <div class="seg" id="seg">
@@ -206,7 +214,7 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   </div>
   <div class="search">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-    <input id="q" placeholder="스킬·트리거·명령 검색…" autocomplete="off"/>
+    <input id="q" placeholder="스킬·트리거·명령 검색…" autocomplete="off" aria-label="스킬·트리거·명령 검색" role="searchbox"/>
   </div>
 </div></div>
 
@@ -214,7 +222,7 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
 <div class="view on" id="view-board">
   <div class="hero" id="hero"></div>
   <div class="toolbar" id="filters"></div>
-  <div class="wrap"><div class="board" id="board"></div></div>
+  <div class="wrap"><div class="board" id="board" tabindex="0" role="region" aria-label="스킬 보드 (가로 스크롤)"></div></div>
 </div>
 
 <!-- FLOW VIEW -->
@@ -498,7 +506,7 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
 </div>
 
 <div class="scrim" id="scrim"></div>
-<aside class="drawer" id="drawer"><div id="drawer-inner"></div></aside>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="스킬 상세" aria-hidden="true"><div id="drawer-inner"></div></aside>
 
 <footer>
   출처: 로컬 캐시 <code>~/.codex/plugins/cache/sisyphuslabs/omo/4.13.0/skills/</code> · 23개 SKILL.md 정독 기반 · 6축 매핑은 작업 흐름 기준 재구성 · git-master는 실제 SKILL.md의 4-Mode 구조.
@@ -578,7 +586,7 @@ function openDetail(id){
   document.documentElement.style.setProperty("--ax",a.color);
   let h='<div class="dhead" style="--ax:'+a.color+'">'
     +'<button class="dclose" id="dclose">✕</button>'
-    +'<span class="axpill" style="background:'+a.color+'">'+a.icon+' '+a.name+'</span>'
+    +'<span class="axpill"><span class="apd" style="background:'+a.color+'"></span>'+a.name+'</span>'
     +'<h2>'+s.name+(s.must?' <span class="badge must">MUST USE</span>':'')+(s.warn?' <span class="badge warn">⚠</span>':'')+'</h2>'
     +'<div class="one">'+s.one+'</div></div><div class="dbody">';
   h+='<div class="sec"><h4>무엇인가</h4><p>'+s.purpose+'</p></div>';
@@ -631,5 +639,22 @@ renderHero();renderFilters();renderBoard();renderPipe();bindSkillNodes();applyFi
 })();
 </script>
 
+<script>
+(function(){
+  var VIEWS=['board','flow','git','ulw','setup'];
+  var validSkill=function(id){try{return !!document.querySelector('[data-skill="'+CSS.escape(id)+'"]');}catch(e){return false;}};
+  var curView=function(){var b=document.querySelector('#seg button.on');return b?b.dataset.v:'board';};
+  var lastFocus=null;
+  if(window.setView){var _sv=window.setView;window.setView=function(v){_sv(v);try{history.replaceState(null,'','#'+v);}catch(e){}};}
+  if(window.openDetail){var _od=window.openDetail;window.openDetail=function(id){lastFocus=document.activeElement;_od(id);var d=document.getElementById('drawer');d.setAttribute('aria-hidden','false');try{history.replaceState(null,'','#skill/'+id);}catch(e){}var c=document.getElementById('dclose');if(c)c.focus();};}
+  if(window.closeDetail){var _cd=window.closeDetail;window.closeDetail=function(){_cd();document.getElementById('drawer').setAttribute('aria-hidden','true');try{history.replaceState(null,'','#'+curView());}catch(e){}if(lastFocus&&lastFocus.focus)lastFocus.focus();};}
+  var drawer=document.getElementById('drawer');
+  drawer.addEventListener('keydown',function(e){if(e.key!=='Tab')return;var f=[].slice.call(drawer.querySelectorAll('button,[href],[tabindex]')).filter(function(x){return x.offsetParent!==null;});if(!f.length)return;var a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){z.focus();e.preventDefault();}else if(!e.shiftKey&&document.activeElement===z){a.focus();e.preventDefault();}});
+  function applyHash(){var x=(location.hash||'').replace('#','');if(x.indexOf('skill/')===0){var id=x.slice(6);if(validSkill(id))window.openDetail(id);}else if(VIEWS.indexOf(x)>=0){window.setView(x);}}
+  window.addEventListener('hashchange',applyHash);
+  document.addEventListener('keydown',function(e){if(e.key==='/'&&['INPUT','TEXTAREA'].indexOf(document.activeElement.tagName)<0){e.preventDefault();var q=document.getElementById('q');if(q)q.focus();}});
+  applyHash();
+})();
+</script>
 </body>
 </html>
