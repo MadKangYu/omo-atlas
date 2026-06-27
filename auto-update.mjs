@@ -56,10 +56,15 @@ if (!verChanged && !setChanged) { out({ status: "nochange", version: local.omoVe
 
 // 3) changed -> commit + deploy
 if (DEPLOY) {
+  // a parallel editor (e.g. Codex) may also commit here -> stay remote-safe
+  let hasRemote = false;
+  try { hasRemote = !!sh("git remote").trim(); } catch {}
+  if (hasRemote) { try { sh("git pull --rebase --autostash origin main"); } catch {} }
   try {
     sh(`git add data.json index.html`);
     sh(`git -c user.name="omo-atlas-bot" -c user.email="team@madstamp.co.kr" commit -q -m "chore(auto): omo ${live.omoVersion} -> ${local.omoVersion} (skills ${live.counts?.skills}->${local.counts.skills})" || true`);
   } catch {}
+  if (hasRemote) { try { sh("git push origin main"); } catch {} } // non-fatal: Vercel deploy is the source of truth
   try { sh(`vercel deploy --prod --yes --scope ${SCOPE}`); }
   catch (e) { out({ status: "error", phase: "deploy", old: live.omoVersion, new: local.omoVersion, error: String(e.message).slice(0, 200) }); process.exit(1); }
 }
