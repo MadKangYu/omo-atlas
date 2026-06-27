@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>OMO Skill Atlas · 23 스킬 + Git + 환경 셋업</title>
+<title>OMO Skill Atlas · 23 스킬 · ULW 엔진 · git-master · 플러그인 내부</title>
 <meta name="description" content="OMO / LazyCodex 23개 Codex 스킬을 6축 보드 · 작업 흐름 · Git 심화로 연결한 인터랙티브 아틀라스">
 <style>
 :root{
@@ -151,6 +151,35 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .maprow .mono{font-family:ui-monospace,monospace;font-size:11px;color:#475569;}
   @media(max-width:760px){.kgrid{grid-template-columns:1fr;}.tree .row{grid-template-columns:1fr;gap:2px;}.maprow{grid-template-columns:1fr;gap:2px;}.maprow .ax{display:none;}}
 
+
+  .qa3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+  .qa{border:1px solid var(--line);border-left:3px solid var(--qc,#ef4444);border-radius:10px;padding:9px 11px;background:#fff;box-shadow:var(--shadow);}
+  .qa .qt{font-weight:800;font-size:12.5px;}
+  .qa .qg{color:var(--mut);font-size:10.5px;margin-top:3px;line-height:1.4;}
+  .concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .cc{border:1px solid var(--line);border-top:3px solid var(--cc,#6366f1);border-radius:11px;padding:12px 13px;background:#fff;box-shadow:var(--shadow);}
+  .cc .ct{font-weight:800;font-size:13px;display:flex;align-items:center;gap:6px;}
+  .cc .cg{font-size:11.5px;color:var(--ink2);margin-top:5px;line-height:1.55;}
+  .cc .cm{font-family:ui-monospace,monospace;font-size:10px;color:#6366f1;margin-top:6px;}
+  .uloop{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .un{padding:11px 14px;border-radius:12px;border:1.5px solid var(--uc,#6366f1);background:#fff;box-shadow:var(--shadow);cursor:pointer;transition:.15s;}
+  .un:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+  .un .ut{font-weight:800;font-size:13px;}
+  .un .us{display:block;font-size:10px;color:var(--mut);font-weight:600;margin-top:2px;}
+  .ug{padding:5px 10px;border-radius:8px;font-size:11px;font-weight:800;border:1px dashed var(--line);color:var(--mut);}
+  .codeblk{font-family:ui-monospace,monospace;font-size:11.5px;background:#0f172a;color:#cbd5e1;border-radius:10px;padding:12px 14px;line-height:1.7;overflow-x:auto;white-space:pre;}
+  .codeblk .k{color:#7dd3fc;} .codeblk .s{color:#86efac;} .codeblk .c{color:#64748b;}
+  .hookgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .hk{border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:#fff;box-shadow:var(--shadow);}
+  .hk .ht{font-weight:800;font-size:12px;color:var(--hc,#6366f1);text-transform:uppercase;letter-spacing:.3px;}
+  .hk .hl{font-size:11px;color:var(--ink2);line-height:1.6;margin-top:6px;}
+  .hk .hl code{font-family:ui-monospace,monospace;font-size:10px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:4px;padding:0 5px;color:#334155;}
+  .compgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+  .cp{border:1px solid var(--line);border-left:3px solid var(--orange);border-radius:10px;padding:9px 11px;background:#fff;}
+  .cp .cpt{font-family:ui-monospace,monospace;font-weight:700;font-size:12px;}
+  .cp .cpg{font-size:10.8px;color:var(--mut);margin-top:3px;line-height:1.45;}
+  @media(max-width:880px){.qa3,.concepts,.hookgrid,.compgrid{grid-template-columns:1fr 1fr;}}
+
 </style>
 </head>
 <body>
@@ -160,7 +189,8 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
     <button data-v="board" class="on">보드</button>
     <button data-v="flow">작업 흐름</button>
     <button data-v="git">Git 심화</button>
-    <button data-v="setup">환경</button>
+    <button data-v="ulw">ULW 엔진</button>
+    <button data-v="setup">OMO 내부</button>
   </div>
   <div class="search">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -277,41 +307,142 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
 </div>
 
 
-<!-- SETUP VIEW -->
+
+<!-- ULW VIEW -->
+<div class="view" id="view-ulw">
+  <div class="wrap">
+    <div class="hero">
+      <div class="hcard"><div class="v">ultrawork</div><div class="l">omo 자율 실행 엔진</div></div>
+      <div class="hcard"><div class="v">3 <small>skills</small></div><div class="l">계획 → 실행 → 루프</div></div>
+      <div class="hcard"><div class="v">5 <small>gates</small></div><div class="l">체크박스당 검증</div></div>
+      <div class="hcard"><div class="v">9 <small>classes</small></div><div class="l">ultraqa 적대 검증</div></div>
+    </div>
+
+    <div class="panel">
+      <h3>ULW 루프 — 계획 → 실행 → 검증 (Sisyphus 모델)</h3>
+      <p class="ph">노드를 누르면 스킬 상세가 열려요. Stop-hook이 boulder.json에 미완 체크박스가 있는 한 다음 턴을 자동 재주입합니다.</p>
+      <div class="uloop">
+        <div class="un" data-skill="ulw-plan" style="--uc:#f59e0b"><span class="ut">ulw-plan</span><span class="us">Prometheus · 계획</span></div>
+        <span class="parr">→</span>
+        <span class="ug">승인 게이트 ✋</span>
+        <span class="parr">→</span>
+        <div class="un" data-skill="start-work" style="--uc:#f59e0b"><span class="ut">start-work</span><span class="us">Boulder · 오케스트레이터</span></div>
+        <span class="parr">⟲</span>
+        <span class="ug" style="border-style:solid;border-color:#22c55e;color:#15803d">Stop-hook 연속</span>
+        <span class="parr">→</span>
+        <div class="un" data-skill="review-work" style="--uc:#22c55e"><span class="ut">review-work</span><span class="us">5-lane 게이트</span></div>
+        <span class="parr">→</span>
+        <span class="ug" style="border-color:#22c55e;color:#15803d">완료 ✅</span>
+      </div>
+      <p class="ph" style="margin:12px 0 0">장기·목표형은 <span class="un" data-skill="ulw-loop" style="--uc:#f59e0b;display:inline-block;padding:4px 9px;cursor:pointer"><b style="font-size:12px">ulw-loop</b></span> 가 <code class="mono">.omo/ulw-loop</code> 상태로 동일 루프를 체크포인트하며 돌린다.</p>
+    </div>
+
+    <div class="panel">
+      <h3>핵심 어휘 — "모르는 개념 없도록"</h3>
+      <div class="concepts">
+        <div class="cc" style="--cc:#f59e0b"><div class="ct">🔥 Prometheus</div><div class="cg">탐색-우선 계획가 페르소나. 제품 코드 절대 안 건드림, <code>.omo/</code> 계획만 작성.</div><div class="cm">ulw-plan</div></div>
+        <div class="cc" style="--cc:#3b82f6"><div class="ct">🪨 Boulder</div><div class="cg">실행 상태 파일. 세션 <code>codex:&lt;id&gt;</code>·active_plan·체크박스 진행을 보관.</div><div class="cm">.omo/boulder.json</div></div>
+        <div class="cc" style="--cc:#22c55e"><div class="ct">📒 Evidence Ledger</div><div class="cg">append-only 증거 장부. 명령·아티팩트·적대검증·정리 영수증을 한 줄씩 기록.</div><div class="cm">.omo/start-work/ledger.jsonl</div></div>
+        <div class="cc" style="--cc:#a855f7"><div class="ct">🎯 Decision-complete</div><div class="cg">실행자가 인터뷰 0회로 끝낼 수 있는 계획. 정확한 경로·"모든 X"·Must-NOT-Have 명시.</div><div class="cm">ulw-plan 북극성</div></div>
+        <div class="cc" style="--cc:#ef4444"><div class="ct">♻️ Sisyphus 완료계약</div><div class="cg">done 주장(DoneClaim)을 다른 컨텍스트가 적대검증(AdversarialVerify). <b>confirmed</b>만 통과.</div><div class="cm">DoneClaim → AdversarialVerify</div></div>
+        <div class="cc" style="--cc:#0ea5e9"><div class="ct">🔁 Stop-hook 연속</div><div class="cg">Stop/SubagentStop 후크가 boulder 미완 작업을 보면 다음 턴을 재주입 → 멈추지 않는 실행.</div><div class="cm">start-work-continuation</div></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel">
+        <h3 style="font-size:15px">① ulw-plan 해부 — 계획만, 구현 안 함</h3>
+        <div class="sec"><h4 style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);font-weight:800">INTENT 라우팅 (1개 선택)</h4>
+        <div class="pillrow">
+          <span class="pill"><span class="d" style="background:#22c55e"></span>CLEAR — 결과 명확, 분기만 WHY로 질문</span>
+          <span class="pill"><span class="d" style="background:#f59e0b"></span>UNCLEAR — 결과 모호, 베스트프랙티스 기본값·질문 안 함</span>
+          <span class="pill"><span class="d" style="background:#64748b"></span>ON THE FENCE — CLEAR로 보고 1개만 질문</span>
+        </div></div>
+        <ul class="tight">
+          <li><b>두 필터</b> — ① 증거로 답 가능? → 탐색 ② 의도+기본값으로? → 채택(owner-decision은 예외로 질문)</li>
+          <li><b>승인 ≠ 실행</b> — 승인은 계획 작성만 허가, 구현 아님</li>
+          <li><b>durable draft</b> = 재개 지점 — 압축 후 draft 읽고 게이트에서 재개</li>
+          <li>스크립트로 생성: <code class="mono">scaffold-plan.mjs &lt;slug&gt;</code> → <code class="mono">.omo/plans</code> + <code class="mono">.omo/drafts</code></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3 style="font-size:15px">② start-work 해부 — 오케스트레이터 (절대 구현 X)</h3>
+        <ul class="tight">
+          <li><b>당신은 오케스트레이터</b> — 코드·테스트·QA 전부 서브에이전트에 위임</li>
+          <li>Phase: plan 선택 → Boulder 작성 → 체크박스 실행 → 5게이트 검증 → 진행표시 → 완료</li>
+          <li>체크박스 tier: <b>LIGHT</b>(기본) / <b>HEAVY</b>(새 모듈·인증·외부연동·DB·동시성)</li>
+          <li>최대 병렬 — 독립 단위 동시, 명시 의존만 직렬</li>
+          <li>완료 전 <b>Global Review &amp; Debugging Gate</b> (review-work 5-lane + 가설 3개)</li>
+        </ul>
+        <div class="codeblk" style="margin-top:10px"><span class="c"># 5 검증 게이트 (체크박스당)</span>
+<span class="k">1</span> Plan 재독  <span class="k">2</span> 자동검증(test/lint/build)
+<span class="k">3</span> Manual-QA 실제 아티팩트  <span class="k">4</span> 적대 QA(9)
+<span class="k">5</span> Cleanup 영수증</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>9 ultraqa 적대 검증 클래스 — 트리거 매핑 (해당될 때만 탐침)</h3>
+      <p class="ph">각 클래스는 "트리거 사실"이 성립할 때 적용. 비해당은 한 줄 사유로 기록.</p>
+      <div class="qa3">
+        <div class="qa" style="--qc:#ef4444"><div class="qt">① malformed input</div><div class="qg">새 입력 파싱 → 깨진 입력</div></div>
+        <div class="qa" style="--qc:#ef4444"><div class="qt">② prompt injection</div><div class="qg">신뢰불가 외부 텍스트</div></div>
+        <div class="qa" style="--qc:#f59e0b"><div class="qt">③ cancel/resume</div><div class="qg">재개·장기 실행 흐름</div></div>
+        <div class="qa" style="--qc:#f59e0b"><div class="qt">④ stale state</div><div class="qg">생성·캐시 아티팩트</div></div>
+        <div class="qa" style="--qc:#f59e0b"><div class="qt">⑤ dirty worktree</div><div class="qg">미커밋 사용자 파일</div></div>
+        <div class="qa" style="--qc:#3b82f6"><div class="qt">⑥ hung/long cmd</div><div class="qg">긴 외부 명령</div></div>
+        <div class="qa" style="--qc:#3b82f6"><div class="qt">⑦ flaky tests</div><div class="qg">새·타이밍 민감 테스트</div></div>
+        <div class="qa" style="--qc:#a855f7"><div class="qt">⑧ misleading success</div><div class="qg">로그 기반 성공 주장</div></div>
+        <div class="qa" style="--qc:#a855f7"><div class="qt">⑨ repeated interrupts</div><div class="qg">작업 중 중단 반복</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>.omo 상태 파일 — 압축 후 재개의 진실원</h3>
+      <div class="tree">
+        <div class="row"><span class="p"><span class="dot" style="--t:#f59e0b"></span>.omo/plans/&lt;slug&gt;.md</span><span class="a">decision-complete 계획 (체크박스·수락기준·QA)</span></div>
+        <div class="row"><span class="p"><span class="dot" style="--t:#f59e0b"></span>.omo/drafts/&lt;slug&gt;.md</span><span class="a">압축-안전 재개 지점 (승인 게이트·결정 기록)</span></div>
+        <div class="row"><span class="p"><span class="dot" style="--t:#3b82f6"></span>.omo/boulder.json</span><span class="a">실행 상태 — active_work·session codex:&lt;id&gt;·status</span></div>
+        <div class="row"><span class="p"><span class="dot" style="--t:#22c55e"></span>.omo/start-work/ledger.jsonl</span><span class="a">증거 장부 (event·commands·artifact·adversarial·cleanup)</span></div>
+        <div class="row"><span class="p"><span class="dot" style="--t:#a855f7"></span>.omo/ulw-loop/ledger.jsonl</span><span class="a">목표 루프 상태 — <code>omo ulw-loop status --json</code></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SETUP VIEW (OMO 내부) -->
 <div class="view" id="view-setup">
   <div class="wrap">
     <div class="hero">
-      <div class="hcard"><div class="v">~/.codex</div><div class="l">로컬 루트 폴더</div></div>
-      <div class="hcard"><div class="v">42 <small>roles</small></div><div class="l">에이전트 정의</div></div>
-      <div class="hcard"><div class="v">16 <small>profiles</small></div><div class="l">*.config.toml</div></div>
-      <div class="hcard"><div class="v">15 · 21 · 5</div><div class="l">컴포넌트 · 후크 · MCP</div></div>
+      <div class="hcard"><div class="v">omo <small>v4.13.0</small></div><div class="l">단일 플러그인 네임스페이스</div></div>
+      <div class="hcard"><div class="v">15 <small>comp</small></div><div class="l">컴포넌트</div></div>
+      <div class="hcard"><div class="v">21 <small>hooks</small></div><div class="l">라이프사이클 후크</div></div>
+      <div class="hcard"><div class="v">5 <small>MCP</small></div><div class="l">플러그인 MCP 서버</div></div>
     </div>
     <div class="panel">
-      <h3>① 로컬 파일 폴더 — <span class="mono" style="font-size:14px">~/.codex</span></h3>
-      <p class="ph">색 = 종류 (파랑 설정 · 빨강 비밀 · 초록 코드/스킬 · 주황 플러그인 · 보라 규칙 · 노랑 후크 · 회색 상태기록).</p>
-      <div class="tree"><div class="row"><span class="p"><span class="dot" style="--t:var(--blue)"></span>config.toml</span><span class="a">메인 설정 — 모델·샌드박스·MCP·프로파일·에이전트 (26KB)</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--blue)"></span>*.config.toml ×16</span><span class="a">프로파일: <b>omo · lazycodex</b> · fast · deep · lean · goal · review · turbo …</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--red)"></span>auth.json 🔒</span><span class="a">ChatGPT OAuth 토큰 (order@) — <b>절대 커밋 금지</b>, .gitignore</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--green)"></span>agents/ (42)</span><span class="a">서브에이전트 역할 .toml — explorer·librarian·plan·metis·momus·lazycodex-*</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--green)"></span>skills/ · plugins/.../omo/skills (23)</span><span class="a">SKILL.md 플레이북 (보드 탭의 23개)</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--orange)"></span>plugins/ (853M)</span><span class="a">omo@sisyphuslabs + openai-curated/bundled/remote 캐시 + data/</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--purple)"></span>prompts/ (56) · codex-rules/ · rules/</span><span class="a">슬래시·단축 프롬프트 / 주입 규칙</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--amber)"></span>hooks.json + omo/hooks (21)</span><span class="a">라이프사이클 후크 (SessionStart·UserPromptSubmit·PostToolUse…)</span></div><div class="row"><span class="p"><span class="dot" style="--t:#94a3b8"></span>memories/ · sessions/ · worktrees/ (12G)</span><span class="a">상태·대화 기록·격리 작업트리 — <b>.gitignore</b></span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--green)"></span>bin/</span><span class="a">런처: <code>lazycodex</code> → ~/.local/bin/omo · <code>aside</code></span></div></div>
+      <h3>플러그인 — <span class="mono" style="font-size:14px">@sisyphuslabs/omo-codex-plugin</span></h3>
+      <p class="ph">"One Codex plugin namespace for Yeongyu's local Codex components." 23개 스킬 위를 후크·컴포넌트·MCP가 받친다.</p>
+      <div class="kgrid">
+        <div class="kf" style="--ax:var(--orange)"><div class="kk">Plugin / 설치</div><div class="kv"><code>omo</code> v<b>4.13.0</b> · install <code>lazycodex-ai</code> v4.13.0 · MIT</div></div>
+        <div class="kf" style="--ax:var(--purple)"><div class="kk">저자 / 저장소</div><div class="kv">Yeongyu Kim (<code>code-yeongyu</code>) · github.com/<b>sisyphuslabs/omo</b></div></div>
+        <div class="kf" style="--ax:var(--blue)"><div class="kk">플러그인 MCP (5)</div><div class="kv"><code>grep_app</code> · <code>context7</code> · <code>codegraph</code> · <code>git_bash</code> · <code>lsp</code></div></div>
+        <div class="kf" style="--ax:var(--green)"><div class="kk">텔레메트리</div><div class="kv">익명 <code>omo_codex_daily_active</code> (UTC 1회/일) · 프롬프트·코드·키 전송 안 함 · opt-out env</div></div>
+      </div>
     </div>
     <div class="panel">
-      <h3>② Codex 설정 — <span class="mono" style="font-size:14px">config.toml</span></h3>
-      <p class="ph">메인 레인은 danger-full-access, omo/lazycodex 프로파일은 workspace-write로 분리.</p>
-      <div class="kgrid"><div class="kf" style="--ax:var(--blue)"><div class="kk">Model</div><div class="kv"><code>gpt-5.5</code> · context <b>400K</b> · reasoning <b>xhigh</b></div></div><div class="kf" style="--ax:var(--red)"><div class="kk">Sandbox · Approval</div><div class="kv"><code>danger-full-access</code> (main) · approval <code>on-request</code> · network enabled · tier priority</div></div><div class="kf" style="--ax:var(--green)"><div class="kk">Features</div><div class="kv">hooks · plugins · plugin_hooks · chronicle · memories · multi_agent_v2 · unified_exec</div></div><div class="kf" style="--ax:var(--purple)"><div class="kk">Model Providers</div><div class="kv"><code>omlx</code> (local :18400) · <code>openrouter</code> · profiles ouroboros-{fast/standard/deep/frontier/worker}</div></div></div>
-  <div class="sec" style="margin-top:14px"><h4 style="color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:800">MCP 서버 ~25개</h4>
-  <div class="pillrow"><span class="pill">slack ×3</span><span class="pill">linear</span><span class="pill">figma ×3</span><span class="pill">obsidian</span><span class="pill">xmind</span><span class="pill">aside</span><span class="pill">ouroboros</span><span class="pill">droid-glm52</span><span class="pill">selects</span><span class="pill">RepoPrompt</span><span class="pill">openaiDeveloperDocs</span><span class="pill">kakao</span><span class="pill">kmsg</span><span class="pill">tossinvest-codex</span><span class="pill">omlx-codex-manager</span></div></div>
-  <div class="sec"><h4 style="color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:800">에이전트 역할 (10 wired / 42 role)</h4>
-  <div class="pillrow"><span class="pill"><span class="d" style="background:#22c55e"></span>explorer</span><span class="pill"><span class="d" style="background:#22c55e"></span>librarian</span><span class="pill"><span class="d" style="background:#22c55e"></span>plan</span><span class="pill"><span class="d" style="background:#22c55e"></span>metis</span><span class="pill"><span class="d" style="background:#22c55e"></span>momus</span><span class="pill"><span class="d" style="background:#22c55e"></span>lazycodex-code-reviewer</span><span class="pill"><span class="d" style="background:#22c55e"></span>lazycodex-qa-executor</span><span class="pill"><span class="d" style="background:#22c55e"></span>lazycodex-gate-reviewer</span><span class="pill"><span class="d" style="background:#22c55e"></span>lazycodex-executor</span><span class="pill"><span class="d" style="background:#22c55e"></span>verifier</span><span class="pill"><span class="d" style="background:#22c55e"></span>debugger</span><span class="pill"><span class="d" style="background:#22c55e"></span>git-master</span></div></div>
-  <div class="sec"><h4 style="color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:800">앱 커넥터 · 신뢰 프로젝트</h4>
-  <div class="pillrow"><span class="pill">vercel deploy</span><span class="pill">github PR/file/comment</span><span class="pill">slack send</span><span class="pill">projects: madstamp · gvape · Oh-My-Codex · hermes-agent (~15)</span></div></div>
+      <h3>컴포넌트 15 — components/</h3>
+      <p class="ph">"omo ulw"는 <b>ultrawork · ulw-loop · start-work-continuation</b> 3개가 핵심. (ULW 엔진 탭 참고)</p>
+      <div class="compgrid"><div class="cp"><div class="cpt">bootstrap</div><div class="cpg">세션 시작 시 omo 자산 프로비저닝 (agents-stage·state.json)</div></div><div class="cp"><div class="cpt">codegraph</div><div class="cpg">코드 그래프 MCP — repo how/where/flow 탐색</div></div><div class="cp"><div class="cpt">comment-checker</div><div class="cpg">PostToolUse 후 주석 품질 피드백</div></div><div class="cp"><div class="cpt">git-bash</div><div class="cpg">안전한 git/bash 실행 래퍼</div></div><div class="cp"><div class="cpt">git-bash-mcp</div><div class="cpg">git_bash MCP 서버 (커밋·히스토리)</div></div><div class="cp"><div class="cpt">lazycodex-executor-verify</div><div class="cpg">executor 증거 검증 (SubagentStop 후크)</div></div><div class="cp"><div class="cpt">lsp</div><div class="cpg">언어서버 — 진단·정의·참조·리네임</div></div><div class="cp"><div class="cpt">lsp-daemon</div><div class="cpg">LSP MCP 데몬 (25개 언어)</div></div><div class="cp"><div class="cpt">rules</div><div class="cpg">프로젝트 규칙 주입·매칭</div></div><div class="cp"><div class="cpt">start-work-continuation</div><div class="cpg">Stop/SubagentStop 후크로 다음 턴 재주입</div></div><div class="cp"><div class="cpt">teammode</div><div class="cpg">협력 Codex 스레드 팀 오케스트레이션</div></div><div class="cp"><div class="cpt">telemetry</div><div class="cpg">익명 일일 활성 이벤트 (opt-out 가능)</div></div><div class="cp"><div class="cpt">test-support</div><div class="cpg">테스트 지원 유틸</div></div><div class="cp"><div class="cpt">ultrawork</div><div class="cpg">ultrawork 모드 — ulw-plan/start-work 트리거</div></div><div class="cp"><div class="cpt">ulw-loop</div><div class="cpg">목표 루프 CLI·상태 (.omo/ulw-loop)</div></div></div>
     </div>
     <div class="panel">
-      <h3>③ LazyCodex · omo 툴체인 <span class="mono" style="font-size:13px;color:var(--mut)">v4.13.0</span></h3>
-      <p class="ph">스킬(23) 위에서 후크·컴포넌트·MCP가 받쳐주는 구조. "omo ulw"가 여기 들어있어요.</p>
-      <div class="kgrid"><div class="kf" style="--ax:var(--orange)"><div class="kk">Plugin</div><div class="kv"><code>@sisyphuslabs/omo-codex-plugin</code> v<b>4.13.0</b> · install <code>lazycodex-ai</code> · MIT · code-yeongyu</div></div><div class="kf" style="--ax:var(--blue)"><div class="kk">플러그인 MCP (5)</div><div class="kv"><code>grep_app</code> · <code>context7</code> · <code>codegraph</code> · <code>git_bash</code> · <code>lsp</code></div></div><div class="kf" style="--ax:var(--amber)"><div class="kk">후크 (21)</div><div class="kv">SessionStart 5 · UserPromptSubmit 3 · PreToolUse 2 · PostToolUse 5 · PostCompact 3 · Stop/SubagentStop 3</div></div><div class="kf" style="--ax:var(--green)"><div class="kk">omo · ulw 핵심</div><div class="kv"><code>ultrawork</code>→$ulw-plan/$start-work · <code>ulw-loop</code>→steering 후크 · <code>start-work-continuation</code>→Stop 후크 연속</div></div></div>
-  <div class="sec" style="margin-top:14px"><h4 style="color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:800">컴포넌트 15</h4>
-  <div class="pillrow"><span class="pill"><span class="d" style="background:#f97316"></span>bootstrap</span><span class="pill"><span class="d" style="background:#f97316"></span>codegraph</span><span class="pill"><span class="d" style="background:#f97316"></span>comment-checker</span><span class="pill"><span class="d" style="background:#f97316"></span>git-bash</span><span class="pill"><span class="d" style="background:#f97316"></span>git-bash-mcp</span><span class="pill"><span class="d" style="background:#f97316"></span>lazycodex-executor-verify</span><span class="pill"><span class="d" style="background:#f97316"></span>lsp</span><span class="pill"><span class="d" style="background:#f97316"></span>lsp-daemon</span><span class="pill"><span class="d" style="background:#f97316"></span>rules</span><span class="pill"><span class="d" style="background:#f97316"></span>start-work-continuation</span><span class="pill"><span class="d" style="background:#f97316"></span>teammode</span><span class="pill"><span class="d" style="background:#f97316"></span>telemetry</span><span class="pill"><span class="d" style="background:#f97316"></span>test-support</span><span class="pill"><span class="d" style="background:#f97316"></span>ultrawork</span><span class="pill"><span class="d" style="background:#f97316"></span>ulw-loop</span></div></div>
+      <h3>후크 21 — 라이프사이클</h3>
+      <p class="ph">세션·프롬프트·툴·압축·종료 시점에 omo가 개입하는 지점.</p>
+      <div class="hookgrid"><div class="hk" style="--hc:#22c55e"><div class="ht">SessionStart · 5</div><div class="hl"><code>load project-rules</code> · <code>session-telemetry</code> · <code>auto-update</code> · <code>bootstrap-provisioning</code> · <code>codegraph-bootstrap</code></div></div><div class="hk" style="--hc:#3b82f6"><div class="ht">UserPromptSubmit · 3</div><div class="hl"><code>load project-rules</code> · <code>ultrawork-trigger</code> · <code>ulw-loop-steering</code></div></div><div class="hk" style="--hc:#f59e0b"><div class="ht">PreToolUse · 2</div><div class="hl"><code>recommend git-bash-mcp</code> · <code>enforce unlimited goal-budget</code></div></div><div class="hk" style="--hc:#a855f7"><div class="ht">PostToolUse · 5</div><div class="hl"><code>check-comments</code> · <code>lsp-diagnostics</code> · <code>codegraph-init-guidance</code> · <code>match project-rules</code> · <code>thread-title-hygiene</code></div></div><div class="hk" style="--hc:#0ea5e9"><div class="ht">PostCompact · 3</div><div class="hl"><code>reset git-bash-mcp-reminder</code> · <code>reset project-rule-cache</code> · <code>reset lsp-diagnostics-cache</code></div></div><div class="hk" style="--hc:#ef4444"><div class="ht">Stop / SubagentStop · 3</div><div class="hl"><code>start-work-continuation</code> ×2 · <code>verify lazycodex-executor-evidence</code></div></div></div>
     </div>
     <div class="panel">
-      <h3>④ 모두 연결 — 컴포넌트 ↔ 스킬 매핑</h3>
-      <p class="ph">왼쪽 런타임 컴포넌트가 오른쪽 스킬을 구동. 스킬 칩을 누르면 상세가 열려요.</p>
+      <h3>모두 연결 — 컴포넌트 ↔ 스킬 매핑</h3>
+      <p class="ph">런타임 컴포넌트가 어느 스킬을 구동하는지. 스킬 칩을 누르면 상세가 열려요.</p>
       <div class="maprow"><span class="mp mono">ultrawork</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="ulw-plan">ulw-plan</span></span><span class="ax">·</span><span class="mono">계획 전 ultrawork 진입</span></div><div class="maprow"><span class="mp mono">ulw-loop</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="ulw-loop">ulw-loop</span></span><span class="ax">·</span><span class="mono">목표 루프 steering</span></div><div class="maprow"><span class="mp mono">start-work-continuation</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="start-work">start-work</span></span><span class="ax">·</span><span class="mono">Stop 후크로 연속 실행</span></div><div class="maprow"><span class="mp mono">git-bash / git-bash-mcp</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="git-master">git-master</span></span><span class="ax">·</span><span class="mono">커밋·히스토리 안전 작업</span></div><div class="maprow"><span class="mp mono">lsp / lsp-daemon</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="lsp">lsp</span></span><span class="ax">·</span><span class="mono">진단·정의·참조 MCP</span></div><div class="maprow"><span class="mp mono">comment-checker</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="comment-checker">comment-checker</span></span><span class="ax">·</span><span class="mono">PostToolUse 후크 피드백</span></div><div class="maprow"><span class="mp mono">teammode</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="teammode">teammode</span></span><span class="ax">·</span><span class="mono">팀 스레드 오케스트레이션</span></div><div class="maprow"><span class="mp mono">rules</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="rules">rules</span></span><span class="ax">·</span><span class="mono">프로젝트 규칙 주입/매칭</span></div>
     </div>
   </div>
