@@ -1,0 +1,19 @@
+# Vercel
+.vercel
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+
+# Node (guard future tooling)
+node_modules/
+npm-debug.log*
+
+# Never commit secrets / local auth
+auth.json
+*.auth.json
+.env
+.env.*
+*.pem
+*.key
