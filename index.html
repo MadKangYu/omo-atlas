@@ -252,10 +252,10 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
       <h3>① Git 4영역 데이터 흐름 — 어디에 있나</h3>
       <p class="ph">데이터는 오른쪽으로 승급(promote)된다. 색 = 상태(빨강 수정중 → 노랑 준비 → 초록 커밋 → 파랑 공유). 가져올 땐 <b>왼쪽 ←</b> 방향(clone·fetch·pull).</p>
       <div class="gflow">
-        <div class="gbox" style="--ax:var(--red)"><div class="t">Working Dir</div><div class="s">작업 디렉터리</div></div>
-        <div class="gbox" style="--ax:var(--amber)"><div class="t">Staging</div><div class="s">인덱스(Index)</div></div>
-        <div class="gbox" style="--ax:var(--green)"><div class="t">Local Repo</div><div class="s">.git (로컬)</div></div>
-        <div class="gbox" style="--ax:var(--blue)"><div class="t">Remote</div><div class="s">origin (원격)</div></div>
+        <div class="gbox" style="--ax:var(--red)"><div class="t">Working Dir</div><div class="s">지금 고치는 실제 파일</div></div>
+        <div class="gbox" style="--ax:var(--amber)"><div class="t">Staging</div><div class="s">커밋에 담을 것만 선별</div></div>
+        <div class="gbox" style="--ax:var(--green)"><div class="t">Local Repo</div><div class="s">내 PC 커밋 기록 (.git)</div></div>
+        <div class="gbox" style="--ax:var(--blue)"><div class="t">Remote</div><div class="s">GitHub 공유 저장소 (origin)</div></div>
       </div>
       <div class="gflowcmds"><span>git add →</span><span>git commit →</span><span>git push →</span></div>
       <div class="gflowcmds" style="color:#7c3aed;margin-top:2px"><span>← git clone</span><span>← git fetch</span><span>← git pull</span></div>
@@ -266,42 +266,36 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
       <h3>③ GitHub 협업 루프 — 로컬을 넘어 원격·팀으로</h3>
       <p class="ph">①~⑥은 <b>Git(로컬)</b>. 여기는 <b>GitHub(원격 플랫폼)</b> — 코드를 <b>공유·리뷰·검증·병합·릴리스</b>하는 팀 루프. 색 = 단계 성격(파랑 가져오기 · 초록 올리기 · 보라 리뷰 · 주황 자동화·릴리스).</p>
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;">
-        <div class="gbox" style="--ax:var(--blue);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">fork / clone</div><div class="s">원격→로컬 사본</div></div>
+        <div class="gbox" style="--ax:var(--blue);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">fork / clone</div><div class="s">남 repo→내 PC 복사</div></div>
         <span style="color:#94a3b8;font-weight:800">→</span>
-        <div class="gbox" style="--ax:var(--green);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">branch</div><div class="s">기능 브랜치</div></div>
+        <div class="gbox" style="--ax:var(--green);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">branch</div><div class="s">작업용 가지 생성</div></div>
         <span style="color:#94a3b8;font-weight:800">→</span>
-        <div class="gbox" style="--ax:var(--green);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">commit · push</div><div class="s">origin에 올림</div></div>
+        <div class="gbox" style="--ax:var(--green);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">commit · push</div><div class="s">기록 후 원격 업로드</div></div>
         <span style="color:#94a3b8;font-weight:800">→</span>
-        <div class="gbox" style="--ax:var(--purple);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">Pull Request</div><div class="s">변경 제안·diff</div></div>
+        <div class="gbox" style="--ax:var(--purple);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">Pull Request</div><div class="s">합쳐달라 제안</div></div>
         <span style="color:#94a3b8;font-weight:800">→</span>
-        <div class="gbox" style="--ax:var(--purple);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">review</div><div class="s">approve·변경요청</div></div>
+        <div class="gbox" style="--ax:var(--purple);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">review</div><div class="s">코드 점검·승인</div></div>
         <span style="color:#94a3b8;font-weight:800">→</span>
-        <div class="gbox" style="--ax:var(--amber);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">CI · Actions</div><div class="s">테스트·체크</div></div>
+        <div class="gbox" style="--ax:var(--amber);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">CI · Actions</div><div class="s">자동 테스트·빌드</div></div>
         <span style="color:#94a3b8;font-weight:800">→</span>
-        <div class="gbox" style="--ax:var(--green);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">merge</div><div class="s">squash·rebase·merge</div></div>
+        <div class="gbox" style="--ax:var(--green);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">merge</div><div class="s">본류에 합치기</div></div>
         <span style="color:#94a3b8;font-weight:800">→</span>
-        <div class="gbox" style="--ax:var(--orange);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">release · tag</div><div class="s">버전 배포</div></div>
+        <div class="gbox" style="--ax:var(--orange);flex:1 1 92px;min-width:92px;padding:10px 8px"><div class="t">release · tag</div><div class="s">버전 찍어 배포</div></div>
       </div>
-      <div class="grid2" style="margin-top:14px">
-        <div>
-          <p class="ph" style="margin:0 0 6px;color:var(--ink2)"><b>원격 용어 — 헷갈리지 않게</b></p>
-          <ul class="tight" style="font-size:12.5px;line-height:1.75;color:var(--ink2)">
-            <li><b>origin</b> 내 원격 · <b>upstream</b> 원본 repo</li>
-            <li><b>fork</b> 남의 repo를 내 계정으로 복제(기여용) · <b>clone</b> 로컬로 내려받기</li>
-            <li><b>PR</b> 브랜치→대상 브랜치 병합 <b>제안</b>(리뷰·CI·논의)</li>
-          </ul>
-        </div>
-        <div>
-          <p class="ph" style="margin:0 0 6px;color:var(--ink2)"><b>핵심 명령 — 로컬 ↔ 원격</b></p>
-          <table class="ht" style="font-size:12px">
-            <tr><td>원본 추적 추가</td><td class="c">git remote add upstream URL</td></tr>
-            <tr><td>브랜치 첫 푸시</td><td class="c">git push -u origin feat</td></tr>
-            <tr><td>원본 최신 반영</td><td class="c">git pull --rebase upstream main</td></tr>
-            <tr><td>PR(CLI)</td><td class="c">gh pr create · gh pr merge</td></tr>
-            <tr><td>릴리스 태그</td><td class="c">git tag v1 &amp;&amp; git push --tags</td></tr>
-          </table>
-        </div>
-      </div>
+            <p class="ph" style="margin:14px 0 6px;color:var(--ink2)"><b>각 단계가 하는 일 — 용어 · 무엇을 하나 · 명령</b></p>
+      <table class="ht" style="font-size:12px">
+        <tr><td style="white-space:nowrap;width:104px"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--blue);margin-right:6px"></span><b>fork</b></td><td>남의 GitHub repo를 <b>내 계정으로 통째 복사</b> — 오픈소스 기여 출발점</td><td class="c">웹: Fork</td></tr>
+        <tr><td style="white-space:nowrap"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--blue);margin-right:6px"></span><b>clone</b></td><td>원격 repo를 <b>내 PC로 내려받아</b> 작업 가능 상태로</td><td class="c">git clone URL</td></tr>
+        <tr><td style="white-space:nowrap"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px"></span><b>branch</b></td><td>main을 안 건드리고 <b>작업할 별도 가지</b> 생성</td><td class="c">git switch -c feat</td></tr>
+        <tr><td style="white-space:nowrap"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px"></span><b>commit</b></td><td>변경을 <b>한 덩어리로 로컬 히스토리</b>에 기록</td><td class="c">git commit -m "…"</td></tr>
+        <tr><td style="white-space:nowrap"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px"></span><b>push</b></td><td>로컬 커밋을 <b>origin(원격)으로 업로드</b></td><td class="c">git push -u origin feat</td></tr>
+        <tr><td style="white-space:nowrap"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--purple);margin-right:6px"></span><b>Pull Request</b></td><td>"내 브랜치를 main에 <b>합쳐줘</b>" 공식 제안 + diff·논의 공개</td><td class="c">gh pr create</td></tr>
+        <tr><td style="white-space:nowrap"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--purple);margin-right:6px"></span><b>review</b></td><td>동료가 코드 보고 <b>approve</b> 또는 변경요청</td><td class="c">웹: Review</td></tr>
+        <tr><td style="white-space:nowrap"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--amber);margin-right:6px"></span><b>CI · Actions</b></td><td>push·PR 때 <b>자동 테스트·빌드</b> 실행 (초록 체크 = 통과)</td><td class="c">.github/workflows</td></tr>
+        <tr><td style="white-space:nowrap"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px"></span><b>merge</b></td><td>승인된 PR을 <b>대상 브랜치에 합침</b> (merge·squash·rebase 택1)</td><td class="c">gh pr merge</td></tr>
+        <tr><td style="white-space:nowrap"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--orange);margin-right:6px"></span><b>release · tag</b></td><td>합친 시점을 <b>버전(v1.0)으로 찍어</b> 배포</td><td class="c">git tag v1 &amp;&amp; git push --tags</td></tr>
+      </table>
+      <p class="ph" style="margin:8px 0 0;font-size:11.5px"><b>용어</b>: <b>origin</b> 내 원격 · <b>upstream</b> 원본 repo · <b>fork</b> 계정 복사 · <b>clone</b> 로컬 복사 · <b>PR</b> 병합 제안
     </div>
 
     <div class="grid2">
