@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>OMO Skill Atlas · 23 스킬 + Git + 환경 셋업</title>
+<meta name="description" content="OMO / LazyCodex 23개 Codex 스킬을 6축 보드 · 작업 흐름 · Git 심화로 연결한 인터랙티브 아틀라스">
+<style>
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#15181f; --ink2:#3a4150; --mut:#737b8a; --line:#e6e9ee; --line2:#f0f2f5;
+  --blue:#3b82f6; --red:#ef4444; --purple:#a855f7; --amber:#f59e0b; --green:#22c55e; --orange:#f97316;
+  --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);
+  --shadow-lg:0 12px 32px rgba(16,24,40,.16),0 2px 8px rgba(16,24,40,.08);
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+.nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line);}
+.nav .inner{max-width:1400px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;letter-spacing:-.3px;}
+.brand .logo{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:#fff;font-size:15px;background:linear-gradient(135deg,#6366f1,#a855f7 55%,#ec4899);box-shadow:0 4px 12px rgba(168,85,247,.35);}
+.brand small{display:block;font-weight:600;color:var(--mut);font-size:11px;margin-top:1px;letter-spacing:0;}
+.seg{display:flex;background:#eceef2;border-radius:11px;padding:3px;gap:2px;}
+.seg button{border:0;background:transparent;color:var(--ink2);font-weight:700;font-size:13px;padding:7px 14px;border-radius:8px;cursor:pointer;transition:.15s;font-family:inherit;}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:var(--shadow);}
+.search{margin-left:auto;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 12px;min-width:230px;}
+.search input{border:0;outline:0;font-size:13.5px;width:100%;background:transparent;font-family:inherit;color:var(--ink);}
+.toolbar{max-width:1400px;margin:0 auto;padding:14px 22px 4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:700;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s;}
+.chip .d{width:9px;height:9px;border-radius:50%;}
+.chip.on{color:#fff;border-color:transparent;}
+.chip .n{opacity:.7;font-weight:700;}
+.hero{max-width:1400px;margin:8px auto 0;padding:6px 22px 2px;display:flex;gap:14px;flex-wrap:wrap;align-items:stretch;}
+.hcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 18px;flex:1;min-width:150px;box-shadow:var(--shadow);}
+.hcard .v{font-size:26px;font-weight:900;letter-spacing:-1px;}
+.hcard .l{font-size:12px;color:var(--mut);font-weight:600;margin-top:2px;}
+.hcard .v small{font-size:13px;color:var(--mut);font-weight:700;}
+.wrap{max-width:1400px;margin:0 auto;padding:16px 22px 60px;}
+.board{display:grid;grid-template-columns:repeat(6,minmax(215px,1fr));gap:14px;align-items:start;overflow-x:auto;padding-bottom:8px;}
+.col{background:#eef0f4;border-radius:var(--radius);padding:8px;min-width:215px;}
+.colhead{display:flex;align-items:center;gap:8px;padding:10px 8px 9px;position:relative;}
+.colhead .bar{position:absolute;top:0;left:8px;right:8px;height:3px;border-radius:3px;}
+.colhead .ct{font-weight:800;font-size:13.5px;letter-spacing:-.2px;}
+.colhead .sub{font-size:10.5px;color:var(--mut);font-weight:600;}
+.colhead .cnt{margin-left:auto;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:11px;font-weight:800;color:var(--ink2);padding:2px 9px;}
+.cards{display:flex;flex-direction:column;gap:8px;min-height:10px;}
+.card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--ax);border-radius:11px;padding:11px 12px;cursor:pointer;transition:.16s;box-shadow:var(--shadow);}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--ax);}
+.card .cn{font-weight:800;font-size:13.5px;display:flex;align-items:center;gap:6px;letter-spacing:-.2px;}
+.card .co{font-size:11.5px;color:var(--mut);margin-top:4px;line-height:1.45;}
+.card .cf{display:flex;align-items:center;gap:6px;margin-top:9px;flex-wrap:wrap;}
+.badge{font-size:9px;font-weight:900;letter-spacing:.4px;padding:2px 6px;border-radius:5px;}
+.badge.must{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;}
+.badge.warn{background:#fffbeb;color:#b45309;border:1px solid #fde68a;}
+.ccmd{font-family:ui-monospace,monospace;font-size:10px;color:#475569;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:2px 7px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.card.dim{opacity:.25;filter:grayscale(.5);pointer-events:none;}
+.scrim{position:fixed;inset:0;background:rgba(16,20,30,.42);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:.22s;z-index:50;}
+.scrim.open{opacity:1;pointer-events:auto;}
+.drawer{position:fixed;top:0;right:0;height:100%;width:470px;max-width:92vw;background:#fff;z-index:60;box-shadow:-18px 0 50px rgba(16,24,40,.22);transform:translateX(102%);transition:.26s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
+.drawer.open{transform:translateX(0);}
+.dhead{padding:20px 22px 16px;border-bottom:1px solid var(--line);position:relative;}
+.dhead .axpill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#fff;padding:3px 10px;border-radius:999px;}
+.dhead h2{margin:11px 0 5px;font-size:23px;letter-spacing:-.6px;display:flex;align-items:center;gap:9px;}
+.dhead .one{color:var(--ink2);font-size:13.5px;font-weight:600;}
+.dclose{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:16px;color:var(--mut);display:grid;place-items:center;}
+.dclose:hover{background:#f5f6f8;}
+.dbody{padding:18px 22px 30px;overflow-y:auto;}
+.sec{margin-bottom:18px;}
+.sec h4{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--mut);margin:0 0 9px;font-weight:800;}
+.sec p{margin:0;font-size:13.5px;line-height:1.6;color:var(--ink2);}
+.tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tag{font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:8px;background:#f1f5f9;color:#334155;border:1px solid #e2e8f0;}
+.tag.no{background:#fef2f2;color:#b91c1c;border-color:#fecaca;}
+ul.mech{margin:0;padding-left:0;list-style:none;}
+ul.mech li{font-size:13px;line-height:1.5;color:var(--ink2);padding:7px 0 7px 24px;position:relative;border-bottom:1px solid var(--line2);}
+ul.mech li:last-child{border-bottom:0;}
+ul.mech li::before{content:"";position:absolute;left:6px;top:13px;width:7px;height:7px;border-radius:2px;background:var(--ax);}
+.cmdbox{font-family:ui-monospace,monospace;font-size:13px;background:#0f172a;color:#cbd5e1;border-radius:10px;padding:12px 14px;word-break:break-all;}
+.cmdbox .dollar{color:#5eead4;}
+.rel{display:flex;flex-wrap:wrap;gap:7px;}
+.relpill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer;transition:.14s;}
+.relpill:hover{box-shadow:var(--shadow);transform:translateY(-1px);}
+.relpill .d{width:8px;height:8px;border-radius:50%;}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 22px;box-shadow:var(--shadow);margin-bottom:16px;}
+.panel h3{margin:0 0 4px;font-size:17px;letter-spacing:-.3px;}
+.panel .ph{color:var(--mut);font-size:13px;margin:0 0 16px;}
+.pipe{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.pnode{padding:11px 14px;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;border:1.5px solid var(--ax);background:#fff;color:var(--ink);transition:.15s;box-shadow:var(--shadow);}
+.pnode:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+.pnode small{display:block;font-weight:600;color:var(--mut);font-size:10.5px;margin-top:2px;}
+.parr{color:#94a3b8;font-weight:900;font-size:16px;}
+.por{color:#94a3b8;font-weight:800;font-size:13px;}
+.sideloops{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;}
+.sl{flex:1;min-width:240px;border:1px dashed var(--line);border-radius:12px;padding:12px 14px;background:#fafbfc;}
+.sl p{margin:5px 0 0;font-size:12px;color:var(--mut);line-height:1.5;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.mini h4{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);margin:0 0 10px;}
+ul.tight{margin:0;padding-left:0;list-style:none;}
+ul.tight li{font-size:13px;line-height:1.5;padding:6px 0;border-bottom:1px solid var(--line2);color:var(--ink2);}
+ul.tight li:last-child{border-bottom:0;}
+ul.tight li b{color:var(--ink);}
+.cmdmap{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:12.5px;align-items:center;}
+.cmdmap .say{color:var(--ink2);}
+.cmdmap code{font-family:ui-monospace,monospace;font-size:11px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:2px 8px;color:#0f172a;justify-self:end;}
+.gflow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:stretch;}
+.gbox{border:1.5px solid var(--ax);border-radius:12px;padding:12px;background:#fff;text-align:center;box-shadow:var(--shadow);}
+.gbox .t{font-weight:800;font-size:13.5px;}
+.gbox .s{font-size:10.5px;color:var(--mut);margin-top:2px;}
+.gflowcmds{display:flex;justify-content:space-around;margin:8px 0 2px;font-family:ui-monospace,monospace;font-size:11px;color:#2563eb;}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.modecard{border:1px solid var(--line);border-left-width:5px;border-radius:12px;padding:12px;background:#fff;box-shadow:var(--shadow);}
+.modecard .mn{font-weight:900;font-size:14px;letter-spacing:.3px;}
+.modecard .mt{font-size:9px;font-weight:900;padding:2px 7px;border-radius:999px;float:right;}
+.modecard .mr{font-size:11.5px;color:var(--ink2);margin-top:6px;line-height:1.5;}
+.modecard .mc{font-family:ui-monospace,monospace;font-size:10px;color:#2563eb;margin-top:7px;}
+table.ht{width:100%;border-collapse:collapse;font-size:12.5px;}
+table.ht td{padding:8px 6px;border-bottom:1px solid var(--line2);vertical-align:top;}
+table.ht td.c{font-family:ui-monospace,monospace;color:#2563eb;font-size:11px;text-align:right;white-space:nowrap;}
+.safelist{margin:0;padding-left:18px;}
+.safelist li{font-size:12.5px;line-height:1.6;color:var(--ink2);margin-bottom:3px;}
+.view{display:none;}
+.view.on{display:block;}
+footer{max-width:1400px;margin:0 auto;padding:24px 22px 50px;color:var(--mut);font-size:11.5px;line-height:1.6;}
+footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid var(--line);border-radius:5px;padding:1px 6px;}
+@media(max-width:760px){.grid2{grid-template-columns:1fr;}.modes,.gflow{grid-template-columns:1fr 1fr;}.gflowcmds{display:none;}}
+
+  .tree{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;}
+  .tree .row{display:grid;grid-template-columns:280px 1fr;gap:14px;padding:5px 2px;border-bottom:1px solid var(--line2);align-items:baseline;}
+  .tree .row:last-child{border-bottom:0;}
+  .tree .p{font-weight:700;color:var(--ink);}
+  .tree .p .dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:8px;background:var(--t,#94a3b8);vertical-align:1px;}
+  .tree .a{color:var(--mut);font-family:-apple-system,"Apple SD Gothic Neo",sans-serif;font-size:11.5px;line-height:1.5;}
+  .tree .a b{color:var(--ink2);}
+  .kgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  .kf{border:1px solid var(--line);border-left:4px solid var(--ax,#3b82f6);border-radius:10px;padding:10px 13px;background:#fff;box-shadow:var(--shadow);}
+  .kf .kk{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);font-weight:800;}
+  .kf .kv{font-size:12.5px;color:var(--ink2);font-weight:600;margin-top:4px;line-height:1.55;}
+  .kf .kv code,.pillrow code,.tree code{font-family:ui-monospace,monospace;font-size:11px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:1px 6px;color:#0f172a;}
+  .pillrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;}
+  .pill{font-size:11px;font-weight:700;padding:5px 10px;border-radius:8px;background:#f1f5f9;border:1px solid #e2e8f0;color:#334155;}
+  .pill.link{cursor:pointer;transition:.14s;}
+  .pill.link:hover{box-shadow:var(--shadow);transform:translateY(-1px);}
+  .pill .d{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px;}
+  .maprow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:center;font-size:12px;padding:7px 0;border-bottom:1px solid var(--line2);}
+  .maprow:last-child{border-bottom:0;}
+  .maprow .mp{font-weight:700;}
+  .maprow .ax{color:#cbd5e1;font-weight:800;text-align:center;}
+  .maprow .mono{font-family:ui-monospace,monospace;font-size:11px;color:#475569;}
+  @media(max-width:760px){.kgrid{grid-template-columns:1fr;}.tree .row{grid-template-columns:1fr;gap:2px;}.maprow{grid-template-columns:1fr;gap:2px;}.maprow .ax{display:none;}}
+
+</style>
+</head>
+<body>
+<div class="nav"><div class="inner">
+  <div class="brand"><span class="logo">◎</span><span>OMO Skill Atlas<small>LazyCodex · 23 skills · v4.13.0</small></span></div>
+  <div class="seg" id="seg">
+    <button data-v="board" class="on">보드</button>
+    <button data-v="flow">작업 흐름</button>
+    <button data-v="git">Git 심화</button>
+    <button data-v="setup">환경</button>
+  </div>
+  <div class="search">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input id="q" placeholder="스킬·트리거·명령 검색…" autocomplete="off"/>
+  </div>
+</div></div>
+
+<!-- BOARD VIEW -->
+<div class="view on" id="view-board">
+  <div class="hero" id="hero"></div>
+  <div class="toolbar" id="filters"></div>
+  <div class="wrap"><div class="board" id="board"></div></div>
+</div>
+
+<!-- FLOW VIEW -->
+<div class="view" id="view-flow">
+  <div class="wrap">
+    <div class="panel">
+      <h3>작업 흐름 파이프라인 — 입구 → 출구</h3>
+      <p class="ph">"지금 상황이 6축 중 어디인가" → 쓸 스킬이 결정된다. 노드를 누르면 상세가 열려요.</p>
+      <div class="pipe" id="pipe"></div>
+      <div class="sideloops">
+        <div class="sl"><b class="mono" style="color:var(--red)">debugging</b> — side-loop<p>언제든 끼어드는 가설-검증 루프. 막히면 직교 Oracle 소환.</p></div>
+        <div class="sl"><b class="mono" style="color:var(--purple)">visual-qa</b> — UI 게이트<p>UI를 만들거나 바꾼 직후, 완료 선언 전 시각 검증.</p></div>
+        <div class="sl"><b class="mono" style="color:var(--orange)">ultraresearch / ultimate-browsing</b> — 외부 지식<p>막힌 웹·심층 리서치가 필요할 때만 명시적으로 호출.</p></div>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="panel mini">
+        <h4>핵심 설계 패턴 5</h4>
+        <ul class="tight">
+          <li><b>Trigger → Workflow → Output</b> — 모든 SKILL.md의 3요소</li>
+          <li><b>MUST USE 게이트</b> — 특정 상황엔 "반드시 사용" 강제</li>
+          <li><b>Stop Conditions</b> — evidence 기준으로 멈춤 명시</li>
+          <li><b>Parallel Subagent</b> — review-work(5)·debugging Oracle·teammode</li>
+          <li><b>Evidence Ledger</b> — start-work·ulw-loop는 근거 장부 작성</li>
+        </ul>
+      </div>
+      <div class="panel mini">
+        <h4>명령어 연결 (Light · Codex CLI)</h4>
+        <div class="cmdmap">
+          <span class="say">"이 프로젝트 봐줘"</span><code>/init-deep</code>
+          <span class="say">"이거 어떻게 만들지?"</span><code>$ulw-plan "…"</code>
+          <span class="say">"계획 실행해"</span><code>$start-work plans/x.md</code>
+          <span class="say">"고장 났어"</span><code>/debugging</code>
+          <span class="say">"UI 이상해"</span><code>/frontend → /visual-qa</code>
+          <span class="say">"다 했어"</span><code>/review-work</code>
+          <span class="say">"커밋해줘"</span><code>$git-master</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GIT VIEW -->
+<div class="view" id="view-git">
+  <div class="wrap">
+    <div class="panel">
+      <h3>① Git 4영역 데이터 흐름 — 어디에 있나</h3>
+      <p class="ph">데이터는 오른쪽으로 승급(promote)된다. 색 = 상태(빨강 수정중 → 노랑 준비 → 초록 커밋 → 파랑 공유).</p>
+      <div class="gflow">
+        <div class="gbox" style="--ax:var(--red)"><div class="t">Working Dir</div><div class="s">작업 디렉터리</div></div>
+        <div class="gbox" style="--ax:var(--amber)"><div class="t">Staging</div><div class="s">인덱스(Index)</div></div>
+        <div class="gbox" style="--ax:var(--green)"><div class="t">Local Repo</div><div class="s">.git (로컬)</div></div>
+        <div class="gbox" style="--ax:var(--blue)"><div class="t">Remote</div><div class="s">origin (원격)</div></div>
+      </div>
+      <div class="gflowcmds"><span>git add →</span><span>git commit →</span><span>git push →</span></div>
+      <p class="ph" style="margin:8px 0 0">되돌리기: <code class="mono">git restore &lt;f&gt;</code> · <code class="mono">git restore --staged &lt;f&gt;</code> · <code class="mono">git reset --soft HEAD~1</code> · 가져오기 <code class="mono">git fetch / pull</code>.</p>
+    </div>
+
+    <div class="grid2">
+      <div class="panel">
+        <h3 style="font-size:15px">② 브랜치 합치기</h3>
+        <ul class="tight">
+          <li><b>merge</b> — 분기 보존(머지 커밋·2부모·비선형)</li>
+          <li><b>rebase</b> — 선형 정리, 단 <b>커밋 해시 변경</b> → 공유 브랜치엔 금지</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3 style="font-size:15px">⑤ Safety Checks — 쓰기 전 게이트</h3>
+        <ol class="safelist">
+          <li>현재 <b>브랜치</b>를 안다</li>
+          <li><b>더티 워크</b>가 설명된다</li>
+          <li><b>업스트림·푸시 여부</b>를 알거나 "모름" 명시</li>
+          <li>작업이 <b>요청과 일치</b>한다</li>
+          <li><b>복구 경로</b>가 있다 (abort·reflog)</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>git-master — Mode Gate (요청을 먼저 4분류)</h3>
+      <p class="ph">이 분류가 전체 동작을 결정. 조사(STATUS·HISTORY)만이면 보고 후 멈춤. 카드를 누르면 git-master 상세가 열려요.</p>
+      <div class="modes">
+        <div class="modecard" style="border-left-color:var(--green);cursor:pointer" data-skill="git-master"><span class="mt" style="background:#dcfce7;color:#15803d">생산</span><div class="mn">COMMIT</div><div class="mr">로컬 변경을 <b>원자 단위</b>로 스테이징·커밋</div><div class="mc">add -p · commit</div></div>
+        <div class="modecard" style="border-left-color:var(--red);cursor:pointer" data-skill="git-master"><span class="mt" style="background:#fee2e2;color:#b91c1c">⚠ 공유영향</span><div class="mn">REBASE</div><div class="mr">히스토리 <b>재작성</b>: rebase·squash·fixup·reorder</div><div class="mc">rebase -i --autosquash</div></div>
+        <div class="modecard" style="border-left-color:var(--blue);cursor:pointer" data-skill="git-master"><span class="mt" style="background:#dbeafe;color:#1d4ed8">조사</span><div class="mn">HISTORY</div><div class="mr">언제·어디서·누가·왜·<b>어느 커밋</b>이 바꿨나</div><div class="mc">log -S · blame · bisect</div></div>
+        <div class="modecard" style="border-left-color:#64748b;cursor:pointer" data-skill="git-master"><span class="mt" style="background:#f1f5f9;color:#475569">읽기전용</span><div class="mn">STATUS</div><div class="mr">브랜치·diff·워킹트리 점검 <b>(변경 없음)</b></div><div class="mc">status · diff --stat</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>⑥ HISTORY 모드 — 질문별 도구 선택</h3>
+      <table class="ht">
+        <tr><td>정확한 문자열 개수가 변한 시점</td><td class="c">git log -S "text"</td></tr>
+        <tr><td>패턴에 맞는 diff를 건드린 커밋</td><td class="c">git log -G "regex"</td></tr>
+        <tr><td>이 줄을 누가 마지막에 바꿨나</td><td class="c">git blame -L s,e -- file</td></tr>
+        <tr><td>이름변경 넘어 파일 이력</td><td class="c">git log --follow -- file</td></tr>
+        <tr><td>첫 깨진 커밋 (good/bad + 판정)</td><td class="c">git bisect start/good/bad</td></tr>
+        <tr><td>로컬 히스토리 복구</td><td class="c">git reflog</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- SETUP VIEW -->
+<div class="view" id="view-setup">
+  <div class="wrap">
+    <div class="hero">
+      <div class="hcard"><div class="v">~/.codex</div><div class="l">로컬 루트 폴더</div></div>
+      <div class="hcard"><div class="v">42 <small>roles</small></div><div class="l">에이전트 정의</div></div>
+      <div class="hcard"><div class="v">16 <small>profiles</small></div><div class="l">*.config.toml</div></div>
+      <div class="hcard"><div class="v">15 · 21 · 5</div><div class="l">컴포넌트 · 후크 · MCP</div></div>
+    </div>
+    <div class="panel">
+      <h3>① 로컬 파일 폴더 — <span class="mono" style="font-size:14px">~/.codex</span></h3>
+      <p class="ph">색 = 종류 (파랑 설정 · 빨강 비밀 · 초록 코드/스킬 · 주황 플러그인 · 보라 규칙 · 노랑 후크 · 회색 상태기록).</p>
+      <div class="tree"><div class="row"><span class="p"><span class="dot" style="--t:var(--blue)"></span>config.toml</span><span class="a">메인 설정 — 모델·샌드박스·MCP·프로파일·에이전트 (26KB)</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--blue)"></span>*.config.toml ×16</span><span class="a">프로파일: <b>omo · lazycodex</b> · fast · deep · lean · goal · review · turbo …</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--red)"></span>auth.json 🔒</span><span class="a">ChatGPT OAuth 토큰 (order@) — <b>절대 커밋 금지</b>, .gitignore</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--green)"></span>agents/ (42)</span><span class="a">서브에이전트 역할 .toml — explorer·librarian·plan·metis·momus·lazycodex-*</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--green)"></span>skills/ · plugins/.../omo/skills (23)</span><span class="a">SKILL.md 플레이북 (보드 탭의 23개)</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--orange)"></span>plugins/ (853M)</span><span class="a">omo@sisyphuslabs + openai-curated/bundled/remote 캐시 + data/</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--purple)"></span>prompts/ (56) · codex-rules/ · rules/</span><span class="a">슬래시·단축 프롬프트 / 주입 규칙</span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--amber)"></span>hooks.json + omo/hooks (21)</span><span class="a">라이프사이클 후크 (SessionStart·UserPromptSubmit·PostToolUse…)</span></div><div class="row"><span class="p"><span class="dot" style="--t:#94a3b8"></span>memories/ · sessions/ · worktrees/ (12G)</span><span class="a">상태·대화 기록·격리 작업트리 — <b>.gitignore</b></span></div><div class="row"><span class="p"><span class="dot" style="--t:var(--green)"></span>bin/</span><span class="a">런처: <code>lazycodex</code> → ~/.local/bin/omo · <code>aside</code></span></div></div>
+    </div>
+    <div class="panel">
+      <h3>② Codex 설정 — <span class="mono" style="font-size:14px">config.toml</span></h3>
+      <p class="ph">메인 레인은 danger-full-access, omo/lazycodex 프로파일은 workspace-write로 분리.</p>
+      <div class="kgrid"><div class="kf" style="--ax:var(--blue)"><div class="kk">Model</div><div class="kv"><code>gpt-5.5</code> · context <b>400K</b> · reasoning <b>xhigh</b></div></div><div class="kf" style="--ax:var(--red)"><div class="kk">Sandbox · Approval</div><div class="kv"><code>danger-full-access</code> (main) · approval <code>on-request</code> · network enabled · tier priority</div></div><div class="kf" style="--ax:var(--green)"><div class="kk">Features</div><div class="kv">hooks · plugins · plugin_hooks · chronicle · memories · multi_agent_v2 · unified_exec</div></div><div class="kf" style="--ax:var(--purple)"><div class="kk">Model Providers</div><div class="kv"><code>omlx</code> (local :18400) · <code>openrouter</code> · profiles ouroboros-{fast/standard/deep/frontier/worker}</div></div></div>
+  <div class="sec" style="margin-top:14px"><h4 style="color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:800">MCP 서버 ~25개</h4>
+  <div class="pillrow"><span class="pill">slack ×3</span><span class="pill">linear</span><span class="pill">figma ×3</span><span class="pill">obsidian</span><span class="pill">xmind</span><span class="pill">aside</span><span class="pill">ouroboros</span><span class="pill">droid-glm52</span><span class="pill">selects</span><span class="pill">RepoPrompt</span><span class="pill">openaiDeveloperDocs</span><span class="pill">kakao</span><span class="pill">kmsg</span><span class="pill">tossinvest-codex</span><span class="pill">omlx-codex-manager</span></div></div>
+  <div class="sec"><h4 style="color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:800">에이전트 역할 (10 wired / 42 role)</h4>
+  <div class="pillrow"><span class="pill"><span class="d" style="background:#22c55e"></span>explorer</span><span class="pill"><span class="d" style="background:#22c55e"></span>librarian</span><span class="pill"><span class="d" style="background:#22c55e"></span>plan</span><span class="pill"><span class="d" style="background:#22c55e"></span>metis</span><span class="pill"><span class="d" style="background:#22c55e"></span>momus</span><span class="pill"><span class="d" style="background:#22c55e"></span>lazycodex-code-reviewer</span><span class="pill"><span class="d" style="background:#22c55e"></span>lazycodex-qa-executor</span><span class="pill"><span class="d" style="background:#22c55e"></span>lazycodex-gate-reviewer</span><span class="pill"><span class="d" style="background:#22c55e"></span>lazycodex-executor</span><span class="pill"><span class="d" style="background:#22c55e"></span>verifier</span><span class="pill"><span class="d" style="background:#22c55e"></span>debugger</span><span class="pill"><span class="d" style="background:#22c55e"></span>git-master</span></div></div>
+  <div class="sec"><h4 style="color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:800">앱 커넥터 · 신뢰 프로젝트</h4>
+  <div class="pillrow"><span class="pill">vercel deploy</span><span class="pill">github PR/file/comment</span><span class="pill">slack send</span><span class="pill">projects: madstamp · gvape · Oh-My-Codex · hermes-agent (~15)</span></div></div>
+    </div>
+    <div class="panel">
+      <h3>③ LazyCodex · omo 툴체인 <span class="mono" style="font-size:13px;color:var(--mut)">v4.13.0</span></h3>
+      <p class="ph">스킬(23) 위에서 후크·컴포넌트·MCP가 받쳐주는 구조. "omo ulw"가 여기 들어있어요.</p>
+      <div class="kgrid"><div class="kf" style="--ax:var(--orange)"><div class="kk">Plugin</div><div class="kv"><code>@sisyphuslabs/omo-codex-plugin</code> v<b>4.13.0</b> · install <code>lazycodex-ai</code> · MIT · code-yeongyu</div></div><div class="kf" style="--ax:var(--blue)"><div class="kk">플러그인 MCP (5)</div><div class="kv"><code>grep_app</code> · <code>context7</code> · <code>codegraph</code> · <code>git_bash</code> · <code>lsp</code></div></div><div class="kf" style="--ax:var(--amber)"><div class="kk">후크 (21)</div><div class="kv">SessionStart 5 · UserPromptSubmit 3 · PreToolUse 2 · PostToolUse 5 · PostCompact 3 · Stop/SubagentStop 3</div></div><div class="kf" style="--ax:var(--green)"><div class="kk">omo · ulw 핵심</div><div class="kv"><code>ultrawork</code>→$ulw-plan/$start-work · <code>ulw-loop</code>→steering 후크 · <code>start-work-continuation</code>→Stop 후크 연속</div></div></div>
+  <div class="sec" style="margin-top:14px"><h4 style="color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:800">컴포넌트 15</h4>
+  <div class="pillrow"><span class="pill"><span class="d" style="background:#f97316"></span>bootstrap</span><span class="pill"><span class="d" style="background:#f97316"></span>codegraph</span><span class="pill"><span class="d" style="background:#f97316"></span>comment-checker</span><span class="pill"><span class="d" style="background:#f97316"></span>git-bash</span><span class="pill"><span class="d" style="background:#f97316"></span>git-bash-mcp</span><span class="pill"><span class="d" style="background:#f97316"></span>lazycodex-executor-verify</span><span class="pill"><span class="d" style="background:#f97316"></span>lsp</span><span class="pill"><span class="d" style="background:#f97316"></span>lsp-daemon</span><span class="pill"><span class="d" style="background:#f97316"></span>rules</span><span class="pill"><span class="d" style="background:#f97316"></span>start-work-continuation</span><span class="pill"><span class="d" style="background:#f97316"></span>teammode</span><span class="pill"><span class="d" style="background:#f97316"></span>telemetry</span><span class="pill"><span class="d" style="background:#f97316"></span>test-support</span><span class="pill"><span class="d" style="background:#f97316"></span>ultrawork</span><span class="pill"><span class="d" style="background:#f97316"></span>ulw-loop</span></div></div>
+    </div>
+    <div class="panel">
+      <h3>④ 모두 연결 — 컴포넌트 ↔ 스킬 매핑</h3>
+      <p class="ph">왼쪽 런타임 컴포넌트가 오른쪽 스킬을 구동. 스킬 칩을 누르면 상세가 열려요.</p>
+      <div class="maprow"><span class="mp mono">ultrawork</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="ulw-plan">ulw-plan</span></span><span class="ax">·</span><span class="mono">계획 전 ultrawork 진입</span></div><div class="maprow"><span class="mp mono">ulw-loop</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="ulw-loop">ulw-loop</span></span><span class="ax">·</span><span class="mono">목표 루프 steering</span></div><div class="maprow"><span class="mp mono">start-work-continuation</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="start-work">start-work</span></span><span class="ax">·</span><span class="mono">Stop 후크로 연속 실행</span></div><div class="maprow"><span class="mp mono">git-bash / git-bash-mcp</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="git-master">git-master</span></span><span class="ax">·</span><span class="mono">커밋·히스토리 안전 작업</span></div><div class="maprow"><span class="mp mono">lsp / lsp-daemon</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="lsp">lsp</span></span><span class="ax">·</span><span class="mono">진단·정의·참조 MCP</span></div><div class="maprow"><span class="mp mono">comment-checker</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="comment-checker">comment-checker</span></span><span class="ax">·</span><span class="mono">PostToolUse 후크 피드백</span></div><div class="maprow"><span class="mp mono">teammode</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="teammode">teammode</span></span><span class="ax">·</span><span class="mono">팀 스레드 오케스트레이션</span></div><div class="maprow"><span class="mp mono">rules</span><span class="ax">↔</span><span class="mp"><span class="pill link" data-skill="rules">rules</span></span><span class="ax">·</span><span class="mono">프로젝트 규칙 주입/매칭</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer"><div id="drawer-inner"></div></aside>
+
+<footer>
+  출처: 로컬 캐시 <code>~/.codex/plugins/cache/sisyphuslabs/omo/4.13.0/skills/</code> · 23개 SKILL.md 정독 기반 · 6축 매핑은 작업 흐름 기준 재구성 · git-master는 실제 SKILL.md의 4-Mode 구조.
+</footer>
+
+<script>
+const DB = {"axes":[{"id":"code","name":"코드 구조","sub":"어떻게 이해·정돈할까","color":"#3b82f6","icon":"🔵"},{"id":"debug","name":"런타임 디버깅","sub":"왜 안 되는가","color":"#ef4444","icon":"🔴"},{"id":"frontend","name":"프론트엔드","sub":"보이는 걸 어떻게 만들까","color":"#a855f7","icon":"🟣"},{"id":"loop","name":"작업 루프","sub":"계획·실행·검증","color":"#f59e0b","icon":"🟡"},{"id":"ops","name":"LazyCodex 운영","sub":"도구 자체 운용","color":"#22c55e","icon":"🟢"},{"id":"explore","name":"확장 탐색","sub":"외부 지식/웹 끌어오기","color":"#f97316","icon":"🟠"}],"skills":[{"id":"init-deep","axis":"code","name":"init-deep","must":false,"one":"AGENTS.md 계층 지식베이스 생성","purpose":"코드를 보기 전에 프로젝트 구조·관례·코드맵을 먼저 만든다. 매 실행마다 같은 설명을 반복하지 않게 하는 \"입구\".","triggers":["이 프로젝트 봐줘","새 레포 분석","/init-deep"],"anti":[],"mech":["병렬 explore 에이전트 즉시 발사","Bash 구조 분석 + LSP/codegraph 코드맵","스코어링으로 AGENTS.md 위치 결정","루트+하위 AGENTS.md 생성 후 중복 제거"],"cmd":"/init-deep","related":["ulw-plan","programming","rules"]},{"id":"programming","axis":"code","name":"programming","must":true,"one":"언어별 표준 · 250 LOC 상한 · TDD","purpose":".py/.rs/.ts/.go 작성·수정의 단일 철학: 엄격한 타입, 모던 스택/툴체인, parse-don't-validate, no any/unwrap/panic.","triggers":["Python/Rust/TS/Go 코드 작성","새 프로젝트","gin 서버","sqlc·RPC"],"anti":["git 작업·UI 작업은 전용 스킬로"],"mech":["PHASE 0 언어 게이트 먼저","TDD 비협상 (테스트 먼저)","250 순수 LOC 초과 → 모듈 분리","코드 스멜 자동 리뷰 트리거"],"cmd":"파일 확장자로 자동 활성","related":["refactor","remove-ai-slops","ast-grep","lsp"]},{"id":"refactor","axis":"code","name":"refactor","must":false,"one":"지능형 리팩토링 · 단순화","purpose":"의도를 보존하며 구조를 정돈. 추출·단순화·현대화. 영향 범위를 코드맵으로 먼저 파악.","triggers":["refactor","cleanup","restructure","extract","simplify","modernize"],"anti":[],"mech":["PHASE 0 의도 게이트","병렬 explore + LSP/ast-grep 분석","코드맵·의존성 매핑","테스트 검증 전략 수립 후 실행"],"cmd":"refactor","related":["programming","remove-ai-slops","ast-grep","review-work"]},{"id":"remove-ai-slops","axis":"code","name":"remove-ai-slops","must":false,"one":"AI 코드 스멜(슬롭) 제거","purpose":"AI가 만든 군더더기를 제거. 먼저 회귀 테스트로 동작을 잠그고 카테고리별로 병렬 정리.","triggers":["remove slop","deslop","clean AI code","strip slop"],"anti":[],"mech":["회귀 테스트 먼저 잠금 (비협상)","10개 슬롭 카테고리 분류","deep 에이전트 5개 배치 병렬 정리","품질 게이트로 검증"],"cmd":"deslop","related":["programming","refactor","review-work"]},{"id":"git-master","axis":"code","name":"git-master","must":true,"one":"atomic commit · rebase · bisect","purpose":"커밋과 git 히스토리 조사 전용. 보수적·증거 기반. 4-Mode Gate로 동작을 먼저 결정.","triggers":["커밋해줘","누가 이거 썼나","언제 추가됐나","rebase/squash"],"anti":["일반 코드 수정엔 X (git 작업 요청 시만)"],"mech":["Mode Gate: COMMIT/REBASE/HISTORY/STATUS","Ground Truth 병렬 수집","원자 커밋 7단계 (스타일 자동 감지)","Safety Checks 통과 후에만 히스토리 쓰기"],"cmd":"$git-master","related":["review-work","debugging","programming"]},{"id":"ast-grep","axis":"code","name":"ast-grep","must":false,"one":"AST 25개 언어 구조 검색/변환","purpose":"텍스트가 아닌 '구문 모양'으로 코드를 검색·코드모드. console.log→logger, as any 제거 등.","triggers":["구조적 코드 매칭","결정적 codemod","X 모양 함수 찾기"],"anti":["문자열/주석/파일명 검색은 rg 사용"],"mech":["정규식 아님 — 패턴은 유효한 코드","--update-all과 --json 상호배타(조용히)","rewrite는 항상 dry-run 먼저","YAML 규칙 scan 지원"],"cmd":"sg · scripts/ast_grep_helper.py","related":["programming","refactor","lsp"]},{"id":"rules","axis":"code","name":"rules","must":false,"one":"Codex Rules 주입/매칭","purpose":"프로젝트 규칙 파일의 위치·매칭·환경 설정 동작을 다룬다.","triggers":["Codex Rules 동작","주입된 규칙 위치"],"anti":[],"mech":["지원되는 규칙 파일 위치","매칭 규칙","환경 구성"],"cmd":"—","related":["init-deep","programming"]},{"id":"debugging","axis":"debug","name":"debugging","must":true,"one":"가설-검증 루프 (≥3 hypothesis)","purpose":"모든 언어·바이너리의 런타임 디버깅. 추측이 아닌 \"관측된 상태\"가 증거. 실제 HOW는 references/에 있음 — 반드시 읽는다.","triggers":["debug this","왜 X가 안 돼","hanging","attach a debugger","reverse engineer"],"anti":["환경/인프라 문제일 땐 X"],"mech":["≥3 가설 형성 후 병렬 조사","2회 실패 → 직교 각도 Oracle 소환","루트 확정 → 실패 테스트로 잠금","최소 수정 → 실제 사용 QA → 흔적 제거"],"cmd":"/debugging","related":["lsp","git-master","review-work","programming"]},{"id":"lsp","axis":"debug","name":"lsp","must":false,"one":"정적 분석 · 정의/참조/리네임","purpose":"워크스페이스의 언어서버 진단·정의·참조·심볼·안전한 리네임 검사.","triggers":["진단","go-to-definition","find-references","rename 안전성"],"anti":[],"mech":["LSP 도구 호출","워크스페이스 심볼 조회","리네임 영향 사전 확인"],"cmd":"—","related":["lsp-setup","programming","ast-grep","debugging"]},{"id":"lsp-setup","axis":"debug","name":"lsp-setup","must":false,"one":"25개 언어 LSP 설치/설정","purpose":"특정 언어의 언어서버를 설치·구성해 진단·정의·참조·리네임 툴링이 작동하게.","triggers":["lsp setup","no LSP server configured","언어서버 설정"],"anti":[],"mech":["PHASE 0 언어 게이트","detect→install→configure→verify","OS별(macOS/Linux/Win) 설치 명령","detect-lsp.ts / verify-lsp.ts"],"cmd":"detect-lsp.ts","related":["lsp","programming"]},{"id":"lcx-doctor","axis":"debug","name":"lcx-doctor","must":false,"one":"LazyCodex 설치 건강 진단","purpose":"LazyCodex/Codex 설치 상태를 최신 소스와 비교해 진단. 드리프트·깨짐 감지.","triggers":["doctor","health check","설치 후 이상 동작"],"anti":[],"mech":["설치 점검 워크플로","Doctor 리포트 템플릿","알려진 이슈 매칭","후속 라우팅"],"cmd":"/lcx-doctor","related":["lcx-report-bug","lcx-contribute-bug-fix"]},{"id":"lcx-report-bug","axis":"debug","name":"lcx-report-bug","must":false,"one":"소스 근거 버그 리포트","purpose":"결함을 소유한 레포에 고신호 버그 이슈/PR 생성. 소스 근거 루트원인·재현·수정 가이드·GitHub 라우팅.","triggers":["버그 리포트","file/open/triage bug"],"anti":[],"mech":["소스 근거 루트 원인","재현 단계 작성","레포 결정(라우팅)","이슈/PR 템플릿"],"cmd":"/lcx-report-bug","related":["lcx-doctor","lcx-contribute-bug-fix","debugging"]},{"id":"lcx-contribute-bug-fix","axis":"debug","name":"lcx-contribute-bug-fix","must":false,"one":"검증된 버그픽스 기여 · PR","purpose":"검증된 수정을 기여. upstream openai/codex엔 fork PR, LazyCodex 결함은 verified-fix 이슈(미러 레포라 PR 아님).","triggers":["fix a bug","contribute bug fix","open PR for bug"],"anti":[],"mech":["재현 로그 → 루트 원인 → 검증된 수정","upstream=PR · LazyCodex=이슈","PR 본문 생성기","Stop Conditions 명시"],"cmd":"/lcx-contribute-bug-fix","related":["lcx-report-bug","lcx-doctor","git-master"]},{"id":"frontend","axis":"frontend","name":"frontend","must":true,"one":"React·성능·Lighthouse 100·디자인","purpose":"모든 프론트/UI/UX/시각 작업. 3개 룰셋 라우팅: design(취향)·perfection(Lighthouse 100)·ui-ux-db.","triggers":["frontend","UI","UX","redesign","애니메이션","premium","make it pretty","like X brand"],"anti":[],"mech":["Phase 0 라우팅 먼저","design: 12 취향 + 69 브랜드(Apple/Stripe/Linear/Notion/Vercel/Claude/Nike)","perfection: 실제 Playwright Chromium 감사(CLI 금지)","ui-ux-db: 50+ 스타일·97 팔레트·57 폰트쌍"],"cmd":"/frontend","related":["visual-qa","programming"]},{"id":"visual-qa","axis":"frontend","name":"visual-qa","must":true,"one":"스크린샷 diff · 시각 회귀","purpose":"만들거나 바꾼 UI를 시각적으로 검증한 뒤에 완료를 선언. 웹+TUI 모두. CJK 잘림까지 검사.","triggers":["visual QA","screenshot diff","UI 이상해","CJK 텍스트 잘림","responsive check"],"anti":[],"mech":["표면 감지(web/TUI)","객관 레퍼런스 증거 캡처(image-diff/tui-check)","2개 read-only Oracle 병렬","good/bad 단일 평결로 종합"],"cmd":"/visual-qa","related":["frontend","review-work"]},{"id":"ulw-plan","axis":"loop","name":"ulw-plan","must":true,"one":"decision-complete 계획","purpose":"코딩 전 계획. 탐색-우선 컨설턴트(Prometheus)가 코드베이스에 근거, 탐색이 못 푸는 분기만 질문, 승인 후 1개 \"결정완결\" 계획 작성.","triggers":["plan this","make a plan","interview me","break this down","just make it good"],"anti":["1~2단계 명확한 작업엔 X"],"mech":["INTENT 라우팅 1개 선택","스크립트로 계획 파일 생성","승인 게이트(명시 승인 대기)","Codex-native 위임"],"cmd":"$ulw-plan \"...\"","related":["start-work","ulw-loop","init-deep","review-work"]},{"id":"ulw-loop","axis":"loop","name":"ulw-loop","must":false,"one":"목표중심 evidence 루프","purpose":"ultrawork 모드로 작업을 체계적·증거 기반 단계로 분해하는 목표형 루프.","triggers":["ulw-loop","고장났어(복구 루프)"],"anti":[],"mech":["필수 First Steps","Non-Negotiables","Codex 도구 매핑"],"cmd":"$ulw-loop","related":["ulw-plan","start-work","debugging"]},{"id":"start-work","axis":"loop","name":"start-work","must":false,"one":"계획 실행 · evidence ledger","purpose":"Prometheus 계획을 실행. Boulder 상태·증거 장부·worktree 규율·병렬 서브에이전트·Stop-hook 연속.","triggers":["start work","execute plan","continue/resume plan"],"anti":[],"mech":["당신은 오케스트레이터 — 구현자가 아님","Boulder 상태 + 증거 장부 갱신","worktree 규율로 격리","Stop-hook 연속 실행"],"cmd":"$start-work plans/x.md","related":["ulw-plan","review-work","teammode"]},{"id":"review-work","axis":"loop","name":"review-work","must":true,"one":"5방향 병렬 리뷰 (출구)","purpose":"구현 후 리뷰 오케스트레이터. 5개 병렬 서브에이전트(목표/품질/보안 Oracle + QA 실행 + 컨텍스트 마이닝). 모두 통과해야 통과.","triggers":["review work","QA my work","verify implementation","check my work"],"anti":["한 줄 typo·문서 수정엔 X"],"mech":["Phase 0 리뷰 컨텍스트 수집","5개 에이전트 병렬 발사","대기 & 수집","PASSED/FAILED/INCONCLUSIVE 평결"],"cmd":"/review-work","related":["git-master","visual-qa","debugging","start-work"]},{"id":"comment-checker","axis":"ops","name":"comment-checker","must":false,"one":"후크 피드백 해석/대응","purpose":"편집형 PostToolUse 후크가 내보낸 자동 comment-checker 피드백을 이해하고 대응.","triggers":["comment-checker 피드백 해석"],"anti":[],"mech":["피드백 스코프 해석","적절한 대응 결정"],"cmd":"—","related":["review-work","programming"]},{"id":"teammode","axis":"ops","name":"teammode","must":false,"warn":true,"one":"팀 오케스트레이션 (Ultimate/Codex-only)","purpose":"협력하는 Codex 스레드 팀을 명명·운영. 메인 세션이 항상 리더. 부품/소유영역/관점으로 구성(직무 아님).","triggers":["team mode","make a team","parallel Codex threads"],"anti":["완벽 격리/단일 작업엔 plain subagent"],"mech":["리더 — 오케스트레이트만, 구현 X","스크립트로 팀 상태 관리(.omo/teams)","겹치는 파일은 worktree 격리","ulw-plan 병렬 실행"],"cmd":"teammode","related":["start-work","ulw-plan"]},{"id":"ultimate-browsing","axis":"explore","name":"ultimate-browsing","must":false,"one":"WAF/로그인 차단 우회","purpose":"막힌/접근 어려운 웹을 위한 에스컬레이션 스킬. WAF·403·Cloudflare·JS-only·로그인게이트 우회. 3-tier 라우터.","triggers":["blocked site","cloudflare/WAF bypass","scrape","stealth browser","screenshot","youtube/xiaohongshu"],"anti":["단순검색=web-search · 평범한 fetch=webfetch"],"mech":["Phase 0 라우팅 먼저","Tier1 insane-search (curl_cffi TLS 임퍼소네이션)","Tier1.5 agent-reach (중국/소셜 플랫폼)","Tier2 Chrome stealth (CDP 클릭/폼/스샷)"],"cmd":"insane-search","related":["ultraresearch"]},{"id":"ultraresearch","axis":"explore","name":"ultraresearch","must":false,"one":"최대 포화 리서치 (explicit only)","purpose":"최대 포화 리서치 오케스트레이션. 코드베이스/웹/공식문서/OSS 병렬 스웜 + 재귀 EXPAND + 코드 실행 검증 + 인용 종합.","triggers":["ultraresearch","deep research","ultra-precise investigation (명시적일 때만)"],"anti":["일반 질문/디버깅엔 자가활성 X"],"mech":["협력 팀 스웜 운영","Phase0 분해 → Phase1 포화 → Phase2 수렴까지 확장","Phase3 코드 실행으로 검증","인용 종합 + MD/HTML/PDF/PPTX 리포트"],"cmd":"$ultraresearch","related":["ultimate-browsing","ulw-plan"]}]};
+const AX = {}; DB.axes.forEach(a=>AX[a.id]=a);
+const byId = {}; DB.skills.forEach(s=>byId[s.id]=s);
+const $ = s=>document.querySelector(s);
+let state={view:"board", axis:null, q:""};
+
+// HERO
+function renderHero(){
+  const must = DB.skills.filter(s=>s.must).length;
+  const items=[["23",'skills <small>SKILL.md</small>'],["6",'축 <small>+ 1 작업 루프</small>'],[must,'MUST USE <small>강제 게이트</small>'],["4","Git Mode <small>git-master</small>"]];
+  $("#hero").innerHTML=items.map(([v,l])=>'<div class="hcard"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>').join("");
+}
+// FILTERS
+function renderFilters(){
+  let h='<div class="chip '+(state.axis===null?'on':'')+'" data-ax="" style="'+(state.axis===null?'background:#15181f':'')+'">전체 <span class="n">'+DB.skills.length+'</span></div>';
+  DB.axes.forEach(a=>{
+    const n=DB.skills.filter(s=>s.axis===a.id).length;
+    const on=state.axis===a.id;
+    h+='<div class="chip '+(on?'on':'')+'" data-ax="'+a.id+'" style="'+(on?'background:'+a.color:'')+'"><span class="d" style="background:'+a.color+'"></span>'+a.name+' <span class="n">'+n+'</span></div>';
+  });
+  $("#filters").innerHTML=h;
+  $("#filters").querySelectorAll(".chip").forEach(c=>c.onclick=()=>{state.axis=c.dataset.ax||null;renderFilters();applyFilter();});
+}
+// BOARD
+function renderBoard(){
+  let h="";
+  DB.axes.forEach(a=>{
+    const list=DB.skills.filter(s=>s.axis===a.id);
+    h+='<div class="col"><div class="colhead"><span class="bar" style="background:'+a.color+'"></span>'
+      +'<div><div class="ct">'+a.icon+' '+a.name+'</div><div class="sub">'+a.sub+'</div></div>'
+      +'<span class="cnt">'+list.length+'</span></div><div class="cards">';
+    list.forEach(s=>{
+      h+='<div class="card" data-skill="'+s.id+'" style="--ax:'+a.color+'">'
+        +'<div class="cn">'+s.name+'</div>'
+        +'<div class="co">'+s.one+'</div>'
+        +'<div class="cf">'+(s.must?'<span class="badge must">MUST</span>':'')+(s.warn?'<span class="badge warn">⚠</span>':'')
+        +'<span class="ccmd mono">'+s.cmd+'</span></div></div>';
+    });
+    h+='</div></div>';
+  });
+  $("#board").innerHTML=h;
+  $("#board").querySelectorAll(".card").forEach(c=>c.onclick=()=>openDetail(c.dataset.skill));
+}
+function applyFilter(){
+  const q=state.q.toLowerCase();
+  $("#board").querySelectorAll(".card").forEach(c=>{
+    const s=byId[c.dataset.skill];
+    const hay=(s.name+" "+s.one+" "+s.purpose+" "+s.triggers.join(" ")+" "+s.cmd+" "+s.mech.join(" ")).toLowerCase();
+    const okQ=!q||hay.includes(q);
+    const okA=!state.axis||s.axis===state.axis;
+    c.classList.toggle("dim",!(okQ&&okA));
+  });
+}
+// PIPE
+function renderPipe(){
+  const seq=[["init-deep"],["ulw-plan"],["start-work"],["programming","frontend"],["review-work"],["git-master"]];
+  let h="";
+  seq.forEach((grp,i)=>{
+    if(i>0)h+='<span class="parr">→</span>';
+    grp.forEach((id,j)=>{
+      if(j>0)h+='<span class="por">/</span>';
+      const s=byId[id],a=AX[s.axis];
+      h+='<div class="pnode" data-skill="'+id+'" style="--ax:'+a.color+'">'+s.name+'<small>'+a.name+'</small></div>';
+    });
+  });
+  $("#pipe").innerHTML=h;
+}
+// DETAIL
+function openDetail(id){
+  const s=byId[id],a=AX[s.axis];
+  document.documentElement.style.setProperty("--ax",a.color);
+  let h='<div class="dhead" style="--ax:'+a.color+'">'
+    +'<button class="dclose" id="dclose">✕</button>'
+    +'<span class="axpill" style="background:'+a.color+'">'+a.icon+' '+a.name+'</span>'
+    +'<h2>'+s.name+(s.must?' <span class="badge must">MUST USE</span>':'')+(s.warn?' <span class="badge warn">⚠</span>':'')+'</h2>'
+    +'<div class="one">'+s.one+'</div></div><div class="dbody">';
+  h+='<div class="sec"><h4>무엇인가</h4><p>'+s.purpose+'</p></div>';
+  h+='<div class="sec"><h4>이럴 때 쓴다 · Trigger</h4><div class="tags">'+s.triggers.map(t=>'<span class="tag">'+t+'</span>').join("")+'</div></div>';
+  if(s.anti&&s.anti.length)h+='<div class="sec"><h4>쓰지 말아야 할 때 · Anti</h4><div class="tags">'+s.anti.map(t=>'<span class="tag no">'+t+'</span>').join("")+'</div></div>';
+  h+='<div class="sec"><h4>핵심 메커니즘</h4><ul class="mech" style="--ax:'+a.color+'">'+s.mech.map(m=>'<li>'+m+'</li>').join("")+'</ul></div>';
+  h+='<div class="sec"><h4>호출</h4><div class="cmdbox mono">'+s.cmd.replace(/\$/g,'<span class="dollar">$</span>')+'</div></div>';
+  h+='<div class="sec"><h4>연결된 스킬 · '+s.related.length+'</h4><div class="rel">'+s.related.map(r=>{const rs=byId[r],ra=AX[rs.axis];return '<span class="relpill" data-skill="'+r+'"><span class="d" style="background:'+ra.color+'"></span>'+rs.name+'</span>';}).join("")+'</div></div>';
+  h+='</div>';
+  $("#drawer-inner").innerHTML=h;
+  $("#drawer").classList.add("open");$("#scrim").classList.add("open");
+  $("#dclose").onclick=closeDetail;
+  $("#drawer-inner").querySelectorAll(".relpill").forEach(p=>p.onclick=()=>openDetail(p.dataset.skill));
+}
+function closeDetail(){$("#drawer").classList.remove("open");$("#scrim").classList.remove("open");}
+$("#scrim").onclick=closeDetail;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDetail();});
+
+// VIEW SWITCH
+function setView(v){
+  state.view=v;
+  document.querySelectorAll(".view").forEach(el=>el.classList.remove("on"));
+  $("#view-"+v).classList.add("on");
+  $("#seg").querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+}
+$("#seg").querySelectorAll("button").forEach(b=>b.onclick=()=>setView(b.dataset.v));
+$("#q").addEventListener("input",e=>{state.q=e.target.value;if(state.view!=="board")setView("board");applyFilter();});
+
+// bind flow + git clickable nodes (after render)
+function bindSkillNodes(){document.querySelectorAll("[data-skill]").forEach(el=>{if(!el._b){el._b=1;if(!el.classList.contains("card"))el.onclick=()=>openDetail(el.dataset.skill);}});}
+
+renderHero();renderFilters();renderBoard();renderPipe();bindSkillNodes();applyFilter();
+</script>
+</body>
+</html>
