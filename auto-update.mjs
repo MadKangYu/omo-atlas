@@ -14,7 +14,7 @@ import { readFileSync } from "node:fs";
 
 const DIR = import.meta.dirname;
 const DEPLOY = !process.argv.includes("--no-deploy");
-const SCOPE = "richardowen7212-9804s-projects";
+const SCOPE = process.env.VERCEL_SCOPE || "richardowen7212-9804s-projects";
 const LIVE_URL = "https://omo-atlas.vercel.app/data.json";
 const out = (o) => console.log(JSON.stringify(o));
 const sh = (cmd) => execSync(cmd, { cwd: DIR, encoding: "utf8" });
