@@ -1,0 +1,220 @@
+{
+  "generatedAt": "2026-06-27T18:46:08.881Z",
+  "omoVersion": "4.13.0",
+  "plugin": {
+    "name": "omo",
+    "version": "4.13.0",
+    "license": "MIT",
+    "repository": "https://github.com/sisyphuslabs/omo"
+  },
+  "counts": {
+    "skills": 23,
+    "components": 15,
+    "hooks": 21,
+    "mcp": 5
+  },
+  "skills": [
+    {
+      "id": "ast-grep",
+      "name": "ast-grep",
+      "description": "Use ast-grep (sg) for AST-aware code search and rewrite across 25 languages. Trigger for structural code matching or deterministic codemods: find every function/call/class/import shaped like X, rewrite console.log to logger.info, strip `as any`, migrate require() to import, find empty catch blocks or missing await, and scan/apply YAML rules. Prefer this over rg/grep when the target is syntax shape rather than text; use rg for string contents, comments, filenames, or regex-style byte searches.",
+      "short": ""
+    },
+    {
+      "id": "comment-checker",
+      "name": "comment-checker",
+      "description": "Use when Codex needs to understand or respond to automatic comment-checker feedback emitted after an edit-like PostToolUse hook.",
+      "short": ""
+    },
+    {
+      "id": "debugging",
+      "name": "debugging",
+      "description": "MUST USE for any real runtime debugging across ANY language or binary — crashes, silent failures, wrong responses, stuck processes, memory leaks, async misbehavior, unexplained timing, reverse engineering. Runs a hypothesis-driven loop: form ≥3 hypotheses, investigate in parallel, after 2 failed rounds spawn Oracles from orthogonal angles, confirm root cause, lock with a failing test, fix minimally, QA by actually USING the system, scrub artifacts. The actual HOW lives in `references/` — READ THEM. Triggers: 'debug this', 'why is X not working', 'hanging', 'attach a debugger', 'reverse engineer', 'pwndbg', 'gdb', 'lldb', 'node inspect', 'tsx debug', 'pdb', 'dlv', 'delve', 'rust-gdb', 'set a breakpoint', 'context window exploded', 'why is the response empty', 'attach the debugger', 'debug it', 'why is this happening', 'trace this bug', 'reproduce and fix', 'silent failure', 'HTTP 200 but empty', 'why did it stop', 'inspect the binary', 'reverse engineering', 'playwright'.",
+      "short": ""
+    },
+    {
+      "id": "frontend",
+      "name": "frontend",
+      "description": "MUST USE for ANY frontend, web UI, UX, or visual work — building, styling, or redesigning pages/components, React project setup, performance audits, design QA. Routes three rulesets: design (anti-slop taste router over 12 taste skills + 69 brand DESIGN.md refs — Apple, Stripe, Linear, Notion, Vercel, Claude, Nike — plus React dev tooling gate: react-grab, react-scan, react-doctor), perfection (Lighthouse 100 in every category via real Playwright Chromium audits, NEVER the lighthouse CLI, never by weakening UX), ui-ux-db (searchable 50+ styles, 97 palettes, 57 font pairings, 99 UX guidelines). Triggers: frontend, UI, UX, design, redesign, styling, layout, animation, motion, taste, premium, luxury, minimal, brutalist, Awwwards, anti-slop, polish, DESIGN.md, mockup, react setup, react-scan, react-doctor, lighthouse, performance, Core Web Vitals, LCP, CLS, INP, SEO, accessibility, a11y, WCAG, audit my site, make this faster, color palette, font pairing, looks generic, make it pretty, like X brand.",
+      "short": ""
+    },
+    {
+      "id": "git-master",
+      "name": "git-master",
+      "description": "MUST USE whenever a task needs a commit or git-history investigation. Covers atomic commits, staging, commit-message style, rebase, squash, fixup/autosquash, blame, bisect, reflog, git log -S/-G, and questions like who wrote this or when was this added. Do not use for ordinary code edits unless the user asks for git work.",
+      "short": ""
+    },
+    {
+      "id": "init-deep",
+      "name": "init-deep",
+      "description": "(builtin) Initialize hierarchical AGENTS.md knowledge base",
+      "short": ""
+    },
+    {
+      "id": "lcx-contribute-bug-fix",
+      "name": "lcx-contribute-bug-fix",
+      "description": "Contribute a verified bug fix for LazyCodex, lazycodex-ai, omo-codex, bundled Codex skills, or upstream Codex CLI bugs. Opens a fork PR only for upstream openai/codex; LazyCodex-owned defects become a verified-fix issue on code-yeongyu/lazycodex (never a PR — that repo is a generated distribution mirror). Use when the user asks to fix a bug, contribute a bug fix, contribute to fix bug, open a PR for a bug, or debug and PR a LazyCodex/Codex defect.",
+      "short": "Contribute verified LazyCodex or Codex bug fixes"
+    },
+    {
+      "id": "lcx-doctor",
+      "name": "lcx-doctor",
+      "description": "Diagnose LazyCodex and Codex CLI installation health against the latest sources. Use whenever the user asks for a doctor or health check, says LazyCodex, lazycodex-ai, omo-codex, or Codex behaves oddly after an install, update, or config change, suspects a stale, drifted, or broken setup, or wants the local install audited and compared with the latest LazyCodex and Codex code.",
+      "short": "Diagnose LazyCodex/Codex install health against latest sources"
+    },
+    {
+      "id": "lcx-report-bug",
+      "name": "lcx-report-bug",
+      "description": "Create a high-signal bug issue or PR in the repo that owns the defect. Use this whenever the user asks to report, file, open, or triage a LazyCodex, lazycodex-ai, omo-codex, Codex plugin, or upstream Codex CLI bug, especially when they need source-backed root cause, reproduction steps, fix guidance, and GitHub routing.",
+      "short": "Route LazyCodex or Codex bugs with source evidence"
+    },
+    {
+      "id": "lsp",
+      "name": "lsp",
+      "description": "Use when Codex needs language-server diagnostics, definitions, references, symbols, or rename safety checks in the current workspace.",
+      "short": ""
+    },
+    {
+      "id": "lsp-setup",
+      "name": "lsp-setup",
+      "description": "Configure a Language Server (LSP) for a specific language so editor/agent tooling — diagnostics, go-to-definition, find-references, rename — works. Use when you need to: configure LSP, lsp setup, set up or install a language server, fix 'no LSP server configured' / 'server not installed', choose between servers (basedpyright vs pyright vs ty vs ruff), or wire .codex/lsp-client.json / .opencode/lsp.json. 언어서버 설정. Routes by file extension to references/<language>/README.md for the exact builtin server, per-OS install commands (macOS/Linux/Windows), config snippets for both config files, initialization options, alternatives, and troubleshooting. Ships scripts: detect-lsp.ts (scan a project for languages + each server's install/config status) and verify-lsp.ts (run a real diagnostics roundtrip). Covers typescript, python, go, rust, c/c++, java, kotlin, c#/razor, swift, ruby, php, dart, elixir, zig, lua, bash, yaml, terraform, haskell, julia.",
+      "short": ""
+    },
+    {
+      "id": "programming",
+      "name": "programming",
+      "description": "MUST USE for ANY work on .py .pyi .rs .ts .tsx .mts .cts .go files. One philosophy: strict types, modern stacks (Pydantic v2 / serde+thiserror / Zod / gin+sqlc+pgx+slog), modern toolchains (uv+basedpyright+ruff / cargo+clippy+miri / Bun+Biome+tsc / gofumpt+golangci-lint v2+nilaway+go-race), parse-don't-validate, exhaustive match, typed errors, no any/unwrap/panic, 250 LOC ceiling, TDD. Routes to references/{python,rust,typescript,rust-ub,go}/. Triggers: write/edit Python/Rust/TypeScript/Go code, new project, gin server, bubbletea TUI, CJK IME, connect-go RPC, sqlc pgx, branded ids, exhaustive match, unsafe Rust, miri, oversized file, refactor, TDD, e2e test, arena, allocator, bumpalo, const fn, const generics, comptime, zero-alloc, bitfield, repr, scopeguard, errdefer, Zig-like, zerocopy, packed struct.",
+      "short": ""
+    },
+    {
+      "id": "refactor",
+      "name": "refactor",
+      "description": "Intelligent refactor command. Triggers: refactor, refactoring, cleanup, restructure, extract, simplify, modernize.",
+      "short": ""
+    },
+    {
+      "id": "remove-ai-slops",
+      "name": "remove-ai-slops",
+      "description": "Remove AI-generated code smells (slop) from branch changes or an explicit file list. Locks behavior with regression tests FIRST, then runs categorized cleanup via parallel `deep` agents in batches of 5, then verifies with quality gates. Covers 10 slop categories including performance equivalences, excessive complexity (object annotations, if/elif variant chains), and oversized modules (250+ pure LOC with mandatory modular refactoring). MUST USE when the user asks to \\\"remove slop\\\", \\\"clean AI code\\\", \\\"deslop\\\", \\\"clean up AI-generated code\\\", \\\"remove AI slop\\\", or wants to clean up AI-generated patterns from recent changes. Triggers - \\\"remove ai slops\\\", \\\"clean ai code\\\", \\\"deslop\\\", \\\"cleanup AI generated\\\", \\\"remove AI slop\\\", \\\"clean up AI-generated code\\\", \\\"strip slop\\\", \\\"ai-slop cleanup\\\".",
+      "short": ""
+    },
+    {
+      "id": "review-work",
+      "name": "review-work",
+      "description": "Post-implementation review orchestrator. Launches 5 parallel background sub-agents: Oracle (goal/constraint verification), Oracle (code quality), Oracle (security), unspecified-high (hands-on QA execution), unspecified-high (context mining from GitHub/git/Slack/Notion). All must pass for review to pass. MUST USE after completing any significant implementation work. Triggers: 'review work', 'review my work', 'review changes', 'QA my work', 'verify implementation', 'check my work', 'validate changes', 'post-implementation review'.",
+      "short": ""
+    },
+    {
+      "id": "rules",
+      "name": "rules",
+      "description": "Use when the user asks about Codex Rules behavior, injected project rules, supported rule file locations, matching, or environment configuration.",
+      "short": ""
+    },
+    {
+      "id": "start-work",
+      "name": "start-work",
+      "description": "Execute a Prometheus work plan in Codex with Boulder state, evidence ledger updates, worktree discipline, parallel subagents, and Stop-hook continuation. Use after planning when the user says start work, execute plan, continue plan, resume plan, or asks to run a .omo/plans plan.",
+      "short": ""
+    },
+    {
+      "id": "teammode",
+      "name": "teammode",
+      "description": "Codex-only team orchestration: run a named team of cooperating Codex threads with durable, script-managed state. MUST USE when the user asks Codex to create, run, coordinate, inspect, archive, or delete a team of threads/sessions, or to work on something as a team in parallel. The main session is always the leader; members are defined by a concrete part, ownership area, or perspective - never a vague job role; a bundled cross-platform script writes the .omo/teams state plus an auto-generated member field manual. Use a team when the work is not perfectly isolated but parallelizing helps, or when a task still needs exploration under a clear goal; use plain subagents when scope is perfectly isolated or the goal is ambiguous. Triggers: team mode, teammode, make a team, run as a team, team of agents, coordinate threads, parallel Codex threads, archive the team, delete the team.",
+      "short": ""
+    },
+    {
+      "id": "ultimate-browsing",
+      "name": "ultimate-browsing",
+      "description": "Escalation skill for blocked or hard-to-reach web access — load it when a normal browse/fetch is blocked (WAF, 403, Cloudflare, JS-only render, login-gated, or a platform a generic fetcher cannot read). Tiered router: TIER 1 insane-search (headless extraction + WAF bypass via curl_cffi TLS impersonation, yt-dlp, Jina Reader, public APIs, Playwright real-Chrome fallback); TIER 1.5 agent-reach (platform-native readers for Chinese and social platforms: Xiaohongshu, Douyin, Weibo, Bilibili, V2EX, WeChat, plus Twitter/Reddit/LinkedIn/GitHub); TIER 2 Chrome stealth (CloakBrowser stealth Chromium + agent-browser CDP for clicks, forms, screenshots, video, cookie login). Triggers: blocked site, bypass bot detection, cloudflare/WAF bypass, scrape, stealth browser, import cookies, fill form, screenshot, play youtube, xiaohongshu, douyin, weibo, bilibili, v2ex, wechat article, podcast transcript. NOT for simple searches (use web-search) or plain fetches (use webfetch).",
+      "short": ""
+    },
+    {
+      "id": "ultraresearch",
+      "name": "ultraresearch",
+      "description": "Maximum-saturation research orchestration: parallel explore+librarian swarms across codebase, web, official docs, and OSS repos; a recursive EXPAND loop driven by leads workers return in message text; empirical verification by running code; cited synthesis and optional MD/HTML/PDF/PPTX reports. ACTIVATES ONLY on an explicit user demand for research — the word 'ultraresearch' ('/ultraresearch', '$ultraresearch') or an explicit request for research / deep research / an ultra-precise investigation, in any language. Never self-activates for ordinary questions, debugging, or implementation context-gathering. While active it overrides exploration-bounding defaults: exhaustive coverage is the goal.",
+      "short": ""
+    },
+    {
+      "id": "ulw-loop",
+      "name": "ulw-loop",
+      "description": "Goal-like loop that uses ultrawork mode to decompose work into systematic, evidence-bound steps.",
+      "short": "Goal-like ultrawork loop for systematic decomposition"
+    },
+    {
+      "id": "ulw-plan",
+      "name": "ulw-plan",
+      "description": "MUST USE for planning before coding: 5+ steps, ambiguous scope, multiple modules, architecture decisions, a vague 'just make it good / figure out what to build' brief, or any request to plan, interview, or break work down. Explore-first planning consultant (Prometheus) that grounds in the codebase, asks only the forks exploration cannot resolve - or researches them to best practice when the intent is fuzzy - waits for explicit approval, then writes ONE decision-complete work plan a worker executes with zero further interview. Triggers: ulw-plan, plan this, make a plan, plan before coding, interview me, break this down, start planning, plan mode, just make it good, figure out what to build.",
+      "short": "Explore-first planning consultant that waits for your okay before planning"
+    },
+    {
+      "id": "visual-qa",
+      "name": "visual-qa",
+      "description": "Rigorous visual QA for any UI you built or changed, across BOTH web/page UIs and TUI/terminal UIs. MUST USE after building or changing any UI to verify it visually before declaring it done. Captures objective reference evidence with a bundled diff script (image-diff for screenshots, tui-check for terminal captures), then runs two parallel read-only oracle passes (design-system and functional integrity; visual fidelity and CJK precision) and synthesizes one good/bad verdict. Triggers: visual QA, visual regression, screenshot diff, pixel diff, image comparison, UI looks wrong, design system check, is this really a design system or just an image, alpha channel breakage, responsive check, CJK text, Korean/Japanese/Chinese text clipping, baseline drop, glyph drop, TUI alignment, terminal UI, tmux capture, box-drawing border misalignment, wide-character column drift. Use it even when the user does not say visual QA but asks whether a page, component, or terminal layout looks right.",
+      "short": ""
+    }
+  ],
+  "components": [
+    "bootstrap",
+    "codegraph",
+    "comment-checker",
+    "git-bash",
+    "git-bash-mcp",
+    "lazycodex-executor-verify",
+    "lsp",
+    "lsp-daemon",
+    "rules",
+    "start-work-continuation",
+    "teammode",
+    "telemetry",
+    "test-support",
+    "ultrawork",
+    "ulw-loop"
+  ],
+  "hooks": {
+    "total": 21,
+    "byLifecycle": {
+      "SessionStart": [
+        "session-start-loading-project-rules",
+        "session-start-recording-session-telemetry",
+        "session-start-checking-auto-update",
+        "session-start-checking-bootstrap-provisioning",
+        "session-start-checking-codegraph-bootstrap"
+      ],
+      "UserPromptSubmit": [
+        "user-prompt-submit-loading-project-rules",
+        "user-prompt-submit-checking-ultrawork-trigger",
+        "user-prompt-submit-checking-ulw-loop-steering"
+      ],
+      "PreToolUse": [
+        "pre-tool-use-recommending-git-bash-mcp",
+        "pre-tool-use-enforcing-unlimited-goal-budget"
+      ],
+      "PostToolUse": [
+        "post-tool-use-checking-comments",
+        "post-tool-use-checking-lsp-diagnostics",
+        "post-tool-use-checking-codegraph-init-guidance",
+        "post-tool-use-matching-project-rules",
+        "post-tool-use-checking-thread-title-hygiene"
+      ],
+      "PostCompact": [
+        "post-compact-resetting-git-bash-mcp-reminder",
+        "post-compact-resetting-project-rule-cache",
+        "post-compact-resetting-lsp-diagnostics-cache"
+      ],
+      "Stop": [
+        "stop-checking-start-work-continuation"
+      ],
+      "SubagentStop": [
+        "subagent-stop-checking-start-work-continuation",
+        "subagent-stop-verifying-lazycodex-executor-evidence"
+      ]
+    }
+  },
+  "mcp": [
+    "grep_app",
+    "context7",
+    "codegraph",
+    "git_bash",
+    "lsp"
+  ]
+}
