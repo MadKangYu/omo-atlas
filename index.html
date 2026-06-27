@@ -198,6 +198,23 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .search input::placeholder{color:#6b7280;opacity:1;}
   :focus-visible{outline:2px solid #6366f1;outline-offset:2px;border-radius:6px;}
   .board:focus-visible{outline-offset:-2px;}
+
+  .axdot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:0px;}
+  .search kbd{font-family:ui-monospace,monospace;font-size:10px;color:var(--mut);background:#eef0f4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;margin-left:8px;flex:0 0 auto;}
+  .cmdk-scrim{position:fixed;inset:0;background:rgba(16,20,30,.45);backdrop-filter:blur(3px);z-index:80;display:none;align-items:flex-start;justify-content:center;padding-top:13vh;}
+  .cmdk-scrim.open{display:flex;}
+  .cmdk{width:580px;max-width:92vw;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 28px 64px rgba(16,24,40,.32);overflow:hidden;}
+  .cmdk input{width:100%;border:0;border-bottom:1px solid var(--line);padding:15px 18px;font-size:15px;outline:none;background:transparent;color:var(--ink);font-family:inherit;}
+  .cmdk .list{max-height:52vh;overflow-y:auto;padding:6px;}
+  .cmdk .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;cursor:pointer;}
+  .cmdk .opt[aria-selected="true"]{background:#eef2ff;}
+  .cmdk .opt .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;}
+  .cmdk .opt .ol{font-weight:700;font-size:13.5px;color:var(--ink);}
+  .cmdk .opt .tp{font-size:9px;font-weight:800;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:5px;padding:1px 6px;}
+  .cmdk .opt .os{font-size:11.5px;color:var(--mut);margin-left:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46%;}
+  .cmdk .empty{padding:20px;text-align:center;color:var(--mut);font-size:13px;}
+  .cmdk-foot{display:flex;gap:14px;padding:9px 14px;border-top:1px solid var(--line);font-size:11px;color:var(--mut);}
+  .cmdk-foot kbd{font-family:ui-monospace,monospace;background:#f1f5f9;border:1px solid var(--line);border-radius:4px;padding:0 5px;}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
@@ -214,7 +231,7 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   </div>
   <div class="search">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-    <input id="q" placeholder="스킬·트리거·명령 검색…" autocomplete="off" aria-label="스킬·트리거·명령 검색" role="searchbox"/>
+    <input id="q" placeholder="스킬·트리거·명령 검색…" autocomplete="off" aria-label="스킬·트리거·명령 검색" role="searchbox"/><kbd aria-hidden="true">⌘K</kbd>
   </div>
 </div></div>
 
@@ -505,6 +522,13 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   </div>
 </div>
 
+<div class="cmdk-scrim" id="cmdk" role="dialog" aria-modal="true" aria-label="명령 팔레트">
+  <div class="cmdk">
+    <input id="cmdk-input" type="text" placeholder="스킬·뷰 검색…  (Enter로 이동)" aria-label="명령 팔레트 검색" autocomplete="off"/>
+    <div class="list" id="cmdk-list" role="listbox" aria-label="결과"></div>
+    <div class="cmdk-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> 이동</span><span><kbd>↵</kbd> 선택</span><span><kbd>esc</kbd> 닫기</span></div>
+  </div>
+</div>
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="스킬 상세" aria-hidden="true"><div id="drawer-inner"></div></aside>
 
@@ -542,7 +566,7 @@ function renderBoard(){
   DB.axes.forEach(a=>{
     const list=DB.skills.filter(s=>s.axis===a.id);
     h+='<div class="col"><div class="colhead"><span class="bar" style="background:'+a.color+'"></span>'
-      +'<div><div class="ct">'+a.icon+' '+a.name+'</div><div class="sub">'+a.sub+'</div></div>'
+      +'<div><div class="ct">'+'<span class="axdot" style="background:'+a.color+'"></span>'+a.name+'</div><div class="sub">'+a.sub+'</div></div>'
       +'<span class="cnt">'+list.length+'</span></div><div class="cards">';
     list.forEach(s=>{
       h+='<div class="card" data-skill="'+s.id+'" style="--ax:'+a.color+'">'
@@ -654,6 +678,29 @@ renderHero();renderFilters();renderBoard();renderPipe();bindSkillNodes();applyFi
   window.addEventListener('hashchange',applyHash);
   document.addEventListener('keydown',function(e){if(e.key==='/'&&['INPUT','TEXTAREA'].indexOf(document.activeElement.tagName)<0){e.preventDefault();var q=document.getElementById('q');if(q)q.focus();}});
   applyHash();
+})();
+</script>
+<script>
+(function(){
+  var scrim=document.getElementById('cmdk'),input=document.getElementById('cmdk-input'),list=document.getElementById('cmdk-list');
+  if(!scrim)return;
+  var items=[],filtered=[],sel=0,lastFocus=null;
+  function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function buildIndex(){items=[];
+    [].forEach.call(document.querySelectorAll('#board .card[data-skill]'),function(c){var n=c.querySelector('.cn'),o=c.querySelector('.co');items.push({type:'skill',id:c.dataset.skill,label:n?n.textContent.trim():c.dataset.skill,sub:o?o.textContent.trim():'',color:getComputedStyle(c).borderLeftColor});});
+    [].forEach.call(document.querySelectorAll('#seg button'),function(b){items.push({type:'view',id:b.dataset.v,label:b.textContent.trim(),sub:'뷰 전환',color:'#6366f1'});});
+  }
+  function paint(){[].forEach.call(list.querySelectorAll('.opt'),function(o){o.setAttribute('aria-selected',(+o.dataset.i===sel));});var s=list.querySelector('[aria-selected="true"]');if(s)s.scrollIntoView({block:'nearest'});}
+  function render(){list.innerHTML=filtered.length?filtered.map(function(it,i){return '<div class="opt" role="option" aria-selected="'+(i===sel)+'" data-i="'+i+'"><span class="dot" style="background:'+it.color+'"></span><span class="ol">'+esc(it.label)+'</span><span class="tp">'+it.type+'</span><span class="os">'+esc(it.sub)+'</span></div>';}).join(''):'<div class="empty">결과 없음</div>';
+    [].forEach.call(list.querySelectorAll('.opt'),function(o){o.onclick=function(){sel=+o.dataset.i;choose();};o.onmouseenter=function(){sel=+o.dataset.i;paint();};});}
+  function filter(){var q=input.value.trim().toLowerCase();filtered=q?items.filter(function(it){return (it.label+' '+it.sub+' '+it.id).toLowerCase().indexOf(q)>=0;}):items.slice();sel=0;render();}
+  function open(){buildIndex();lastFocus=document.activeElement;scrim.classList.add('open');input.value='';filter();input.focus();}
+  function close(){scrim.classList.remove('open');if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+  function choose(){var it=filtered[sel];if(!it)return;close();if(it.type==='skill'){if(window.openDetail)window.openDetail(it.id);}else{if(window.setView)window.setView(it.id);}}
+  input.addEventListener('input',filter);
+  input.addEventListener('keydown',function(e){if(e.key==='ArrowDown'){e.preventDefault();sel=Math.min(sel+1,filtered.length-1);paint();}else if(e.key==='ArrowUp'){e.preventDefault();sel=Math.max(sel-1,0);paint();}else if(e.key==='Enter'){e.preventDefault();choose();}else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close();}});
+  scrim.addEventListener('click',function(e){if(e.target===scrim)close();});
+  document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&(e.key==='k'||e.key==='K')){e.preventDefault();scrim.classList.contains('open')?close():open();}},true);
 })();
 </script>
 </body>
