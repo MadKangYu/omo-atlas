@@ -184,7 +184,8 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .codeblk .k{color:#7dd3fc;} .codeblk .s{color:#86efac;} .codeblk .c{color:#94a3b8;}
   .hookgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
   .hk{border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:#fff;box-shadow:var(--shadow);}
-  .hk .ht{font-weight:800;font-size:12px;color:var(--hc,#6366f1);text-transform:uppercase;letter-spacing:.3px;}
+  .hk .ht{font-weight:800;font-size:12px;color:var(--ink2);text-transform:uppercase;letter-spacing:.3px;}
+  .hk .ht::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--hc,#6366f1);margin-right:7px;vertical-align:1px;}
   .hk .hl{font-size:11px;color:var(--ink2);line-height:1.6;margin-top:6px;}
   .hk .hl code{font-family:ui-monospace,monospace;font-size:10px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:4px;padding:0 5px;color:#334155;}
   .compgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
@@ -330,6 +331,21 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .ledlines .ll{opacity:0;animation:llin .45s forwards;word-break:break-all;}
   .ledlines .ll .k{color:#0969da;}
   @keyframes llin{to{opacity:1}}
+
+  .hktimeline{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin:6px 0 14px;}
+  .hkev{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:var(--mut);padding:7px 11px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer;transition:.2s;white-space:nowrap;}
+  .hkev .hkdot{width:9px;height:9px;border-radius:50%;background:var(--line);flex:0 0 auto;}
+  .hkev .hkn{font-family:ui-monospace,monospace;font-size:9px;opacity:.7;}
+  .hkev.passed{color:#15803d;border-color:#bbf7d0;} .hkev.passed .hkdot{background:#22c55e;}
+  .hkev.cur{color:#fff;background:#4f46e5;border-color:#4f46e5;} .hkev.cur .hkdot{background:#fff;}
+  .hkconn{flex:0 0 14px;height:2px;background:var(--line);}
+  .hkfired{border:1px solid var(--line);border-radius:11px;padding:12px 14px;background:#f6f8fa;min-height:80px;}
+  .hkfired-head{font-size:12.5px;color:var(--ink2);margin-bottom:10px;}
+  .hkfired-head b{color:var(--ink);font-family:ui-monospace,monospace;}
+  .hkchips{display:flex;flex-wrap:wrap;gap:7px;}
+  .hkchip{font-family:ui-monospace,monospace;font-size:11px;font-weight:700;padding:6px 11px;border-radius:8px;background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;animation:hkpop .35s ease both;}
+  @keyframes hkpop{from{opacity:0;transform:scale(.85) translateY(5px)}to{opacity:1;transform:none}}
+  #hktotal{margin-left:auto;font-size:11.5px;font-weight:800;color:#4f46e5;font-family:ui-monospace,monospace;}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
@@ -796,6 +812,23 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
       <div class="compgrid"><div class="cp"><div class="cpt">bootstrap</div><div class="cpg">세션 시작 시 omo 자산 프로비저닝 (agents-stage·state.json)</div></div><div class="cp"><div class="cpt">codegraph</div><div class="cpg">코드 그래프 MCP — repo how/where/flow 탐색</div></div><div class="cp"><div class="cpt">comment-checker</div><div class="cpg">PostToolUse 후 주석 품질 피드백</div></div><div class="cp"><div class="cpt">git-bash</div><div class="cpg">안전한 git/bash 실행 래퍼</div></div><div class="cp"><div class="cpt">git-bash-mcp</div><div class="cpg">git_bash MCP 서버 (커밋·히스토리)</div></div><div class="cp"><div class="cpt">lazycodex-executor-verify</div><div class="cpg">executor 증거 검증 (SubagentStop 후크)</div></div><div class="cp"><div class="cpt">lsp</div><div class="cpg">언어서버 — 진단·정의·참조·리네임</div></div><div class="cp"><div class="cpt">lsp-daemon</div><div class="cpg">LSP MCP 데몬 (25개 언어)</div></div><div class="cp"><div class="cpt">rules</div><div class="cpg">프로젝트 규칙 주입·매칭</div></div><div class="cp"><div class="cpt">start-work-continuation</div><div class="cpg">Stop/SubagentStop 후크로 다음 턴 재주입</div></div><div class="cp"><div class="cpt">teammode</div><div class="cpg">협력 Codex 스레드 팀 오케스트레이션</div></div><div class="cp"><div class="cpt">telemetry</div><div class="cpg">익명 일일 활성 이벤트 (opt-out 가능)</div></div><div class="cp"><div class="cpt">test-support</div><div class="cpg">테스트 지원 유틸</div></div><div class="cp"><div class="cpt">ultrawork</div><div class="cpg">ultrawork 모드 — ulw-plan/start-work 트리거</div></div><div class="cp"><div class="cpt">ulw-loop</div><div class="cpg">목표 루프 CLI·상태 (.omo/ulw-loop)</div></div></div>
     </div>
     <div class="panel">
+      <h3>▶️ 인터랙티브 — omo 후크는 언제 발화하나 (세션 생애주기)</h3>
+      <p class="ph">"다음 ▶"으로 Codex 세션 생애주기를 따라가며 21개 omo 후크가 어느 시점에 발화하는지 보세요.</p>
+      <div class="hktimeline" id="hktimeline"><div class="hkev" data-i="0"><span class="hkdot"></span>SessionStart<span class="hkn">5</span></div><span class="hkconn"></span><div class="hkev" data-i="1"><span class="hkdot"></span>UserPromptSubmit<span class="hkn">3</span></div><span class="hkconn"></span><div class="hkev" data-i="2"><span class="hkdot"></span>PreToolUse<span class="hkn">2</span></div><span class="hkconn"></span><div class="hkev" data-i="3"><span class="hkdot"></span>PostToolUse<span class="hkn">5</span></div><span class="hkconn"></span><div class="hkev" data-i="4"><span class="hkdot"></span>PostCompact<span class="hkn">3</span></div><span class="hkconn"></span><div class="hkev" data-i="5"><span class="hkdot"></span>Stop / SubagentStop<span class="hkn">3</span></div></div>
+      <div class="hkfired">
+        <div class="hkfired-head"><b id="hkevname">SessionStart</b> 시점에 발화하는 후크 <span id="hkc"></span></div>
+        <div class="hkchips" id="hkchips"></div>
+      </div>
+      <div class="prctrl">
+        <button id="hk-prev">◀ 이전</button>
+        <button id="hk-next">다음 ▶</button>
+        <button id="hk-reset" class="ghost">↺ 처음</button>
+        <span class="prcount" id="hkcount">1 / 6</span>
+        <span id="hktotal">누적 0/21</span>
+      </div>
+      <div class="prstatus" id="hkstatus" aria-live="polite"></div>
+    </div>
+    <div class="panel">
       <h3>후크 21 — 라이프사이클</h3>
       <p class="ph">세션·프롬프트·툴·압축·종료 시점에 omo가 개입하는 지점.</p>
       <div class="hookgrid"><div class="hk" style="--hc:#22c55e"><div class="ht">SessionStart · 5</div><div class="hl"><code>load project-rules</code> · <code>session-telemetry</code> · <code>auto-update</code> · <code>bootstrap-provisioning</code> · <code>codegraph-bootstrap</code></div></div><div class="hk" style="--hc:#3b82f6"><div class="ht">UserPromptSubmit · 3</div><div class="hl"><code>load project-rules</code> · <code>ultrawork-trigger</code> · <code>ulw-loop-steering</code></div></div><div class="hk" style="--hc:#f59e0b"><div class="ht">PreToolUse · 2</div><div class="hl"><code>recommend git-bash-mcp</code> · <code>enforce unlimited goal-budget</code></div></div><div class="hk" style="--hc:#a855f7"><div class="ht">PostToolUse · 5</div><div class="hl"><code>check-comments</code> · <code>lsp-diagnostics</code> · <code>codegraph-init-guidance</code> · <code>match project-rules</code> · <code>thread-title-hygiene</code></div></div><div class="hk" style="--hc:#0ea5e9"><div class="ht">PostCompact · 3</div><div class="hl"><code>reset git-bash-mcp-reminder</code> · <code>reset project-rule-cache</code> · <code>reset lsp-diagnostics-cache</code></div></div><div class="hk" style="--hc:#ef4444"><div class="ht">Stop / SubagentStop · 3</div><div class="hl"><code>start-work-continuation</code> ×2 · <code>verify lazycodex-executor-evidence</code></div></div></div>
@@ -1131,6 +1164,33 @@ renderHero();renderFilters();renderBoard();renderPipe();bindSkillNodes();applyFi
   next.addEventListener('click',function(){ if(step<8){step++;render();} });
   prev.addEventListener('click',function(){ if(step>0){step--;render();} });
   reset.addEventListener('click',function(){ step=0;render(); });
+  render();
+})();
+</script>
+<script>
+(function(){
+  var EV=[["SessionStart",["load project-rules","session-telemetry","auto-update","bootstrap-provisioning","codegraph-bootstrap"],"세션이 시작될 때 — 프로젝트 규칙 로드 · 익명 텔레메트리 · 자동업데이트 체크 · 부트스트랩 프로비저닝 · codegraph 준비."],["UserPromptSubmit",["load project-rules","ultrawork-trigger","ulw-loop steering"],"사용자가 프롬프트를 보낼 때 — 규칙 재로드 · <b>ultrawork 트리거</b> 감지 · ulw-loop 스티어링."],["PreToolUse",["recommend git-bash-mcp","enforce goal-budget"],"도구 실행 직전 — git-bash-mcp 권장 · 무제한 goal budget 강제."],["PostToolUse",["check-comments","lsp-diagnostics","codegraph-guidance","match project-rules","thread-title-hygiene"],"도구 실행 직후 — 주석 검사 · <b>LSP 진단</b> · codegraph 안내 · 규칙 매칭 · 스레드 제목 정리."],["PostCompact",["reset git-bash-reminder","reset rule-cache","reset lsp-cache"],"컨텍스트 압축 후 — git-bash 리마인더 · 규칙 캐시 · LSP 캐시를 리셋(상태 복원)."],["Stop / SubagentStop",["start-work-continuation","subagent start-work-continuation","verify executor-evidence"],"턴/서브에이전트 종료 시 — <b>start-work 연속</b>(미완이면 다음 턴 재주입) · executor 증거 검증."]];
+  var tl=document.getElementById('hktimeline'); if(!tl)return;
+  var evs=[].slice.call(tl.querySelectorAll('.hkev'));
+  var chips=document.getElementById('hkchips'), evname=document.getElementById('hkevname'), hkc=document.getElementById('hkc');
+  var status=document.getElementById('hkstatus'), count=document.getElementById('hkcount'), total=document.getElementById('hktotal');
+  var prev=document.getElementById('hk-prev'), next=document.getElementById('hk-next'), reset=document.getElementById('hk-reset');
+  var step=0;
+  function render(){
+    evs.forEach(function(e,i){ e.classList.toggle('cur',i===step); e.classList.toggle('passed',i<step); });
+    evname.textContent=EV[step][0];
+    hkc.textContent='· '+EV[step][1].length+'개';
+    chips.innerHTML=EV[step][1].map(function(hname,j){ return '<span class="hkchip" style="animation-delay:'+(j*60)+'ms">'+hname+'</span>'; }).join('');
+    status.innerHTML=EV[step][2];
+    count.textContent=(step+1)+' / 6';
+    var sum=0; for(var k=0;k<=step;k++) sum+=EV[k][1].length;
+    total.textContent='누적 '+sum+'/21';
+    prev.disabled=step===0; next.disabled=step===5;
+  }
+  next.addEventListener('click',function(){ if(step<5){step++;render();} });
+  prev.addEventListener('click',function(){ if(step>0){step--;render();} });
+  reset.addEventListener('click',function(){ step=0;render(); });
+  evs.forEach(function(e){ e.addEventListener('click',function(){ step=+e.dataset.i; render(); }); });
   render();
 })();
 </script>
