@@ -256,6 +256,18 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .ghlegend{display:flex;align-items:center;gap:5px;font-size:10.5px;color:#59636e;margin-top:6px;}
   .ghlegend i{width:11px;height:11px;border-radius:2px;display:inline-block;}
 
+
+  .aigallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .aifig{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow);cursor:zoom-in;transition:.16s;}
+  .aifig:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:#6366f1;}
+  .aifig img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:#f6f8fa;}
+  .aifig figcaption{padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink2);}
+  .lightbox{position:fixed;inset:0;background:rgba(10,14,20,.92);z-index:90;display:none;align-items:center;justify-content:center;padding:26px;cursor:zoom-out;}
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:96vw;max-height:90vh;border-radius:8px;box-shadow:0 24px 70px rgba(0,0,0,.55);}
+  .lightbox .lbcap{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#e8edf7;font-size:13px;font-weight:600;}
+  .lightbox .lbclose{position:absolute;top:16px;right:22px;color:#fff;font-size:26px;line-height:1;background:none;border:0;cursor:pointer;}
+  @media(max-width:760px){.aigallery{grid-template-columns:1fr 1fr;}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
@@ -419,6 +431,21 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
       </table>
     </div>
 
+    <div class="panel">
+      <h3>🎨 GitHub 개념 — AI 인포그래픽 (GPT Image 2 · 4K)</h3>
+      <p class="ph">각 개념을 Lovart의 GPT Image 2로 4K 인포그래픽화 — 외우는 게 아니라 한눈에. 이미지를 누르면 크게 봐요.</p>
+      <div class="aigallery">
+        <figure class="aifig"><img src="img/github/A.webp" alt="GitHub Repository — 생성부터 공유까지" loading="lazy" width="1600" height="900"><figcaption>A · 저장소</figcaption></figure>
+        <figure class="aifig"><img src="img/github/B.webp" alt="GitHub Pull Request Lifecycle" loading="lazy" width="1600" height="900"><figcaption>B · PR 라이프사이클</figcaption></figure>
+        <figure class="aifig"><img src="img/github/C.webp" alt="Issues → Pull Request → 자동 종료" loading="lazy" width="1600" height="900"><figcaption>C · 이슈</figcaption></figure>
+        <figure class="aifig"><img src="img/github/D.webp" alt="GitHub Actions CI 워크플로" loading="lazy" width="1600" height="900"><figcaption>D · Actions / CI</figcaption></figure>
+        <figure class="aifig"><img src="img/github/E.webp" alt="Release · Packages/GHCR · Pages" loading="lazy" width="1600" height="900"><figcaption>E · 배포·패키지</figcaption></figure>
+        <figure class="aifig"><img src="img/github/F.webp" alt="Security — 감지에서 해결까지" loading="lazy" width="1600" height="900"><figcaption>F · 보안</figcaption></figure>
+        <figure class="aifig"><img src="img/github/G.webp" alt="Authentication & Access — 누가 무엇을" loading="lazy" width="1600" height="900"><figcaption>G · 인증·접근</figcaption></figure>
+        <figure class="aifig"><img src="img/github/H.webp" alt="Community Funnel — 발견에서 기여까지" loading="lazy" width="1600" height="900"><figcaption>H · 소셜</figcaption></figure>
+        <figure class="aifig"><img src="img/github/I.webp" alt="Dev Environment & API — 통합·자동화" loading="lazy" width="1600" height="900"><figcaption>I · API·Codespaces</figcaption></figure>
+      </div>
+    </div>
     <div class="panel">
       <h3>⑧ GitHub 실제 모습 — 제품 수준 시각화</h3>
       <p class="ph">박스가 아니라 GitHub이 실제로 그리는 그림으로. (아래 ⑨는 개념별 end-to-end 흐름 지도)</p>
@@ -638,6 +665,11 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
     <div class="cmdk-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> 이동</span><span><kbd>↵</kbd> 선택</span><span><kbd>esc</kbd> 닫기</span></div>
   </div>
 </div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="확대 이미지">
+  <button class="lbclose" id="lbclose" aria-label="닫기">✕</button>
+  <img id="lbimg" src="" alt="">
+  <div class="lbcap" id="lbcap"></div>
+</div>
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="스킬 상세" aria-hidden="true"><div id="drawer-inner"></div></aside>
 
@@ -810,6 +842,19 @@ renderHero();renderFilters();renderBoard();renderPipe();bindSkillNodes();applyFi
   input.addEventListener('keydown',function(e){if(e.key==='ArrowDown'){e.preventDefault();sel=Math.min(sel+1,filtered.length-1);paint();}else if(e.key==='ArrowUp'){e.preventDefault();sel=Math.max(sel-1,0);paint();}else if(e.key==='Enter'){e.preventDefault();choose();}else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close();}});
   scrim.addEventListener('click',function(e){if(e.target===scrim)close();});
   document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&(e.key==='k'||e.key==='K')){e.preventDefault();scrim.classList.contains('open')?close():open();}},true);
+})();
+</script>
+<script>
+(function(){
+  var lb=document.getElementById('lightbox'),lbimg=document.getElementById('lbimg'),lbcap=document.getElementById('lbcap'),lbc=document.getElementById('lbclose');
+  if(!lb)return; var lastF=null;
+  [].forEach.call(document.querySelectorAll('.aifig'),function(f){f.setAttribute('tabindex','0');f.setAttribute('role','button');
+    function open(){var im=f.querySelector('img');lastF=f;lbimg.src=im.src;lbimg.alt=im.alt;lbcap.textContent=f.querySelector('figcaption').textContent+' — '+im.alt;lb.classList.add('open');lbc.focus();}
+    f.addEventListener('click',open);f.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});});
+  function close(){lb.classList.remove('open');lbimg.src='';if(lastF&&lastF.focus)lastF.focus();}
+  lbc.addEventListener('click',close);
+  lb.addEventListener('click',function(e){if(e.target===lb)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('open')){e.stopPropagation();close();}});
 })();
 </script>
 </body>
