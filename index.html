@@ -215,6 +215,17 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .cmdk .empty{padding:20px;text-align:center;color:var(--mut);font-size:13px;}
   .cmdk-foot{display:flex;gap:14px;padding:9px 14px;border-top:1px solid var(--line);font-size:11px;color:var(--mut);}
   .cmdk-foot kbd{font-family:ui-monospace,monospace;background:#f1f5f9;border:1px solid var(--line);border-radius:4px;padding:0 5px;}
+
+  .ghmap{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .ghb{border:1px solid var(--line);border-top:3px solid var(--gc,#3b82f6);border-radius:11px;padding:11px 13px;background:#fff;box-shadow:var(--shadow);}
+  .ghb h4{margin:0 0 8px;font-size:12.5px;font-weight:800;}
+  .ghb ul{margin:0;padding-left:0;list-style:none;}
+  .ghb li{font-size:11px;line-height:1.5;color:var(--ink2);padding:3px 0;border-bottom:1px solid var(--line2);}
+  .ghb li:last-child{border-bottom:0;}
+  .ghb li b{color:var(--ink);}
+  .ghb li code{font-family:ui-monospace,monospace;font-size:10px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:4px;padding:0 4px;color:#334155;}
+  @media(max-width:880px){.ghmap{grid-template-columns:1fr 1fr;}}
+
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
@@ -376,6 +387,23 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
         <tr><td>첫 깨진 커밋 (good/bad + 판정)</td><td class="c">git bisect start/good/bad</td></tr>
         <tr><td>로컬 히스토리 복구</td><td class="c">git reflog</td></tr>
       </table>
+    </div>
+
+    <div class="panel">
+      <h3>⑧ GitHub 플랫폼 — 전체 개념 맵 (MECE · 모르는 개념 없도록)</h3>
+      <p class="ph">위 협업 루프가 "흐름"이라면, 여기는 "전체 지도" — 코드(Git) 너머 GitHub 플랫폼 개념을 9개 묶음으로 빠짐없이.</p>
+      <div class="ghmap">
+        <div class="ghb" style="--gc:var(--blue)"><h4>🗄️ A. 저장소 Repository</h4><ul><li><b>repository</b> 코드+이력 단위 · <b>README</b>·<b>LICENSE</b>·<code>.gitignore</code></li><li><b>topics</b> 태그로 발견 · <b>visibility</b> public/private/internal</li><li><b>collaborators</b>·<b>teams</b>·<b>roles</b>(read·triage·write·maintain·admin)</li></ul></div>
+        <div class="ghb" style="--gc:var(--purple)"><h4>🔀 B. PR 라이프사이클</h4><ul><li><b>draft PR</b> 미완 표시 → <b>review</b>: approve / request changes / comment</li><li><b>status checks</b> 통과 필요 · <b>merge method</b>: merge commit / <b>squash</b> / rebase</li><li><b>protected branch</b> · <b>CODEOWNERS</b> 자동 리뷰어 · <b>merge queue</b></li></ul></div>
+        <div class="ghb" style="--gc:var(--amber)"><h4>📋 C. 이슈·기획</h4><ul><li><b>issue</b> 작업·버그 단위 · <b>label</b>·<b>milestone</b>·<b>assignee</b></li><li><b>Projects</b> 칸반 보드 · <b>templates</b>(issue/PR)</li><li><code>closes #12</code> 자동 종료 · <b>@mention</b> · <code>#123</code> 참조</li></ul></div>
+        <div class="ghb" style="--gc:var(--green)"><h4>⚙️ D. 자동화 Actions</h4><ul><li><b>workflow</b>(<code>.github/workflows</code>) · <b>job</b>·<b>step</b></li><li><b>runner</b>(ubuntu…) · <b>matrix</b> 병렬 · <b>secret</b>·<b>artifact</b></li><li>push/PR 트리거 → <b>status check</b>로 PR 게이트 (이 repo도 사용)</li></ul></div>
+        <div class="ghb" style="--gc:var(--orange)"><h4>🚀 E. 배포·패키지</h4><ul><li><b>tag</b>(annotated/lightweight) · <b>Release</b>(notes·assets)</li><li><b>Packages</b>/<b>GHCR</b> 컨테이너·npm 레지스트리</li><li><b>Pages</b> 정적 사이트 호스팅</li></ul></div>
+        <div class="ghb" style="--gc:var(--red)"><h4>🛡️ F. 보안</h4><ul><li><b>Dependabot</b> 의존성 취약점·자동 PR</li><li><b>code scanning</b>(CodeQL) · <b>secret scanning</b> 키 유출 감지</li><li><b>security advisory</b> · <b>branch protection</b> 규칙</li></ul></div>
+        <div class="ghb" style="--gc:#64748b"><h4>🔑 G. 인증·접근</h4><ul><li><b>PAT</b>(classic/fine-grained) · <b>SSH key</b>·<b>deploy key</b></li><li><b>OAuth</b>·<b>GitHub App</b> · <b>gh</b> CLI</li><li><b>2FA</b> 필수화 · org SSO</li></ul></div>
+        <div class="ghb" style="--gc:#ec4899"><h4>⭐ H. 소셜·발견</h4><ul><li><b>star</b>·<b>watch</b>·<b>fork</b> 카운트 · <b>sponsor</b>·<b>follow</b></li><li><b>Discussions</b> Q&amp;A·아이디어 · <b>Gist</b> 스니펫 · <b>Wiki</b> 문서</li></ul></div>
+        <div class="ghb" style="--gc:#14b8a6"><h4>💻 I. 개발환경·API</h4><ul><li><b>Codespaces</b> 클라우드 dev 환경</li><li><b>REST / GraphQL API</b> · <b>Webhooks</b> 이벤트 푸시</li></ul></div>
+      </div>
+      <div class="gnote" style="margin-top:11px">이 사이트가 실제로 쓰는 것: <b>Public repo</b> · <b>gh</b> 생성 · <b>Actions</b> CI 정합성 게이트 · README · homepage → <code>github.com/MadKangYu/omo-atlas</code></div>
     </div>
   </div>
 </div>
