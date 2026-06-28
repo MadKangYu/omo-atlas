@@ -289,6 +289,26 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .xstatus{margin-top:11px;font-size:12px;color:var(--ink2);background:#f6f8fa;border:1px solid var(--line);border-radius:8px;padding:9px 12px;line-height:1.55;}
   .xstatus b{color:var(--ink);} .xstatus .mono{font-family:ui-monospace,monospace;color:#0969da;}
   @media(max-width:760px){.xstage{padding-bottom:24px;}.xtoken{width:60px;}}
+
+  .prsvgwrap{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;overflow-x:auto;}
+  .prsvg{width:100%;height:auto;display:block;}
+  .prsvg .rv{opacity:0;transition:opacity .45s;}
+  .prsvg .rv.on{opacity:1;}
+  .prsvg .dim{opacity:.32 !important;transition:opacity .45s;}
+  .prsvg text{font-family:-apple-system,"Apple SD Gothic Neo","Segoe UI",sans-serif;}
+  .ptoken{transition:transform .75s cubic-bezier(.45,.05,.2,1);}
+  .prsteps{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
+  .prchip{font-size:11px;font-weight:700;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--mut);transition:.2s;}
+  .prchip.done{color:#15803d;border-color:#bbf7d0;background:#dcfce7;}
+  .prchip.cur{color:#fff;background:#0969da;border-color:#0969da;}
+  .prctrl{display:flex;gap:8px;align-items:center;margin-top:13px;}
+  .prctrl button{font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:9px;border:1px solid var(--line);background:#fff;cursor:pointer;transition:.14s;color:#1f2733;}
+  .prctrl button:hover:not(:disabled){box-shadow:var(--shadow);transform:translateY(-1px);border-color:#0969da;}
+  .prctrl button:disabled{opacity:.38;cursor:not-allowed;}
+  .prctrl button.ghost{color:var(--mut);}
+  .prcount{margin-left:auto;font-family:ui-monospace,monospace;font-size:12px;color:var(--mut);}
+  .prstatus{margin-top:11px;font-size:12.5px;color:var(--ink2);background:#f6f8fa;border:1px solid var(--line);border-radius:8px;padding:10px 12px;line-height:1.55;min-height:20px;}
+  .prstatus b{color:var(--ink);} .prstatus .mono{font-family:ui-monospace,monospace;color:#0969da;}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
@@ -394,6 +414,38 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
         <button class="xcmd ghost" data-cmd="reset">↺ reset</button>
       </div>
       <div class="xstatus" id="xstatus" aria-live="polite"></div>
+    </div>
+    <div class="panel">
+      <h3>▶️ 인터랙티브 — PR 라이프사이클 한 단계씩</h3>
+      <p class="ph">"다음 ▶"을 누르며 커밋이 <b>feature</b>에서 시작해 PR·review·CI를 거쳐 <b>main</b>에 합쳐지는 흐름을 따라가세요.</p>
+      <div class="prsvgwrap"><svg viewBox="0 0 720 200" class="prsvg" role="img" aria-label="PR 라이프사이클 인터랙티브 브랜치 그래프">
+  <text x="8" y="64" fill="#57606a" font-size="12" font-weight="700" class="mono" font-family="ui-monospace,monospace">main</text>
+  <text x="8" y="138" fill="#57606a" font-size="11.5" class="mono" font-family="ui-monospace,monospace">feature</text>
+  <path d="M 40 60 L 676 60" stroke="#0969da" stroke-width="3.5" fill="none"/>
+  <path d="M 676 54 L 686 60 L 676 66 Z" fill="#0969da"/>
+  <circle cx="80" cy="60" r="8" fill="#0969da"/>
+  <circle cx="160" cy="60" r="8" fill="#0969da"/>
+  <path id="featCurve" class="rv" d="M 160 60 C 200 60, 215 134, 250 134" stroke="#8250df" stroke-width="3.2" fill="none"/>
+  <path id="featLine" class="rv" d="M 250 134 L 450 134" stroke="#8250df" stroke-width="3.2" fill="none"/>
+  <circle id="F1" class="rv" cx="250" cy="134" r="8" fill="#8250df"/>
+  <circle id="F2" class="rv" cx="350" cy="134" r="8" fill="#8250df"/>
+  <circle id="F3" class="rv" cx="450" cy="134" r="8" fill="#8250df"/>
+  <g id="prB" class="rv"><rect x="294" y="90" width="40" height="20" rx="10" fill="#f3e8ff" stroke="#8250df"/><text x="314" y="104" text-anchor="middle" font-size="10" font-weight="800" fill="#6639ba">PR</text></g>
+  <g id="revB" class="rv"><rect x="340" y="90" width="64" height="20" rx="10" fill="#dcfce7" stroke="#1a7f37"/><text x="372" y="104" text-anchor="middle" font-size="10" font-weight="800" fill="#15803d">review ✓</text></g>
+  <g id="ciB" class="rv"><rect x="410" y="90" width="46" height="20" rx="10" fill="#dcfce7" stroke="#1a7f37"/><text x="433" y="104" text-anchor="middle" font-size="10" font-weight="800" fill="#15803d">CI ✓</text></g>
+  <path id="mergeCurve" class="rv" d="M 450 134 C 490 134, 520 88, 520 60" stroke="#8250df" stroke-width="3.2" fill="none"/>
+  <circle id="M" class="rv" cx="520" cy="60" r="9.5" fill="#fff" stroke="#0969da" stroke-width="3.4"/>
+  <circle id="C2" class="rv" cx="600" cy="60" r="8" fill="#0969da"/>
+  <g class="ptoken" id="ptoken"><circle r="11" fill="#8250df" stroke="#fff" stroke-width="2.5"/><circle r="3" fill="#fff"/></g>
+</svg></div>
+      <div class="prsteps" id="prsteps"><span class="prchip" data-i="0">1. branch</span><span class="prchip" data-i="1">2. commit</span><span class="prchip" data-i="2">3. push</span><span class="prchip" data-i="3">4. open PR</span><span class="prchip" data-i="4">5. review</span><span class="prchip" data-i="5">6. CI checks</span><span class="prchip" data-i="6">7. merge</span><span class="prchip" data-i="7">8. delete branch</span></div>
+      <div class="prctrl">
+        <button id="pr-prev">◀ 이전</button>
+        <button id="pr-next">다음 ▶</button>
+        <button id="pr-reset" class="ghost">↺ 처음</button>
+        <span class="prcount" id="prcount">1 / 8</span>
+      </div>
+      <div class="prstatus" id="prstatus" aria-live="polite"></div>
     </div>
     <div class="panel">
       <h3>③ GitHub 협업 루프 — 로컬을 넘어 원격·팀으로</h3>
@@ -938,6 +990,46 @@ renderHero();renderFilters();renderBoard();renderPipe();bindSkillNodes();applyFi
   window.addEventListener('resize',function(){ place(false); });
   if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) place(false); }); }).observe(xfer); }
   if(window.setView){ var _xsv=window.setView; window.setView=function(v){ _xsv(v); if(v==='git') setTimeout(function(){place(false);},80); }; }
+})();
+</script>
+<script>
+(function(){
+  var svg=document.querySelector('.prsvg'); if(!svg)return;
+  var token=document.getElementById('ptoken'), status=document.getElementById('prstatus'), count=document.getElementById('prcount');
+  var chips=[].slice.call(document.querySelectorAll('#prsteps .prchip'));
+  var prev=document.getElementById('pr-prev'), next=document.getElementById('pr-next'), reset=document.getElementById('pr-reset');
+  var reveal={featCurve:0,featLine:1,F1:1,F2:2,F3:2,prB:3,revB:4,ciB:5,mergeCurve:6,M:6,C2:7};
+  var pos=[[250,134],[250,134],[450,134],[450,134],[450,134],[450,134],[520,60],[600,60]];
+  var feat=['featCurve','featLine','F1','F2','F3'];
+  var msgs=[
+    'main에서 작업용 <b>feature</b> 브랜치 생성. <span class="mono">git switch -c feature</span>',
+    '변경을 <b>commit</b>으로 로컬에 기록. <span class="mono">git commit -m "..."</span>',
+    '커밋을 원격으로 <b>push</b> — feature 브랜치 업로드. <span class="mono">git push -u origin feature</span>',
+    '<b>Pull Request</b>를 열어 "main에 합쳐줘" 제안. <span class="mono">gh pr create</span>',
+    '동료가 <b>review</b> — 코드 점검 후 approve.',
+    '<b>CI status checks</b> 통과 — 자동 테스트·빌드 ✓.',
+    '승인+체크 통과 → <b>merge</b>로 main에 합침 (merge commit 생성).',
+    '역할 끝난 <b>feature 브랜치 삭제</b>로 정리. PR 라이프사이클 완료 ✅'
+  ];
+  var step=0;
+  function render(animate){
+    if(!animate) token.style.transition='none';
+    token.style.transform='translate('+pos[step][0]+'px,'+pos[step][1]+'px)';
+    if(!animate){ void token.getBoundingClientRect(); token.style.transition=''; }
+    Object.keys(reveal).forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.toggle('on', step>=reveal[id]); });
+    feat.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.toggle('dim', step>=7); });
+    chips.forEach(function(c,i){ c.classList.toggle('done', i<step); c.classList.toggle('cur', i===step); });
+    status.innerHTML=msgs[step];
+    count.textContent=(step+1)+' / 8';
+    prev.disabled=step===0; next.disabled=step===7;
+  }
+  next.addEventListener('click',function(){ if(step<7){step++;render(true);} });
+  prev.addEventListener('click',function(){ if(step>0){step--;render(true);} });
+  reset.addEventListener('click',function(){ step=0;render(true); });
+  chips.forEach(function(c){ c.style.cursor='pointer'; c.addEventListener('click',function(){ step=+c.dataset.i; render(true); }); });
+  render(false);
+  window.addEventListener('resize',function(){ render(false); });
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) render(false); }); }).observe(svg); }
 })();
 </script>
 </body>
