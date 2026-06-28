@@ -268,6 +268,27 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .lightbox .lbcap{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#e8edf7;font-size:13px;font-weight:600;}
   .lightbox .lbclose{position:absolute;top:16px;right:22px;color:#fff;font-size:26px;line-height:1;background:none;border:0;cursor:pointer;}
   @media(max-width:760px){.aigallery{grid-template-columns:1fr 1fr;}}
+
+  .xfer{position:relative;display:flex;align-items:center;margin:8px 0 16px;min-height:128px;}
+  .xstage{flex:1;border:1px solid var(--line);border-top:3px solid var(--xc,#3b82f6);border-radius:12px;padding:14px 8px 30px;text-align:center;background:#fff;box-shadow:var(--shadow);position:relative;z-index:1;transition:box-shadow .2s;}
+  .xstage .xlabel{font-weight:800;font-size:13px;color:var(--ink);}
+  .xstage .xsub{font-size:10px;color:var(--mut);margin-top:2px;}
+  .xstage.active{box-shadow:0 0 0 2px var(--xc,#3b82f6), var(--shadow-lg);}
+  .xline{flex:0 0 24px;height:3px;background:var(--line);}
+  .xnet{flex:0 0 48px;text-align:center;position:relative;}
+  .xnet::before{content:"";position:absolute;top:50%;left:0;right:0;border-top:3px dashed #b6c0cf;}
+  .xnet span{position:relative;background:var(--surface);padding:1px 3px;font-size:9px;font-weight:800;color:var(--mut);}
+  .xtoken{position:absolute;top:0;left:0;width:76px;height:42px;border:1.5px solid #0969da;border-radius:9px;background:#fff;box-shadow:0 6px 16px rgba(16,24,40,.18);display:flex;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:800;color:#1f2733;z-index:5;transition:transform .8s cubic-bezier(.45,.05,.2,1);pointer-events:none;}
+  .xtoken.tx{animation:txpulse 1.1s ease;}
+  @keyframes txpulse{0%,100%{box-shadow:0 6px 16px rgba(16,24,40,.18);}50%{box-shadow:0 0 0 7px rgba(9,105,218,.22),0 6px 16px rgba(16,24,40,.18);}}
+  .xcmds{display:flex;gap:8px;flex-wrap:wrap;}
+  .xcmd{font-family:ui-monospace,monospace;font-size:12px;font-weight:700;padding:8px 13px;border-radius:9px;border:1px solid var(--line);background:#fff;cursor:pointer;transition:.14s;color:#1f2733;}
+  .xcmd:hover:not(:disabled){box-shadow:var(--shadow);transform:translateY(-1px);border-color:#0969da;}
+  .xcmd:disabled{opacity:.38;cursor:not-allowed;}
+  .xcmd.ghost{color:var(--mut);}
+  .xstatus{margin-top:11px;font-size:12px;color:var(--ink2);background:#f6f8fa;border:1px solid var(--line);border-radius:8px;padding:9px 12px;line-height:1.55;}
+  .xstatus b{color:var(--ink);} .xstatus .mono{font-family:ui-monospace,monospace;color:#0969da;}
+  @media(max-width:760px){.xstage{padding-bottom:24px;}.xtoken{width:60px;}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
@@ -352,6 +373,28 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
       <p class="ph" style="margin:8px 0 0">되돌리기: <code class="mono">git restore &lt;f&gt;</code> · <code class="mono">git restore --staged &lt;f&gt;</code> · <code class="mono">git reset --soft HEAD~1</code> · 가져오기 <code class="mono">git fetch / pull</code>.</p>
     </div>
 
+    <div class="panel">
+      <h3>🔀 인터랙티브 — 코드는 어떻게 전송·이동되나</h3>
+      <p class="ph">명령 버튼을 누르면 변경 파일이 작업영역을 따라 <b>실제로 이동·전송</b>돼요. (점선 = 네트워크 경계, <code class="mono">push</code>/<code class="mono">pull</code>이 원격 GitHub와의 전송)</p>
+      <div class="xfer" id="xfer">
+        <div class="xstage" id="x-wd" style="--xc:var(--red)"><div class="xlabel">Working Dir</div><div class="xsub">작업 디렉터리</div></div>
+        <div class="xline"></div>
+        <div class="xstage" id="x-staging" style="--xc:var(--amber)"><div class="xlabel">Staging</div><div class="xsub">인덱스</div></div>
+        <div class="xline"></div>
+        <div class="xstage" id="x-local" style="--xc:var(--green)"><div class="xlabel">Local .git</div><div class="xsub">로컬 저장소</div></div>
+        <div class="xnet"><span>network</span></div>
+        <div class="xstage" id="x-remote" style="--xc:var(--blue)"><div class="xlabel">Remote</div><div class="xsub">origin · GitHub</div></div>
+        <div class="xtoken" id="xtoken" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0969da" stroke-width="2" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>변경</div>
+      </div>
+      <div class="xcmds">
+        <button class="xcmd" data-cmd="add">git add</button>
+        <button class="xcmd" data-cmd="commit">git commit</button>
+        <button class="xcmd" data-cmd="push">git push</button>
+        <button class="xcmd" data-cmd="pull">git pull</button>
+        <button class="xcmd ghost" data-cmd="reset">↺ reset</button>
+      </div>
+      <div class="xstatus" id="xstatus" aria-live="polite"></div>
+    </div>
     <div class="panel">
       <h3>③ GitHub 협업 루프 — 로컬을 넘어 원격·팀으로</h3>
       <p class="ph">①~⑥은 <b>Git(로컬)</b>. 여기는 <b>GitHub(원격 플랫폼)</b> — 코드를 <b>공유·리뷰·검증·병합·릴리스</b>하는 팀 루프. 색 = 단계 성격(파랑 가져오기 · 초록 올리기 · 보라 리뷰 · 주황 자동화·릴리스).</p>
@@ -855,6 +898,46 @@ renderHero();renderFilters();renderBoard();renderPipe();bindSkillNodes();applyFi
   lbc.addEventListener('click',close);
   lb.addEventListener('click',function(e){if(e.target===lb)close();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('open')){e.stopPropagation();close();}});
+})();
+</script>
+<script>
+(function(){
+  var xfer=document.getElementById('xfer'); if(!xfer)return;
+  var token=document.getElementById('xtoken'), status=document.getElementById('xstatus'), cmds=xfer.parentNode.querySelector('.xcmds');
+  var stages={ wd:document.getElementById('x-wd'), staging:document.getElementById('x-staging'), local:document.getElementById('x-local'), remote:document.getElementById('x-remote') };
+  var state='wd';
+  var msgs={
+    wd:'현재: <b>Working Dir</b> — 변경 파일이 아직 추적 전. <span class="mono">git add</span> 로 staging 으로 보내세요.',
+    staging:'현재: <b>Staging(인덱스)</b> — 커밋 후보로 올라감. <span class="mono">git commit</span> 으로 로컬 저장소에 기록.',
+    local:'현재: <b>Local .git</b> — 로컬에 커밋됨. <span class="mono">git push</span> 로 원격(GitHub)에 <b>네트워크 전송</b>.',
+    remote:'현재: <b>Remote origin (GitHub)</b> — 전송 완료 ✅. <span class="mono">git pull</span> 로 다시 로컬로 가져오기.'
+  };
+  var trans={ add:'staging', commit:'local', push:'remote', pull:'local' };
+  function setEnabled(cmd,on){ var b=cmds.querySelector('.xcmd[data-cmd="'+cmd+'"]'); if(b)b.disabled=!on; }
+  function place(animate){
+    var s=stages[state]; if(!s)return;
+    var fx=xfer.getBoundingClientRect(), bx=s.getBoundingClientRect();
+    if(fx.width===0) return;
+    var x=(bx.left-fx.left)+bx.width/2 - token.offsetWidth/2;
+    var y=(bx.top-fx.top)+bx.height/2 - token.offsetHeight/2 - 6;
+    if(!animate){ token.style.transition='none'; }
+    token.style.transform='translate('+x+'px,'+y+'px)';
+    if(!animate){ void token.offsetWidth; token.style.transition=''; }
+    Object.keys(stages).forEach(function(k){ stages[k].classList.toggle('active',k===state); });
+    status.innerHTML=msgs[state];
+    setEnabled('add',state==='wd'); setEnabled('commit',state==='staging'); setEnabled('push',state==='local'); setEnabled('pull',state==='remote');
+  }
+  function run(cmd){
+    if(cmd==='reset'){ state='wd'; place(true); return; }
+    var to=trans[cmd]; if(!to)return; state=to;
+    if(cmd==='push'||cmd==='pull'){ token.classList.add('tx'); setTimeout(function(){token.classList.remove('tx');},1100); }
+    place(true);
+  }
+  cmds.querySelectorAll('.xcmd').forEach(function(b){ b.addEventListener('click',function(){ if(b.dataset.cmd==='reset'||!b.disabled) run(b.dataset.cmd); }); });
+  place(false);
+  window.addEventListener('resize',function(){ place(false); });
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) place(false); }); }).observe(xfer); }
+  if(window.setView){ var _xsv=window.setView; window.setView=function(v){ _xsv(v); if(v==='git') setTimeout(function(){place(false);},80); }; }
 })();
 </script>
 </body>
