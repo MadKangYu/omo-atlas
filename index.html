@@ -309,6 +309,27 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .prcount{margin-left:auto;font-family:ui-monospace,monospace;font-size:12px;color:var(--mut);}
   .prstatus{margin-top:11px;font-size:12.5px;color:var(--ink2);background:#f6f8fa;border:1px solid var(--line);border-radius:8px;padding:10px 12px;line-height:1.55;min-height:20px;}
   .prstatus b{color:var(--ink);} .prstatus .mono{font-family:ui-monospace,monospace;color:#0969da;}
+
+  .ulwpipe{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .un2{padding:10px 13px;border-radius:11px;border:1.5px solid var(--line);background:#fff;box-shadow:var(--shadow);font-weight:800;font-size:13px;transition:.2s;}
+  .un2 small{display:block;font-weight:600;color:var(--mut);font-size:10px;margin-top:2px;}
+  .un2.active{border-color:#f59e0b;box-shadow:0 0 0 2px #f59e0b, var(--shadow-lg);}
+  .un2.passed{border-color:#22c55e;color:#15803d;}
+  .ulwloop{color:#94a3b8;font-weight:900;font-size:15px;}
+  .ulwloop.pulse{color:#22c55e;animation:loopulse .9s ease infinite;}
+  @keyframes loopulse{0%,100%{opacity:.45}50%{opacity:1}}
+  .ulwboulder,.ulwledger{border:1px solid var(--line);border-radius:11px;padding:12px 14px;background:#fff;box-shadow:var(--shadow);}
+  .ulwboulder h4,.ulwledger h4{margin:0 0 9px;font-size:10.5px;font-family:ui-monospace,monospace;color:var(--mut);font-weight:700;}
+  .bchk{font-size:12px;color:var(--ink2);padding:7px 0 7px 24px;position:relative;border-bottom:1px solid var(--line2);transition:.2s;}
+  .bchk:last-child{border-bottom:0;}
+  .bchk::before{content:"";position:absolute;left:3px;top:8px;width:13px;height:13px;border:1.5px solid var(--mut);border-radius:3px;box-sizing:border-box;}
+  .bchk.done{color:var(--mut);}
+  .bchk.done::before{background:#22c55e;border-color:#22c55e;}
+  .bchk.done::after{content:"✓";position:absolute;left:5px;top:6px;color:#fff;font-size:10px;font-weight:900;}
+  .ledlines{font-family:ui-monospace,monospace;font-size:10px;color:#475569;min-height:84px;line-height:1.75;}
+  .ledlines .ll{opacity:0;animation:llin .45s forwards;word-break:break-all;}
+  .ledlines .ll .k{color:#0969da;}
+  @keyframes llin{to{opacity:1}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
@@ -642,6 +663,40 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
       <p class="ph" style="margin:12px 0 0">장기·목표형은 <span class="un" data-skill="ulw-loop" style="--uc:#f59e0b;display:inline-block;padding:4px 9px;cursor:pointer"><b style="font-size:12px">ulw-loop</b></span> 가 <code class="mono">.omo/ulw-loop</code> 상태로 동일 루프를 체크포인트하며 돌린다.</p>
     </div>
 
+    <div class="panel">
+      <h3>▶️ 인터랙티브 — ULW(ultrawork) 루프 한 단계씩</h3>
+      <p class="ph">"다음 ▶"을 누르며 계획→승인→실행(Boulder·Stop-hook 연속)→리뷰 게이트→완료를 따라가세요. omo의 실제 메커니즘 그대로.</p>
+      <div class="ulwpipe" id="ulwpipe">
+        <div class="un2" data-n="plan">ulw-plan<small>Prometheus · 계획</small></div>
+        <span class="ulwloop">→</span>
+        <div class="un2" data-n="approve">승인 게이트<small>명시 승인 대기</small></div>
+        <span class="ulwloop">→</span>
+        <div class="un2" data-n="start">start-work<small>Boulder · 오케스트레이터</small></div>
+        <span class="ulwloop" id="ulwloopback">⟲</span>
+        <div class="un2" data-n="review">review-work<small>5-lane 게이트</small></div>
+        <span class="ulwloop">→</span>
+        <div class="un2" data-n="done">DONE<small>완료</small></div>
+      </div>
+      <div class="grid2" style="margin-top:14px">
+        <div class="ulwboulder">
+          <h4>.omo/boulder.json — 체크박스</h4>
+          <div class="bchk" data-i="0">criterion 1 — API 핸들러 구현</div>
+          <div class="bchk" data-i="1">criterion 2 — 실패 테스트 → 통과</div>
+          <div class="bchk" data-i="2">criterion 3 — Manual-QA 증거 캡처</div>
+        </div>
+        <div class="ulwledger">
+          <h4>.omo/start-work/ledger.jsonl — 증거 장부</h4>
+          <div class="ledlines" id="ledlines"></div>
+        </div>
+      </div>
+      <div class="prctrl">
+        <button id="ulw-prev">◀ 이전</button>
+        <button id="ulw-next">다음 ▶</button>
+        <button id="ulw-reset" class="ghost">↺ 처음</button>
+        <span class="prcount" id="ulwcount">1 / 9</span>
+      </div>
+      <div class="prstatus" id="ulwstatus" aria-live="polite"></div>
+    </div>
     <div class="panel">
       <h3>핵심 어휘 — "모르는 개념 없도록"</h3>
       <div class="concepts">
@@ -1030,6 +1085,53 @@ renderHero();renderFilters();renderBoard();renderPipe();bindSkillNodes();applyFi
   render(false);
   window.addEventListener('resize',function(){ render(false); });
   if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) render(false); }); }).observe(svg); }
+})();
+</script>
+<script>
+(function(){
+  var pipe=document.getElementById('ulwpipe'); if(!pipe)return;
+  var nodes={}; [].forEach.call(pipe.querySelectorAll('.un2'),function(n){ nodes[n.dataset.n]=n; });
+  var loopback=document.getElementById('ulwloopback'), ledEl=document.getElementById('ledlines');
+  var chks=[].slice.call(document.querySelectorAll('.ulwboulder .bchk'));
+  var status=document.getElementById('ulwstatus'), count=document.getElementById('ulwcount');
+  var prev=document.getElementById('ulw-prev'), next=document.getElementById('ulw-next'), reset=document.getElementById('ulw-reset');
+  var order=['plan','approve','start','start','start','start','start','review','done'];
+  var checkAt=[4,5,6];
+  var ledger=[
+    [4,'{<span class="k">"event"</span>:"task-completed","task":"criterion 1","gates":"5/5 ✓"}'],
+    [5,'{<span class="k">"event"</span>:"task-completed","task":"criterion 2","adversarial":"probed"}'],
+    [6,'{<span class="k">"event"</span>:"task-completed","task":"criterion 3","cleanup":"receipt ✓"}'],
+    [7,'{<span class="k">"event"</span>:"review-work","verdict":"PASSED · 5/5 lanes"}']
+  ];
+  var msgs=[
+    'Prometheus가 탐색 후 <b>decision-complete 계획</b>을 쓴다 (구현 X). <span class="mono">.omo/plans/x.md</span>',
+    '<b>승인 게이트</b> — 승인은 "계획 작성"만 허가, 실행 아님. 승인하면 start-work 진입.',
+    '<b>start-work</b> — Boulder 상태 작성, 체크박스 로드. 당신은 <b>오케스트레이터</b>(구현은 서브에이전트 위임).',
+    '체크박스 #1을 서브에이전트에 <b>위임</b>해 구현. root는 절대 직접 구현 안 함.',
+    '#1 <b>5-게이트</b> 통과(plan재독·자동검증·Manual-QA·적대QA·cleanup) → 증거 장부 기록 ✓',
+    '<b>Stop-hook ⟲</b> — boulder에 미완 있으니 다음 턴 재주입 → #2 실행·검증 ✓',
+    'Stop-hook ⟲ → #3 실행·검증 ✓. <b>모든 체크박스 완료</b>.',
+    '<b>review-work</b> — 5-lane 병렬 게이트(목표·품질·보안·QA·컨텍스트) 모두 PASS.',
+    '<b>ORCHESTRATION COMPLETE</b> ✅ — evidence·cleanup 보고하고 종료.'
+  ];
+  var step=0;
+  function render(){
+    var cur=order[step];
+    Object.keys(nodes).forEach(function(k){ nodes[k].classList.toggle('active', k===cur); });
+    // passed = nodes before current in unique order
+    var uniq=['plan','approve','start','review','done'], ci=uniq.indexOf(cur);
+    uniq.forEach(function(k,i){ nodes[k].classList.toggle('passed', i<ci); });
+    loopback.classList.toggle('pulse', cur==='start' && step>=3 && step<=6);
+    chks.forEach(function(c,i){ c.classList.toggle('done', step>=checkAt[i]); });
+    ledEl.innerHTML = ledger.filter(function(l){return step>=l[0];}).map(function(l){return '<div class="ll">'+l[1]+'</div>';}).join('');
+    status.innerHTML=msgs[step];
+    count.textContent=(step+1)+' / 9';
+    prev.disabled=step===0; next.disabled=step===8;
+  }
+  next.addEventListener('click',function(){ if(step<8){step++;render();} });
+  prev.addEventListener('click',function(){ if(step>0){step--;render();} });
+  reset.addEventListener('click',function(){ step=0;render(); });
+  render();
 })();
 </script>
 </body>
