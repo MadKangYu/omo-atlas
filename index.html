@@ -359,6 +359,8 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .hk .hl code{background:color-mix(in srgb, var(--hc,#6366f1) 11%, #fff) !important;border-color:color-mix(in srgb, var(--hc,#6366f1) 26%, #fff) !important;color:#283042 !important;}
   .ccmd{background:color-mix(in srgb, var(--ax,#3b82f6) 9%, #fff) !important;border-color:color-mix(in srgb, var(--ax,#3b82f6) 24%, #fff) !important;color:#334155 !important;}
   .cp{background:color-mix(in srgb, var(--orange) 5%, #fff);}
+.maplink{font-size:13px;font-weight:700;padding:7px 13px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:.15s;}
+  .maplink:hover{box-shadow:var(--shadow);border-color:#6366f1;}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
@@ -373,6 +375,7 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
     <button data-v="ulw">ULW 엔진</button>
     <button data-v="setup">OMO 내부</button>
   </div>
+  <a class="maplink" href="/graph.html" title="노드 그래프 지도 모드">🕸 지도</a>
   <div class="search">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
     <input id="q" placeholder="스킬·트리거·명령 검색…" autocomplete="off" aria-label="스킬·트리거·명령 검색" role="searchbox"/><kbd aria-hidden="true">⌘K</kbd>
