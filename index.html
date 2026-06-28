@@ -347,6 +347,18 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   .hkchip{font-family:ui-monospace,monospace;font-size:11px;font-weight:700;padding:6px 11px;border-radius:8px;background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;animation:hkpop .35s ease both;}
   @keyframes hkpop{from{transform:scale(.85) translateY(5px)}to{transform:none}}
   #hktotal{margin-left:auto;font-size:11.5px;font-weight:800;color:#4f46e5;font-family:ui-monospace,monospace;}
+
+  /* --- Asana/Trello color system: per-view signature accent --- */
+  #view-board{--va:#6366f1;} #view-flow{--va:#8b5cf6;} #view-git{--va:#2563eb;}
+  #view-ulw{--va:#d97706;} #view-setup{--va:#ea580c;}
+  .panel{border-top:3px solid var(--va,#6366f1);}
+  .hcard{border-top:3px solid var(--va,#6366f1);}
+  .panel h3::before{background:var(--va,#6366f1) !important;}
+  /* tint the gray chips with the view / semantic color */
+  .pill{background:color-mix(in srgb, var(--va,#6366f1) 8%, #fff) !important;border-color:color-mix(in srgb, var(--va,#6366f1) 22%, #fff) !important;color:#2c3340 !important;}
+  .hk .hl code{background:color-mix(in srgb, var(--hc,#6366f1) 11%, #fff) !important;border-color:color-mix(in srgb, var(--hc,#6366f1) 26%, #fff) !important;color:#283042 !important;}
+  .ccmd{background:color-mix(in srgb, var(--ax,#3b82f6) 9%, #fff) !important;border-color:color-mix(in srgb, var(--ax,#3b82f6) 24%, #fff) !important;color:#334155 !important;}
+  .cp{background:color-mix(in srgb, var(--orange) 5%, #fff);}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
