@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>OMO Skill Atlas · 23 스킬 · ULW 엔진 · git-master · 플러그인 내부</title>
-<meta name="description" content="OMO / LazyCodex 23개 Codex 스킬을 6축 보드 · 작업 흐름 · Git 심화로 연결한 인터랙티브 아틀라스">
+<title>OMO Skill Atlas · 24 스킬 · ULW 엔진 · git-master · 플러그인 내부</title>
+<meta name="description" content="OMO / LazyCodex 24개 Codex 스킬을 6축 보드 · 작업 흐름 · Git 심화로 연결한 인터랙티브 아틀라스">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://omo-atlas.vercel.app">
 <meta property="og:title" content="OMO Skill Atlas">
-<meta property="og:description" content="OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스">
+<meta property="og:description" content="OMO / LazyCodex Codex 플러그인의 24개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스">
 <meta property="og:image" content="https://omo-atlas.vercel.app/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="OMO Skill Atlas">
-<meta name="twitter:description" content="OMO / LazyCodex 23 skills · ULW engine · git-master · plugin internals">
+<meta name="twitter:description" content="OMO / LazyCodex 24 skills · ULW engine · git-master · plugin internals">
 <meta name="twitter:image" content="https://omo-atlas.vercel.app/preview.png">
 <style>
 :root{
@@ -362,10 +362,10 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
 .maplink{font-size:13px;font-weight:700;padding:7px 13px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:.15s;}
   .maplink:hover{box-shadow:var(--shadow);border-color:#6366f1;}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 23개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 24개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
 <body>
-<h1 class="sr-only">OMO Skill Atlas — OMO / LazyCodex Codex 플러그인의 23개 스킬 · ULW 엔진 · git-master · 플러그인 내부 인터랙티브 아틀라스</h1>
+<h1 class="sr-only">OMO Skill Atlas — OMO / LazyCodex Codex 플러그인의 24개 스킬 · ULW 엔진 · git-master · 플러그인 내부 인터랙티브 아틀라스</h1>
 <div class="nav"><div class="inner">
   <div class="brand"><span class="logo">◎</span><span>OMO Skill Atlas<small>LazyCodex · 24 skills · v4.15.1</small></span></div>
   <div class="seg" id="seg">
@@ -814,7 +814,7 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
     </div>
     <div class="panel">
       <h3>플러그인 — <span class="mono" style="font-size:14px">@sisyphuslabs/omo-codex-plugin</span></h3>
-      <p class="ph">"One Codex plugin namespace for Yeongyu's local Codex components." 23개 스킬 위를 후크·컴포넌트·MCP가 받친다.</p>
+      <p class="ph">"One Codex plugin namespace for Yeongyu's local Codex components." 24개 스킬 위를 후크·컴포넌트·MCP가 받친다.</p>
       <div class="kgrid">
         <div class="kf" style="--ax:var(--orange)"><div class="kk">Plugin / 설치</div><div class="kv"><code>omo</code> v<b>4.15.1</b> · install <code>lazycodex-ai</code> v4.15.1 · MIT</div></div>
         <div class="kf" style="--ax:var(--purple)"><div class="kk">저자 / 저장소</div><div class="kv">Yeongyu Kim (<code>code-yeongyu</code>) · github.com/<b>sisyphuslabs/omo</b></div></div>
@@ -886,7 +886,7 @@ let state={view:"board", axis:null, q:""};
 // HERO
 function renderHero(){
   const must = DB.skills.filter(s=>s.must).length;
-  const items=[["23",'skills <small>SKILL.md</small>'],["6",'축 <small>+ 1 작업 루프</small>'],[must,'MUST USE <small>강제 게이트</small>'],["4","Git Mode <small>git-master</small>"]];
+  const items=[["24",'skills <small>SKILL.md</small>'],["6",'축 <small>+ 1 작업 루프</small>'],[must,'MUST USE <small>강제 게이트</small>'],["4","Git Mode <small>git-master</small>"]];
   $("#hero").innerHTML=items.map(([v,l])=>'<div class="hcard"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>').join("");
 }
 // FILTERS
