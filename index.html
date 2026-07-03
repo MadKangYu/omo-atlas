@@ -374,6 +374,7 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
     <button data-v="git">Git 심화</button>
     <button data-v="ulw">ULW 엔진</button>
     <button data-v="setup">OMO 내부</button>
+    <button data-v="vq">v4.15 Visual QA</button>
   </div>
   <a class="maplink" href="/graph" title="노드 그래프 지도 모드">🕸 지도</a>
   <div class="search">
@@ -857,6 +858,89 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
   </div>
 </div>
 
+<div class="view" id="view-vq">
+  <div class="wrap">
+    <div class="hero">
+      <div class="hcard"><div class="v">Live URL<small> Cloner</small></div><div class="l">런타임 스타일 추출 (11단계)</div></div>
+      <div class="hcard"><div class="v">DESIGN.md</div><div class="l">구현 전 계약서</div></div>
+      <div class="hcard"><div class="v">Existence-first</div><div class="l">삭제→재사용→플랫폼→신규</div></div>
+      <div class="hcard"><div class="v">root cause</div><div class="l">증상 패치 아닌 원인 수정</div></div>
+    </div>
+    <div class="panel">
+      <h3>v4.15.0 릴리스 — Frontend Skill 완료 게이트</h3>
+      <p class="ph"><b>/visual-qa</b>는 "예쁜지 보기"가 아니라 <b>완료를 판정하는 게이트</b>다. 근거: <a href="https://gamma.app/docs/oh-my-openagent-v4150-visual-qa-73-t3468g9qqb0uu56" target="_blank" rel="noopener">Gamma (7/3)</a> · <a href="https://oh-my-openagent-visual-qa-guide.vercel.app/" target="_blank" rel="noopener">Visual QA 초보 가이드</a> · <a href="https://share.note.sx/swiex5vg" target="_blank" rel="noopener">Obsidian 노트</a></p>
+      <div class="kgrid">
+        <div class="kf" style="--ax:var(--purple)"><div class="kk">4단계</div><div class="kv">참조 → <code>DESIGN.md</code> → <code>/frontend</code> → <code>/visual-qa</code></div></div>
+        <div class="kf" style="--ax:var(--green)"><div class="kk">검증 체크 5/5</div><div class="kv">DESIGN.md 선행 · 375px 무스크롤 · hover/focus/click 캡처 · slop 제거 · dual review PASS</div></div>
+        <div class="kf" style="--ax:var(--blue)"><div class="kk">Breakpoint × 상태</div><div class="kv">375·768·1280px × rest/mid-transition/settled</div></div>
+        <div class="kf" style="--ax:var(--orange)"><div class="kk">Breaking change</div><div class="kv">없음 — 기존 사용자 안전 업그레이드 가능</div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Live URL Cloner — 11단계 실제 동작</h3>
+      <p class="ph">"이 사이트처럼" 요청을 받으면 실제 브라우저로 라이브 사이트를 열어 런타임 상태의 디자인 정보를 추출한다.</p>
+      <table class="ht">
+        <tr><td style="white-space:nowrap;width:28px" class="c">1</td><td>사용자가 디자인 레퍼런스 URL 제공</td></tr>
+        <tr><td class="c">2</td><td>내장 브라우저 드라이버가 페이지 로드</td></tr>
+        <tr><td class="c">3</td><td><code>getComputedStyle()</code>로 실제 계산된 스타일을 읽음</td></tr>
+        <tr><td class="c">4</td><td>색상·폰트·spacing·shadow·border radius 등 디자인 토큰 추출</td></tr>
+        <tr><td class="c">5</td><td>375 · 768 · 1280px 주요 breakpoint에서 재측정</td></tr>
+        <tr><td class="c">6</td><td>hover · focus · active · disabled · loading 상태를 강제 발생</td></tr>
+        <tr><td class="c">7</td><td>각 상태의 style delta 재측정</td></tr>
+        <tr><td class="c">8</td><td><code>transition</code>·<code>timing-function</code>·<code>delay</code>·<code>@keyframes</code>·<code>transform</code>·<code>opacity</code> 변화 기록</td></tr>
+        <tr><td class="c">9</td><td>이미지·폰트·배경 등 필요한 asset 다운로드/참조</td></tr>
+        <tr><td class="c">10</td><td>모든 정보를 <b>DESIGN.md</b> 계약서로 정리</td></tr>
+        <tr><td class="c">11</td><td>코딩 에이전트는 DESIGN.md를 기준으로 구현</td></tr>
+      </table>
+      <p class="ph" style="margin-top:10px"><b>edge case</b> — cross-origin stylesheet 접근 제한 · 무거운 SPA 렌더링 타이밍 · 로그인/geo routing 차이 · 가벼운 작업엔 자동화 비용이 더 클 수 있음.</p>
+    </div>
+    <div class="kgrid" style="margin-bottom:16px">
+      <div class="kf" style="--ax:var(--amber)">
+        <div class="kk">Existence-first 프로그래밍 철학</div>
+        <div class="kv">① 삭제할 수 있는가 → ② 재사용할 수 있는가 → ③ 플랫폼/표준 API로 되는가 → ④ 그래도 안 되면 최소한의 신규 코드.<br>
+        예: 날짜 포맷 → <code>Intl.DateTimeFormat</code>/<code>date-fns</code> 먼저 확인.</div>
+      </div>
+      <div class="kf" style="--ax:var(--red)">
+        <div class="kk">버그 수정 가이드 (root cause 중심)</div>
+        <div class="kv">재현 → 가장 싼 채널에서 RED → root cause → caller sweep → 최소 수정 → adversarial case → GREEN+증거 → 기술 부채 기록.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>v4.14 이전 → v4.15.0 이후</h3>
+      <table class="ht">
+        <tr><td style="width:120px"><b>디자인 레퍼런스</b></td><td>스크린샷·Figma 중심</td><td class="c">→ 라이브 URL runtime truth</td></tr>
+        <tr><td><b>구현 계약</b></td><td>에이전트 자체 판단</td><td class="c">→ DESIGN.md 계약 기반</td></tr>
+        <tr><td><b>Visual QA</b></td><td>정적 스크린샷 비교</td><td class="c">→ hover/focus/click/scroll/motion</td></tr>
+        <tr><td><b>애니메이션</b></td><td>장식 모션 통과하기 쉬움</td><td class="c">→ slop animation 명시 거부</td></tr>
+        <tr><td><b>코드 철학</b></td><td>기능 구현 중심</td><td class="c">→ 삭제·재사용·플랫폼 우선</td></tr>
+        <tr><td><b>Greenfield</b></td><td>빈 캔버스 바로 구현</td><td class="c">→ Imagen seeded → DESIGN.md 경유</td></tr>
+      </table>
+    </div>
+    <div class="panel">
+      <h3>실무 적용 판단표</h3>
+      <table class="ht">
+        <tr><td style="width:220px"><b>단순 copy 수정</b></td><td class="c">Frontend·visual-qa 생략 가능</td></tr>
+        <tr><td><b>특정 사이트 참고 UI</b></td><td class="c">Live URL Cloner + DESIGN.md</td></tr>
+        <tr><td><b>제품 화면 구현</b></td><td class="c">Frontend + /visual-qa gate</td></tr>
+        <tr><td><b>모션 중요한 랜딩</b></td><td class="c">motion extraction + settled QA</td></tr>
+        <tr><td><b>장기 유지보수 코드</b></td><td class="c">Existence-first 원칙</td></tr>
+        <tr><td><b>복잡한 버그</b></td><td class="c">root cause + caller sweep + adversarial test</td></tr>
+      </table>
+    </div>
+    <div class="panel">
+      <h3>설치 2트랙 · 복사용 프롬프트</h3>
+      <div class="kgrid">
+        <div class="kf" style="--ax:var(--green)"><div class="kk">Light (Codex CLI, 이 환경)</div><div class="kv"><code>npx lazycodex-ai install</code></div></div>
+        <div class="kf" style="--ax:var(--blue)"><div class="kk">Ultimate (OpenCode)</div><div class="kv"><code>bunx oh-my-openagent install</code></div></div>
+      </div>
+      <p class="ph" style="margin:14px 0 6px"><b>Frontend 완료 조건</b></p>
+      <div class="cmdbox mono" style="margin-bottom:10px">구현이 끝났다고 판단하기 전에 /visual-qa를 실행해줘. 375px, 768px, 1280px에서 rest, hover, focus, click 상태를 확인하고, visual-qa가 통과한 뒤에만 DONE으로 보고해줘.</div>
+      <p class="ph" style="margin:14px 0 6px"><b>DESIGN.md 계약</b></p>
+      <div class="cmdbox mono">코드를 작성하기 전에 먼저 DESIGN.md를 만들어줘. 색상, 폰트, spacing, component states, motion 규칙을 계약으로 정리하고, 구현은 그 계약만 따르게 해줘.</div>
+    </div>
+  </div>
+</div>
+
 <div class="cmdk-scrim" id="cmdk" role="dialog" aria-modal="true" aria-label="명령 팔레트">
   <div class="cmdk">
     <input id="cmdk-input" type="text" placeholder="스킬·뷰 검색…  (Enter로 이동)" aria-label="명령 팔레트 검색" autocomplete="off"/>
@@ -1005,7 +1089,7 @@ renderHero();renderFilters();renderBoard();renderPipe();bindSkillNodes();applyFi
 
 <script>
 (function(){
-  var VIEWS=['board','flow','git','ulw','setup'];
+  var VIEWS=['board','flow','git','ulw','setup','vq'];
   var validSkill=function(id){try{return !!document.querySelector('[data-skill="'+CSS.escape(id)+'"]');}catch(e){return false;}};
   var curView=function(){var b=document.querySelector('#seg button.on');return b?b.dataset.v:'board';};
   var lastFocus=null;
