@@ -970,7 +970,7 @@ let state={view:"board", axis:null, q:""};
 // HERO
 function renderHero(){
   const must = DB.skills.filter(s=>s.must).length;
-  const items=[["24",'skills <small>SKILL.md</small>'],["6",'축 <small>+ 1 작업 루프</small>'],[must,'MUST USE <small>강제 게이트</small>'],["4","Git Mode <small>git-master</small>"]];
+  const items=[[DB.skills.length,'skills <small>SKILL.md</small>'],[DB.axes.length,'축 <small>+ 1 작업 루프</small>'],[must,'MUST USE <small>강제 게이트</small>'],["4","Git Mode <small>git-master</small>"]];
   $("#hero").innerHTML=items.map(([v,l])=>'<div class="hcard"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>').join("");
 }
 // FILTERS
