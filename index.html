@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>OMO Skill Atlas · 24 스킬 · ULW 엔진 · git-master · 플러그인 내부</title>
-<meta name="description" content="OMO / LazyCodex 24개 Codex 스킬을 6축 보드 · 작업 흐름 · Git 심화로 연결한 인터랙티브 아틀라스">
+<title>OMO Skill Atlas · 25 스킬 · ULW 엔진 · git-master · 플러그인 내부</title>
+<meta name="description" content="OMO / LazyCodex 25개 Codex 스킬을 6축 보드 · 작업 흐름 · Git 심화로 연결한 인터랙티브 아틀라스">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://omo-atlas.vercel.app">
 <meta property="og:title" content="OMO Skill Atlas">
-<meta property="og:description" content="OMO / LazyCodex Codex 플러그인의 24개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스">
+<meta property="og:description" content="OMO / LazyCodex Codex 플러그인의 25개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스">
 <meta property="og:image" content="https://omo-atlas.vercel.app/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="OMO Skill Atlas">
-<meta name="twitter:description" content="OMO / LazyCodex 24 skills · ULW engine · git-master · plugin internals">
+<meta name="twitter:description" content="OMO / LazyCodex 25 skills · ULW engine · git-master · plugin internals">
 <meta name="twitter:image" content="https://omo-atlas.vercel.app/preview.png">
 <style>
 :root{
@@ -362,12 +362,12 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
 .maplink{font-size:13px;font-weight:700;padding:7px 13px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:.15s;}
   .maplink:hover{box-shadow:var(--shadow);border-color:#6366f1;}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 24개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"OMO Skill Atlas","url":"https://omo-atlas.vercel.app","description":"OMO / LazyCodex Codex 플러그인의 25개 스킬 + ULW 엔진 + git-master를 한 화면에 연결한 인터랙티브 아틀라스","applicationCategory":"DeveloperApplication","operatingSystem":"Web","inLanguage":"ko","isAccessibleForFree":true,"author":{"@type":"Person","name":"Kang Yu","url":"https://github.com/MadKangYu"}}</script>
 </head>
 <body>
-<h1 class="sr-only">OMO Skill Atlas — OMO / LazyCodex Codex 플러그인의 24개 스킬 · ULW 엔진 · git-master · 플러그인 내부 인터랙티브 아틀라스</h1>
+<h1 class="sr-only">OMO Skill Atlas — OMO / LazyCodex Codex 플러그인의 25개 스킬 · ULW 엔진 · git-master · 플러그인 내부 인터랙티브 아틀라스</h1>
 <div class="nav"><div class="inner">
-  <div class="brand"><span class="logo">◎</span><span>OMO Skill Atlas<small>LazyCodex · 24 skills · v4.15.1</small></span></div>
+  <div class="brand"><span class="logo">◎</span><span>OMO Skill Atlas<small>LazyCodex · 25 skills · v4.16.1</small></span></div>
   <div class="seg" id="seg">
     <button data-v="board" class="on">보드</button>
     <button data-v="flow">작업 흐름</button>
@@ -808,16 +808,16 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
 <div class="view" id="view-setup">
   <div class="wrap">
     <div class="hero">
-      <div class="hcard"><div class="v">omo <small>v4.15.1</small></div><div class="l">단일 플러그인 네임스페이스</div></div>
+      <div class="hcard"><div class="v">omo <small>v4.16.1</small></div><div class="l">단일 플러그인 네임스페이스</div></div>
       <div class="hcard"><div class="v">15 <small>comp</small></div><div class="l">컴포넌트</div></div>
       <div class="hcard"><div class="v">21 <small>hooks</small></div><div class="l">라이프사이클 후크</div></div>
       <div class="hcard"><div class="v">5 <small>MCP</small></div><div class="l">플러그인 MCP 서버</div></div>
     </div>
     <div class="panel">
       <h3>플러그인 — <span class="mono" style="font-size:14px">@sisyphuslabs/omo-codex-plugin</span></h3>
-      <p class="ph">"One Codex plugin namespace for Yeongyu's local Codex components." 24개 스킬 위를 후크·컴포넌트·MCP가 받친다.</p>
+      <p class="ph">"One Codex plugin namespace for Yeongyu's local Codex components." 25개 스킬 위를 후크·컴포넌트·MCP가 받친다.</p>
       <div class="kgrid">
-        <div class="kf" style="--ax:var(--orange)"><div class="kk">Plugin / 설치</div><div class="kv"><code>omo</code> v<b>4.15.1</b> · install <code>lazycodex-ai</code> v4.15.1 · MIT</div></div>
+        <div class="kf" style="--ax:var(--orange)"><div class="kk">Plugin / 설치</div><div class="kv"><code>omo</code> v<b>4.16.1</b> · install <code>lazycodex-ai</code> v4.16.1 · MIT</div></div>
         <div class="kf" style="--ax:var(--purple)"><div class="kk">저자 / 저장소</div><div class="kv">Yeongyu Kim (<code>code-yeongyu</code>) · github.com/<b>sisyphuslabs/omo</b></div></div>
         <div class="kf" style="--ax:var(--blue)"><div class="kk">플러그인 MCP (5)</div><div class="kv"><code>grep_app</code> · <code>context7</code> · <code>codegraph</code> · <code>git_bash</code> · <code>lsp</code></div></div>
         <div class="kf" style="--ax:var(--green)"><div class="kk">텔레메트리</div><div class="kv">익명 <code>omo_codex_daily_active</code> (UTC 1회/일) · 프롬프트·코드·키 전송 안 함 · opt-out env</div></div>
@@ -957,7 +957,7 @@ footer code{font-family:ui-monospace,monospace;background:#fff;border:1px solid 
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="스킬 상세" aria-hidden="true"><div id="drawer-inner"></div></aside>
 
 <footer>
-  출처: 로컬 캐시 <code>~/.codex/plugins/cache/sisyphuslabs/omo/4.15.1/skills/</code> · 24개 SKILL.md 정독 기반 · 6축 매핑은 작업 흐름 기준 재구성 · git-master는 실제 SKILL.md의 4-Mode 구조.
+  출처: 로컬 캐시 <code>~/.codex/plugins/cache/sisyphuslabs/omo/4.16.1/skills/</code> · 25개 SKILL.md 정독 기반 · 6축 매핑은 작업 흐름 기준 재구성 · git-master는 실제 SKILL.md의 4-Mode 구조.
 </footer>
 
 <script>

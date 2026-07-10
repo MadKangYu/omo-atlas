@@ -99,8 +99,27 @@ const data = {
 writeFileSync(join(import.meta.dirname, "data.json"), JSON.stringify(data, null, 2));
 console.log(`[build-data] omo v${version} -> ${skills.length} skills, ${components.length} comp, ${hooks.total} hooks, ${mcp.length} mcp`);
 
+// --- sync index.html hardcoded meta (title/meta/schema/footer) to live data values ---
+// prevents stale skill counts / omo versions whenever omo updates; idempotent + context-anchored
+let html = readFileSync(join(import.meta.dirname, "index.html"), "utf8");
+{
+  const N = skills.length, V = version;
+  const before = html;
+  html = html.replace(/(OMO Skill Atlas · )\d+( 스킬)/g, `$1${N}$2`);
+  html = html.replace(/(\d+)개 Codex 스킬/g, `${N}개 Codex 스킬`);
+  html = html.replace(/플러그인의 (\d+)개 스킬/g, `플러그인의 ${N}개 스킬`);
+  html = html.replace(/(\d+)개 스킬 위를/g, `${N}개 스킬 위를`);
+  html = html.replace(/LazyCodex (\d+) skills/g, `LazyCodex ${N} skills`);
+  html = html.replace(/(\d+)개 SKILL\.md/g, `${N}개 SKILL.md`);
+  html = html.replace(/LazyCodex · \d+ skills · v\d+\.\d+\.\d+/g, `LazyCodex · ${N} skills · v${V}`);
+  html = html.replace(/omo <small>v\d+\.\d+\.\d+<\/small>/g, `omo <small>v${V}</small>`);
+  html = html.replace(/<code>omo<\/code> v<b>\d+\.\d+\.\d+<\/b>/g, `<code>omo</code> v<b>${V}</b>`);
+  html = html.replace(/install <code>lazycodex-ai<\/code> v\d+\.\d+\.\d+/g, `install <code>lazycodex-ai</code> v${V}`);
+  html = html.replace(/omo\/\d+\.\d+\.\d+\/skills\//g, `omo/${V}/skills/`);
+  if (html !== before) { writeFileSync(join(import.meta.dirname, "index.html"), html); console.log(`[sync] index.html meta synced to ${N} skills / v${V}`); }
+}
+
 // --- DRIFT CHECK vs index.html hand-authored cards ---
-const html = readFileSync(join(import.meta.dirname, "index.html"), "utf8");
 const dbMatch = html.match(/const DB = (\{[\s\S]*?\});\s*\n\s*const AX/);
 if (dbMatch) {
   const siteIds = new Set(JSON.parse(dbMatch[1]).skills.map(s => s.id));
