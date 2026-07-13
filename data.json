@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-07-10T16:54:54.226Z",
-  "omoVersion": "4.16.3",
+  "generatedAt": "2026-07-13T02:00:31.217Z",
+  "omoVersion": "4.17.0",
   "plugin": {
     "name": "omo",
-    "version": "4.16.3",
+    "version": "4.17.0",
     "license": "MIT",
     "repository": "https://github.com/sisyphuslabs/omo"
   },
   "counts": {
     "skills": 25,
     "components": 15,
-    "hooks": 19,
+    "hooks": 21,
     "mcp": 5
   },
   "skills": [
@@ -183,7 +183,7 @@
     "ulw-loop"
   ],
   "hooks": {
-    "total": 19,
+    "total": 21,
     "byLifecycle": {
       "SessionStart": [
         "session-start-loading-project-rules",
@@ -198,7 +198,8 @@
         "user-prompt-submit-checking-ulw-loop-steering"
       ],
       "PreToolUse": [
-        "pre-tool-use-enforcing-unlimited-goal-budget"
+        "pre-tool-use-enforcing-unlimited-goal-budget",
+        "pre-tool-use-guarding-ulw-loop-spawns"
       ],
       "PostToolUse": [
         "post-tool-use-checking-comments",
@@ -212,7 +213,8 @@
         "post-compact-resetting-lsp-diagnostics-cache"
       ],
       "Stop": [
-        "stop-checking-start-work-continuation"
+        "stop-checking-start-work-continuation",
+        "stop-checking-ulw-loop-resume"
       ],
       "SubagentStop": [
         "subagent-stop-checking-start-work-continuation",
