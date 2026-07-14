@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-13T02:00:31.217Z",
-  "omoVersion": "4.17.0",
+  "generatedAt": "2026-07-14T02:05:50.588Z",
+  "omoVersion": "4.17.1",
   "plugin": {
     "name": "omo",
-    "version": "4.17.0",
+    "version": "4.17.1",
     "license": "MIT",
     "repository": "https://github.com/sisyphuslabs/omo"
   },
@@ -107,7 +107,7 @@
     {
       "id": "review-work",
       "name": "review-work",
-      "description": "Post-implementation review orchestrator. Launches 5 parallel background sub-agents: Oracle (goal/constraint verification), Oracle (code quality), Oracle (security), unspecified-high (hands-on QA execution), unspecified-high (context mining from GitHub/git/Slack/Notion). All must pass for review to pass. MUST USE after completing any significant implementation work. Triggers: 'review work', 'review my work', 'review changes', 'QA my work', 'verify implementation', 'check my work', 'validate changes', 'post-implementation review'.",
+      "description": "Post-implementation review orchestrator. Launches 5 parallel background sub-agents: Oracle (goal/constraint verification), Oracle (code quality), Oracle (security), unspecified-high (hands-on QA execution), unspecified-high (context mining from GitHub/git/Slack/Notion). All must pass for review to pass. MUST USE before a PR handoff or when the user explicitly asks to review completed work. Triggers: 'review work', 'review my work', 'review changes', 'QA my work', 'verify implementation', 'check my work', 'validate changes', 'post-implementation review'.",
       "short": ""
     },
     {
@@ -125,7 +125,7 @@
     {
       "id": "teammode",
       "name": "teammode",
-      "description": "Codex-only team orchestration: run a named team of cooperating Codex workers with durable, script-managed state. MUST USE when the user asks Codex to create, run, coordinate, inspect, archive, or delete a team of agents/threads/sessions, or to work on something as a team in parallel. FIRST inspects the active tool surface and tells the user which transport it selected: native MultiAgentV2 agents (flat spawn_agent with task_name) when available, Codex App threads as the fallback. The main session is always the leader; members are defined by a concrete part, ownership area, or perspective - never a vague job role; a bundled cross-platform script writes the .omo/teams state plus an auto-generated member field manual. Use a team when the work is not perfectly isolated but parallelizing helps; use plain subagents when scope is perfectly isolated or the goal is ambiguous. Triggers: team mode, teammode, make a team, run as a team, team of agents, coordinate threads, parallel Codex threads, archive the team.",
+      "description": "Codex-only team orchestration: run a named team of cooperating Codex workers with durable, script-managed state. MUST USE when the user asks Codex to create, run, coordinate, inspect, archive, or delete a team of agents/threads/sessions, or to work on something as a team in parallel. FIRST inspects the active tool surface (checking tool_search for deferred tools) and tells the user the route: native MultiAgentV2 agents (flat spawn_agent with task_name) when available, Codex App threads as the fallback, or a plain-subagent split when neither set exists. The main session is always the leader; members are defined by a concrete part, ownership area, or perspective - never a vague job role; a bundled cross-platform script writes the .omo/teams state plus an auto-generated member field manual. Use a team when the work is not perfectly isolated but parallelizing helps; use plain subagents when scope is perfectly isolated or the goal is ambiguous. Triggers: team mode, teammode, make a team, run as a team, team of agents, coordinate threads, parallel Codex threads, archive the team.",
       "short": ""
     },
     {
@@ -149,7 +149,7 @@
     {
       "id": "ulw-plan",
       "name": "ulw-plan",
-      "description": "MUST USE for planning before coding: 5+ steps, ambiguous scope, multiple modules, architecture decisions, a vague 'just make it good / figure out what to build' brief, or any request to plan, interview, or break work down. Explore-first planning consultant (Prometheus) that grounds in the codebase, asks only the forks exploration cannot resolve - or researches them to best practice when the intent is fuzzy - waits for explicit approval, then writes ONE decision-complete work plan a worker executes with zero further interview. Triggers: ulw-plan, plan this, make a plan, plan before coding, interview me, break this down, start planning, plan mode, just make it good, figure out what to build.",
+      "description": "MUST USE for planning before coding when design uncertainty remains after discovery: ambiguous scope, competing decompositions, unclear boundaries, uncertain dependency ordering, architecture decisions, a vague 'just make it good / figure out what to build' brief, or any request to plan, interview, or break work down. Explore-first planning consultant (Prometheus) that grounds in the codebase, asks only the forks exploration cannot resolve - or researches them to best practice when the intent is fuzzy - waits for explicit approval, then writes ONE decision-complete work plan a worker executes with zero further interview. Triggers: ulw-plan, plan this, make a plan, plan before coding, interview me, break this down, start planning, plan mode, just make it good, figure out what to build.",
       "short": "Explore-first planning consultant that waits for your okay before planning"
     },
     {
